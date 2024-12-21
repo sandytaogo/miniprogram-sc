@@ -1,0 +1,28 @@
+/* pages/service/service.wxss */
+page {
+  height: 100%;
+}
+
+.container {
+  border-top: 1px solid #222;
+  margin-top: 200rpx;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.menu {
+  width: 374rpx;
+  height: 174rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #ddd;
+}
+
+
+

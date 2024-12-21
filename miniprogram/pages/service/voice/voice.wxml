@@ -1,0 +1,13 @@
+<!--pages/service/voice.wxml-->
+<navigation-bar
+    title="语音识别"
+    loading="{{nbLoading}}"
+    front-color="{{nbFrontColor}}"
+    background-color="{{nbBackgroundColor}}"
+    color-animation-duration="2000"
+    color-animation-timing-func="easeIn"
+  />
+<view popGestureDirection="multi" class="container">
+  <textarea placeholder="等待语音识别自动录入..." class="text" placeholder-class="hoder" model:value="{{content}}" maxlength="{{-1}}"></textarea>
+  <button class="btn" hover-class="press" bind:longpress="recordStart" bind:touchcancel="recordCancel" bind:touchend="recordStop"> <label class="fa fa-microphone"></label>按住说话</button>
+</view>

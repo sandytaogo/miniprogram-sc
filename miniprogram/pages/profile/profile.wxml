@@ -1,0 +1,49 @@
+<!--pages/profile/profile.wxml-->
+<!-- 
+ @author taoxiaofang
+ @date 2024-12-20 09:09:09
+ -->
+<view class="container">
+  <view class="top">
+    <view class="tip">今日采集数量（人）</view>
+    <view class="counter">100</view>
+  </view>
+
+  <view class="tabs-area">
+    <view class="menu" style="border-right: 1rpx solid #ddd;">
+      <label>采集信息</label>
+    </view>
+    <view class="menu">
+      <label>我的订单</label>
+    </view>
+  </view>
+
+  <view class="table">
+    <view class="header">
+      <view class="title">社区信息列表(100人)</view>
+    </view>
+    <view class="table-row" wx:for="{{dataDict}}" wx:for-item="row" wx:key="index">
+      <view class="item">
+        <view class="avatar">
+          <image src="{{row.avatar}}"></image>
+        </view>
+        <view class="desc">
+          <view class="user-name">{{row.name}}</view>
+          <view class="txt-group">
+            <view>
+              <label>网格区域</label>
+              <label>| AREA</label>
+            </view>
+            <view class="area">
+              <label class="fa fa-map-marker"></label>
+              {{row.area}}
+            </view>
+          </view>
+        </view>
+        <view class="delete" data-nid="{{row.id}}" data-index="{{index}}">
+          <label class="fa fa-map-marker"></label>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

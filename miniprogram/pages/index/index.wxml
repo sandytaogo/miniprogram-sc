@@ -1,0 +1,48 @@
+<!--index.wxml-->
+<navigation-bar title="智慧社区" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="home-page-header">
+    <view class="search" bind:tap="navToSearchPage">
+      <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="iphone 13 火热发售中" leftIcon="" disabled>
+        <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
+      </t-search>
+      <input class="custom-search" type="text" placeholder="iphone 13 火热发售中"/>
+    </view>
+  </view>
+  <view class="container">
+    <view class="page-section page-section-spacing swiper">
+      <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+        <block wx:for="{{background}}" wx:key="*this">
+          <swiper-item >
+            <view class="swiper-item {{item}}"></view>
+            <image style="width: 100%;" src="https://cdn-we-retail.ym.tencent.com/tsr/home/v2/banner5.png"></image>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+    <view class="userinfo">
+      <block wx:if="{{canIUseNicknameComp && !hasUserInfo}}">
+        <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+          <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+        </button>
+        <view class="nickname-wrapper">
+          <text class="nickname-label">昵称</text>
+          <input type="nickname" class="nickname-input" placeholder="请输入昵称" bind:change="onInputChange" />
+        </view>
+      </block>
+      <block wx:elif="{{!hasUserInfo}}">
+        <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
+        <view wx:else> 请使用2.10.4及以上版本基础库 </view>
+      </block>
+      <block wx:else>
+        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+      </block>
+    </view>
+    <view class="usermotto">
+      <text class="user-motto">{{motto}}</text>
+    </view>
+
+  </view>
+</scroll-view>

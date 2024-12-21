@@ -1,0 +1,85 @@
+/* pages/profile/profile.wxss */
+page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.top {
+  background-color: #01ccb6;
+  padding-top: 150rpx;
+  color: white;
+  width: 100%;
+  height: 400rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.top .tip, .top .counter {
+  padding: 20rpx;
+  font-size: 40rpx;
+}
+.tabs-area {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: #02bfac;
+}
+.tabs-area .menu {
+  display: flex;
+  width: 50%;
+  color: white;
+  margin: 20rpx 0rpx;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+}
+.table {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  float: left;
+}
+.table .header {
+  width: 100%;
+  display: block;
+  border-bottom: 1rpx solid #e7e7e7;
+}
+.table .header .title {
+  margin: 20rpx 20rpx;
+  padding-left: 10rpx;
+  border-left: 5rpx solid #02bfac;
+}
+.table .table-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  border-bottom: 1rpx solid #e7e7e7;
+}
+.table .item {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 10rpx 10rpx 10rpx 10rpx;
+}
+.table .avatar {
+  width: 150rpx;
+  height: 150rpx;
+}
+.table .avatar image {
+  width: 100%;
+  height: 100%;
+  border-radius: 20rpx;
+}
+.table .desc {
+  width: 65%;
+  margin-left: 10rpx;
+}
+
+.table .table-row .delete {
+  text-align: center;
+  color: red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
