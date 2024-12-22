@@ -21,6 +21,14 @@
         </block>
       </swiper>
     </view>
+
+    <view class="m-menu">
+      <navigator class="item" url="{{item.url}}" wx:for="{{channel}}" wx:key="{{item.id}}">
+        <image src="{{item.icon_url}}" background-size="cover"></image>
+        <text>{{item.name}}</text>
+      </navigator>
+    </view>
+
     <view class="userinfo">
       <block wx:if="{{canIUseNicknameComp && !hasUserInfo}}">
         <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">

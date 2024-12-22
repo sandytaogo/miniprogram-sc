@@ -19,6 +19,13 @@ Component({
     hasUserInfo: false,
     canIUseGetUserProfile: wx.canIUse('getUserProfile'),
     canIUseNicknameComp: wx.canIUse('input.type.nickname'),
+    channel: [
+      {id:"1", name:"测试", url:"", icon_url:"images/icon_collect_checked.png"},
+      {id:"2", name:"测试2", url:"", icon_url:"images/icon_collect_checked.png"},
+      {id:"3", name:"测试3", url:"", icon_url:"images/detail_kefu.png"},
+      {id:"4", name:"测试4", url:"", icon_url:"images/detail_kefu.png"},
+      {id:"5", name:"更多", url:"", icon_url:"images/detail_kefu.png"}
+    ]
   },
   methods: {
     // 事件处理函数

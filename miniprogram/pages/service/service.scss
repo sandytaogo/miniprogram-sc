@@ -15,12 +15,13 @@ page {
 
 .menu {
   width: 374rpx;
-  height: 174rpx;
+  height: 240rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid #ddd;
+  border-right: 1rpx solid #ddd;
+  border-bottom: 1rpx solid #ddd;
 }
 
 
