@@ -11,3 +11,9 @@
   <textarea placeholder="等待语音识别自动录入..." class="text" placeholder-class="hoder" model:value="{{content}}" maxlength="{{-1}}"></textarea>
   <button class="btn" hover-class="press" bind:longpress="recordStart" bind:touchcancel="recordCancel" bind:touchend="recordStop"> <label class="fa fa-microphone"></label>按住说话</button>
 </view>
+
+<audio poster="{{poster}}" name="{{name}}" author="{{author}}" src="{{src}}" id="myAudio" controls loop></audio>
+<button type="primary" bindtap="audioPlay">播放</button>
+<button type="primary" bindtap="audioPause">暂停</button>
+<button type="primary" bindtap="audio14">设置当前播放时间为14秒</button>
+<button type="primary" bindtap="audioStart">回到开头</button>

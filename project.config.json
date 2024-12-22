@@ -12,10 +12,10 @@
       "disablePlugins": [],
       "outputPath": ""
     },
-    "coverView": false,
-    "postcss": false,
-    "minified": false,
-    "enhance": false,
+    "coverView": true,
+    "postcss": true,
+    "minified": true,
+    "enhance": true,
     "showShadowRootInWxmlPanel": false,
     "packNpmRelationList": [],
     "ignoreUploadUnusedFiles": true,
@@ -34,6 +34,12 @@
   "packOptions": {
     "ignore": [],
     "include": []
+  },
+  "deviceOrientation": "portrait",
+  "permission": {
+    "camera": {
+      "scope": "true"
+    }
   },
   "appid": "wx387a1c8280860475"
 }

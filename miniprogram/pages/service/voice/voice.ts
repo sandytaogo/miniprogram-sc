@@ -1,6 +1,7 @@
 // pages/service/voice.ts
-Page({
+const recorderManager = wx.getRecorderManager()
 
+Page({
   /**
    * 页面的初始数据
    */
@@ -9,9 +10,15 @@ Page({
     popGestureDirection: 'vertical',
     range: ['horizontal', 'vertical', 'multi'],
     content: "",
-    record:false
+    record:false,
+    poster: 'http://y.gtimg.cn/music/photo_new/T002R300x300M000003rsKF44GyaSk.jpg?max_age=2592000',
+    name: '语音测试',
+    author: '测试',
+    src: '',
   },
   recordStart:function () {
+    let options = {}
+    recorderManager.start(options)
     this.setData({content:"开始录制..."})
   },
   recordCancel:function () {
@@ -19,6 +26,25 @@ Page({
   },
   recordStop:function () {
     this.setData({content:""})
+    recorderManager.stop()
+    recorderManager.onStop((res)=> {
+      let formData = {
+        filePath : res.tempFilePath
+      }
+      this.setData({src:formData.filePath})
+    })
+  },
+  audioPlay: function () {
+    this.audioCtx.play()
+  },
+  audioPause: function () {
+    this.audioCtx.pause()
+  },
+  audio14: function () {
+    this.audioCtx.seek(14)
+  },
+  audioStart: function () {
+    this.audioCtx.seek(0)
   },
   /**
    * 生命周期函数--监听页面加载
@@ -33,7 +59,8 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-
+    // 使用 wx.createAudioContext 获取 audio 上下文 context
+    this.audioCtx = wx.createAudioContext('myAudio')
   },
 
   /**

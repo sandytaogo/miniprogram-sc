@@ -1,2 +1,3 @@
 <!--pages/cart/index.wxml-->
+<navigation-bar title="购物车" back="{{false}}" color="black" background="#FFF"></navigation-bar>
 <text>pages/cart/index.wxml</text>

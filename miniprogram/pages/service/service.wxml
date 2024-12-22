@@ -1,5 +1,5 @@
 <!--pages/service/service.wxml-->
-<!-- <navigation-bar title="智慧社区" back="{{false}}" color="black" background="#FFF"></navigation-bar> -->
+<navigation-bar title="服务" back="{{false}}" color="black" background="#FFF"></navigation-bar>
 <view class="container">
 
   <navigator class="menu"> 
@@ -7,7 +7,7 @@
     <view>采集信息</view>
   </navigator>
 
-  <navigator class="menu"> 
+  <navigator class="menu" url="/pages/service/face/recognition"> 
     <label class="fa fa-user-circle" style="color: rgb(23, 211, 170);"></label>
     <view>人脸识别</view>
   </navigator>
