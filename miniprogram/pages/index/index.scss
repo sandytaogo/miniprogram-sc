@@ -8,6 +8,56 @@ page {
   flex: 1;
   overflow-y: hidden;
 }
+/**
+.search {
+  height: 88rpx;
+  width: 100%;
+  padding: 0 30rpx;
+  background: #fff;
+  display: flex;
+  align-items: center;
+}
+
+
+.search .input {
+  width: 690rpx;
+  height: 56rpx;
+  background: #ededed;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+*/
+.custom-search {
+  padding: 5px;
+  padding-left: 60rpx;
+  text-align: left;
+  border: 1px solid #ccc;
+  border-radius: 15px 15px 15px 15px;
+}
+
+.search .icon {
+  position: absolute;
+  margin-top: 20rpx;
+  margin-left: 25rpx;
+  /*
+  background: url('/images/icon_search.png') center no-repeat;
+    background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/search2-2fb94833aa.png) center no-repeat;
+  */
+  background: url("https://xinxinji.cn/images/icon_search.png");
+  background-size: 100%;
+  width: 28rpx;
+  height: 28rpx;
+}
+
+.search .txt {
+  height: 42rpx;
+  line-height: 42rpx;
+  color: #666;
+  padding-left: 10rpx;
+  font-size: 30rpx;
+}
 
 .userinfo {
   display: flex;

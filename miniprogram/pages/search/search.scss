@@ -1,0 +1,74 @@
+/* pages/search/search.wxss */
+.container {
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  padding: 0 30rpx;
+}
+.custom-search {
+  padding: 5px;
+  padding-left: 60rpx;
+  text-align: left;
+  border: 1px solid #ccc;
+  border-radius: 15px 15px 15px 15px;
+}
+
+.search .icon {
+  position: absolute;
+  margin-top: 20rpx;
+  margin-left: 25rpx;
+  background: url(https://xinxinji.cn/images/icon_search.png) center no-repeat;
+  background-size: 100%;
+  width: 28rpx;
+  height: 28rpx;
+}
+
+.search-header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-title {
+  font-size: 30rpx;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  color: rgba(51, 51, 51, 1);
+  line-height: 42rpx;
+}
+.search-clear {
+  font-size: 24rpx;
+  font-family: PingFang SC;
+  line-height: 32rpx;
+  color: #999999;
+  font-weight: normal;
+}
+
+.search-content {
+  overflow: hidden;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 24rpx;
+}
+
+ .search-item {
+  color: #333333;
+  font-size: 24rpx;
+  line-height: 32rpx;
+  font-weight: normal;
+  margin-right: 24rpx;
+  margin-bottom: 24rpx;
+  background: #f5f5f5;
+  border-radius: 38rpx;
+  padding: 12rpx 24rpx;
+}
+
+.hover-history-item {
+  position: relative;
+  top: 3rpx;
+  left: 3rpx;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1) inset;
+}

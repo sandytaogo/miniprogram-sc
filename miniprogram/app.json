@@ -6,7 +6,8 @@
     "pages/service/voice/voice",
     "pages/cart/index",
     "pages/profile/profile",
-    "pages/service/face/recognition"
+    "pages/service/face/recognition",
+    "pages/search/search"
   ],
   "window": {
     "navigationBarTextStyle": "black",
