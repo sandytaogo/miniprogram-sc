@@ -15,6 +15,7 @@ App<IAppOption>({
         const longitude = res.longitude
         const speed = res.speed
         const accuracy = res.accuracy
+        
         console.log(res)
       },
       fail:function(res) {

@@ -31,4 +31,21 @@
     </view>
 
   </view>
+
+  <view class="good-grid" wx:for="{{floorGoods}}" wx:key="{{item.id}}">
+    <view class="h">
+      <view>
+        <text>{{item.name}}</text>
+      </view>
+    </view>
+    <view class="b">
+      <block wx:for="{{item.goodsList}}" wx:for-index="iindex" wx:for-item="iitem" wx:key="{{iitem.id}}">
+        <navigator url="../goods/goods?id={{iitem.id}}" class="item">
+          <image class="img" src="{{iitem.list_pic_url}}" background-size="cover"></image>
+          <view class="name">{{iitem.name}}</view>
+          <view class="price">￥{{iitem.retail_price}}</view>
+        </navigator>
+      </block>
+    </view>
+  </view>
 </scroll-view>
