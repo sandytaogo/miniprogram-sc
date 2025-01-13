@@ -10,13 +10,8 @@
 <scroll-view class="container" style="height: 100%;">
   <view class="home-page-header">
     <view class="search" bind:tap="navToSearchPage">
-      <navigator url="/pages/search/search" class="input">
-        <t-search t-class-input="t-search__input" t-class-input-container="t-search__input-container" placeholder="iphone 13 火热发售中" leftIcon="" disabled>
-          <t-icon slot="left-icon" prefix="wr" name="search" size="40rpx" color="#bbb" />
-        </t-search>
         <image class="icon"></image>
         <input class="custom-search" type="text" placeholder="iphone 13 火热发售中"/>
-      </navigator>
     </view>
   </view>
 

@@ -41,11 +41,7 @@ page {
   position: absolute;
   margin-top: 20rpx;
   margin-left: 25rpx;
-  /*
-  background: url('/images/icon_search.png') center no-repeat;
-    background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/search2-2fb94833aa.png) center no-repeat;
-  */
-  background: url("https://xinxinji.cn/images/icon_search.png");
+  background: url("/images/icon_search.png?id=1");
   background-size: 100%;
   width: 28rpx;
   height: 28rpx;
@@ -57,58 +53,6 @@ page {
   color: #666;
   padding-left: 10rpx;
   font-size: 30rpx;
-}
-
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #aaa;
-  width: 80%;
-}
-
-.userinfo-avatar {
-  overflow: hidden;
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.usermotto {
-  margin-top: 200px;
-}
-
-.avatar-wrapper {
-  padding: 0;
-  width: 56px !important;
-  border-radius: 8px;
-  margin-top: 40px;
-  margin-bottom: 40px;
-}
-
-.avatar {
-  display: block;
-  width: 56px;
-  height: 56px;
-}
-
-.nickname-wrapper {
-  display: flex;
-  width: 100%;
-  padding: 16px;
-  box-sizing: border-box;
-  border-top: .5px solid rgba(0, 0, 0, 0.1);
-  border-bottom: .5px solid rgba(0, 0, 0, 0.1);
-  color: black;
-}
-
-.nickname-label {
-  width: 105px;
-}
-
-.nickname-input {
-  flex: 1;
 }
 
 .swiper {

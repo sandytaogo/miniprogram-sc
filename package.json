@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    // "build": "weapp-builder build",
+    // "build:watch": "weapp-builder build --watch",
+    // "preview": "weapp-preview"
   },
   "keywords": ["人工智能", "智慧社区"],
   "author": "taoxiaofang",
