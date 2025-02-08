@@ -50,15 +50,7 @@ Page({
         console.log('获取用户授权信息失败')
       }
     })
-    wx.authorize({scope: 'scope.camera'})
-    const video = wx.createVideoContext('video');
-    const cameraContext = wx.createCameraContext();
-    cameraContext.takePhoto({
-      quality: 'high',
-      success: (res) => {
-        console.log('Take photo success', res);
-      }
-    })
+
   },
   // 打开授权设置界面
   openSetting() {
@@ -84,9 +76,7 @@ Page({
               }
             })
           } else if (res.cancel) {
-            _this.openSetting().then(res => {
-              resolve(true)
-            })
+            wx.navigateBack({delta: 1})
           }
         }
       })

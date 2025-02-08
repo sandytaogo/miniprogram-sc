@@ -1,9 +1,5 @@
 // pages/auth/login/login.ts
-
 const defaultAvatarUrl = '/images/default_avatar.png'
-
-const app = getApp<IAppOption>()
-
 Page({
   /**
    * 页面的初始数据
@@ -23,33 +19,36 @@ Page({
       url: '../logs/logs',
     })
   },
+  chooseAvatar(e:any) {
+    console.log(e);
+  },
   onChooseAvatar(e: any) {
     const { avatarUrl } = e.detail
     const { nickName } = this.data.userInfo
-    console.log(app.globalData.userInfo)
     this.setData({
       "userInfo.avatarUrl": avatarUrl,
       hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
-    })
+    });
+    console.log('关闭页面')
+    setTimeout(function() {
+      // 返回上一页面
+      wx.navigateBack({delta: 1})
+    }, 1000)
   },
   onInputChange(e: any) {
     const nickName = e.detail.value
     const { avatarUrl } = this.data.userInfo
-    this.setData({
-      "userInfo.nickName": nickName,
-      hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
-    })
+    this.setData({"userInfo.nickName": nickName, hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl})
   },
   getUserProfile() {
+    const app = getApp()
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
     wx.getUserProfile({
       desc: '展示用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
       success: (res) => {
         console.log(res)
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
+        app.setData({'userInfo' : res.userInfo })
+        this.setData({userInfo: res.userInfo, hasUserInfo: true})
       }
     })
   },

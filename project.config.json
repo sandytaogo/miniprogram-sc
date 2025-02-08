@@ -2,6 +2,7 @@
   "description": "项目配置文件",
   "miniprogramRoot": "miniprogram/",
   "compileType": "miniprogram",
+  "debugMode": 1,
   "setting": {
     "useCompilerPlugins": [
       "typescript",
@@ -30,16 +31,16 @@
     "tabIndent": "insertSpaces",
     "tabSize": 2
   },
-  "libVersion": "2.32.3",
-  "packOptions": {
-    "ignore": [],
-    "include": []
-  },
   "deviceOrientation": "portrait",
   "permission": {
     "camera": {
       "scope": "true"
     }
+  },
+  "libVersion": "2.32.3",
+  "packOptions": {
+    "ignore": [],
+    "include": []
   },
   "appid": "wx387a1c8280860475"
 }

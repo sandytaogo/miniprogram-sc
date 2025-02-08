@@ -4,21 +4,27 @@ page {
   display: flex;
   flex-direction: column;
 }
+.header-item {
+  margin-left: 10rpx;
+  margin-right: 10rpx;
+}
 .scrollarea {
   flex: 1;
   overflow-y: hidden;
 }
-/**
 .search {
-  height: 88rpx;
-  width: 100%;
-  padding: 0 30rpx;
-  background: #fff;
+  flex: 1;
   display: flex;
   align-items: center;
+  height: 88rpx;
+  width: 100%;
+  padding: 0 0rpx;
+  background: #fff;
 }
-
-
+.search .input { 
+  width: 100%;
+}
+/**
 .search .input {
   width: 690rpx;
   height: 56rpx;
@@ -62,7 +68,7 @@ page {
 
 .m-menu {
   display: flex;
-  height: 181rpx;
+  height: 120rpx;
   width: 750rpx;
   flex-flow: row nowrap;
   align-items: center;
@@ -102,8 +108,6 @@ page {
   background-color: blue;
 }
 
-
-
 .good-grid {
   width: 750rpx;
   height: auto;
@@ -117,7 +121,7 @@ page {
   flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
-  height: 130rpx;
+  height: 60rpx;
   font-size: 33rpx;
   color: #333;
 }
@@ -150,12 +154,19 @@ page {
   margin-bottom: 10rpx;
 }
 
+.good-grid .item:first-child .img {
+  width: 345rpx;
+  height: 345rpx;
+  background: #f8f8f8;
+  margin-bottom: 10rpx;
+}
+
 .good-grid .item .name {
   width: 100%;
   overflow: hidden;
   height: 40rpx;
   line-height: 40rpx;
-  text-align: center;
+  text-align: left;
   font-size: 30rpx;
   color: #333;
 }
@@ -164,7 +175,15 @@ page {
   width: 100%;
   height: 46rpx;
   line-height: 46rpx;
-  text-align: center;
+  text-align: left;
+  font-size: 30rpx;
+  color: #b4282d;
+}
+.good-grid .item .distance {
+  width: 100%;
+  height: 46rpx;
+  line-height: 46rpx;
+  text-align: left;
   font-size: 30rpx;
   color: #b4282d;
 }

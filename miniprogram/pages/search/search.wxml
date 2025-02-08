@@ -7,8 +7,10 @@
     color-animation-duration="2000"
     color-animation-timing-func="easeIn"
   />
-<scroll-view class="container" style="height: 100%;">
-  <view class="home-page-header">
+
+<scroll-view class="container" style="height: 100%;" enable-flex>
+
+  <view class="page-header">
     <view class="search" bind:tap="navToSearchPage">
         <image class="icon"></image>
         <input class="custom-search" type="text" placeholder="iphone 13 火热发售中"/>
@@ -22,15 +24,8 @@
         <text class="search-clear" bind:tap="handleClearHistory">清除</text>
       </view>
       <view class="search-content">
-        <view
-          class="search-item"
-          hover-class="hover-history-item"
-          wx:for="{{historyWords}}"
-          bind:tap="handleHistoryTap"
-          bindlongpress="deleteCurr"
-          data-index="{{index}}"
-          wx:key="*this"
-        >
+        <view class="search-item" hover-class="hover-history-item" wx:for="{{historyWords}}"
+          bind:tap="handleHistoryTap" bindlongpress="deleteCurr" data-index="{{index}}" wx:key="*this">
           {{item}}
         </view>
       </view>
@@ -39,18 +34,14 @@
       <view class="search-header">
         <text class="search-title">热门搜索</text>
       </view>
+      
       <view class="search-content">
-        <view
-          class="search-item"
-          hover-class="hover-history-item"
-          wx:for="{{popularWords}}"
-          bind:tap="handleHistoryTap"
-          data-index="{{index}}"
-          wx:key="*this"
-        >
+        <view class="search-item" hover-class="hover-history-item" wx:for="{{popularWords}}"
+          bind:tap="handleHistoryTap" data-index="{{index}}" wx:key="*this">
           {{item}}
         </view>
       </view>
+      
     </view>
   </view>
 </scroll-view>

@@ -1,6 +1,6 @@
 /* pages/cart/index.wxss */
 
-.service-policy{
+.service-policy {
   width: 750rpx;
   height: 73rpx;
   background: #f4f4f4;
@@ -207,9 +207,9 @@
 .cart-view .item.edit .selnum{
   width: 235rpx;
   height: 52rpx;
-  border: 3rpx solid #ccc;
+  border: 1rpx solid #ccc;
   display: flex;
-  margin-bottom: 3rpx;
+  //margin-bottom: 1rpx;
 }
 
 .selnum .cut{

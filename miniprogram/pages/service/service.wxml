@@ -32,11 +32,11 @@
     <view>心率检测</view>
   </navigator>
   <navigator class="menu"> 
-    <label class="fa fa-heart" style="color: rgb(207, 28, 43);"></label>
+    <label class="fa fa-line-chart" style="color: rgb(207, 28, 43);"></label>
     <view>金融理财</view>
   </navigator>
   <navigator class="menu"> 
-    <label class="fa fa-heart" style="color: rgb(207, 28, 43);"></label>
+    <label class="fa fa-user" style="color: rgb(41, 43, 34);"></label>
     <view>用户反馈</view>
   </navigator>
 </view>

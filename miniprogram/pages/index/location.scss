@@ -1,0 +1,41 @@
+/* pages/index/region.wxss */
+page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.container {
+  margin: 15rpx;
+}
+
+.label {
+  width: 100%;
+  justify-content: start;
+  border-bottom: 1px solid #ccc;
+}
+.location {
+  display: flex; 
+  width: 100%;
+  justify-content: space-between;
+}
+.location .left {
+  display: flex; 
+  align-items: flex-start;
+}
+.location .right {
+  float: right; 
+  align-items: flex-end;
+  justify-content: end; 
+  text-align: right; 
+  font-weight: bold;
+}
+
+.region {
+  display: flex;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.region .colmun {
+  width: 33.333%; /* 三列平分宽度 */
+  height: 100%;
+}

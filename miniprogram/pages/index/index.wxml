@@ -1,30 +1,39 @@
 <!--index.wxml-->
 <navigation-bar title="智慧社区" back="{{false}}" color="black" background="#FFF"></navigation-bar>
-
-<scroll-view class="scrollarea" scroll-y type="list">
-  <view class="home-page-header">
+<view class="home-page-header">
+<view style="display: flex; flex-direction: row; align-items: center; justify-items: center; grid-template-columns: 10% 90%;flex: 20%;">
+    <view style="margin: 10rpx 10rpx; font-weight: bold; align-items: center; justify-items: center;width: fit-content;">
+      <navigator url="/pages/index/location" class="input">{{city}} <i class="fa fa-angle-down"></i></navigator>
+    </view>
     <view class="search" bind:tap="navToSearchPage">
       <navigator url="/pages/search/search" class="input">
         <image class="icon"></image>
         <input class="custom-search" type="text" placeholder="iphone 13 火热发售中" disabled/>
       </navigator>
     </view>
+ </view>
+  <view style="margin: 10rpx 10rpx;">
+    <label class="header-item">推荐</label>
+    <label class="header-item">关注</label>
+    <label class="header-item">附近服务</label>
+    <label class="header-item">购物商城</label>
   </view>
-  
+</view>
+<scroll-view class="scrollarea" type="list" scroll-y="true" bindscrolltolower="loadMoreData" lower-threshold="50">
   <view class="container">
     <view class="page-section page-section-spacing swiper">
       <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
         <block wx:for="{{background}}" wx:key="*this">
           <swiper-item >
             <view class="swiper-item {{item}}"></view>
-            <image style="width: 100%;" src="https://cdn-we-retail.ym.tencent.com/tsr/home/v2/banner5.png"></image>
+            <image style="width: 100%;" src="{{item}}"></image>
           </swiper-item>
         </block>
       </swiper>
     </view>
 
     <view class="m-menu">
-      <navigator class="item" url="{{item.url}}" wx:for="{{channel}}" wx:key="{{item.id}}">
+      <navigator class="item" url="{{item.url}}" wx:for="{{channel}}" wx:key="channel_key">
         <image src="{{item.icon_url}}" background-size="cover"></image>
         <text>{{item.name}}</text>
       </navigator>
@@ -32,20 +41,22 @@
 
   </view>
 
-  <view class="good-grid" wx:for="{{floorGoods}}" wx:key="{{item.id}}">
+  <view class="good-grid" wx:for="{{floorGoods}}" wx:key="good_grid_key">
     <view class="h">
       <view>
         <text>{{item.name}}</text>
       </view>
     </view>
     <view class="b">
-      <block wx:for="{{item.goodsList}}" wx:for-index="iindex" wx:for-item="iitem" wx:key="{{iitem.id}}">
-        <navigator url="../goods/goods?id={{iitem.id}}" class="item">
-          <image class="img" src="{{iitem.list_pic_url}}" background-size="cover"></image>
+      <block wx:for="{{item.goodsList}}" wx:for-index="iindex" wx:for-item="iitem" wx:key="goods_list_key">
+        <navigator url="../shop/shop?id={{iitem.id}}" class="item">
+          <image class="img" src="{{iitem.img}}" background-size="cover"></image>
           <view class="name">{{iitem.name}}</view>
-          <view class="price">￥{{iitem.retail_price}}</view>
+          <view wx:if="{{iitem.dist}}" class="distance"><label class="fa fa-map-marker" style="color: rgb(23, 211, 170);"></label>距离{{iitem.dist}}</view>
+          <view class="price">￥{{iitem.price}}</view>
         </navigator>
       </block>
     </view>
   </view>
+  <load-more class="load-more" list-is-empty="{{!floorGoods.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" >{{loadingText}}</load-more>
 </scroll-view>

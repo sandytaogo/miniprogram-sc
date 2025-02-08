@@ -15,12 +15,14 @@
 #### 语音识别
 #### 人脸识别
 #### 周边服务预约
-
+<div align="center">
+  <img src="main.png">
+  <img src="gather.png">
+</div>
 #### --
 
 #### --
-
 
 https://developers.weixin.qq.com/miniprogram/dev/framework/
-
+https://fontawesome.com.cn/v4/icons
 https://transfonter.org/

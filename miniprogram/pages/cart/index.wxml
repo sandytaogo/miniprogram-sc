@@ -18,7 +18,7 @@
     <view class="list">
       <view class="group-item">
         <view class="goods">
-          <view class="item {{isEditCart ? 'edit' : ''}}" wx:for="{{cartGoods}}" wx:key="{{item.id}}">
+          <view class="item {{isEditCart ? 'edit' : ''}}" wx:for="{{cartGoods}}" wx:key="cartItemKey">
             <view class="checkbox {{item.checked ? 'checked' : ''}}" bindtap="checkedItem" data-item-index="{{index}}"></view>
             <view class="cart-goods">
               <image class="img" src="{{item.list_pic_url}}"></image>
