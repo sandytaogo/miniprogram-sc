@@ -1,17 +1,17 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/index/location",
     "pages/logs/logs",
     "pages/service/service",
     "pages/service/voice/voice",
-    "pages/cart/index",
+    "pages/cart/cart",
     "pages/profile/profile",
     "pages/service/face/recognition",
     "pages/search/search",
     "pages/auth/login/login",
     "pages/goods/goods",
-    "pages/shop/shop",
-    "pages/index/location"
+    "pages/shop/shop"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -34,7 +34,7 @@
         "selectedIconPath": "images/menu_sort_pressed.png"
       },
       {
-        "pagePath": "pages/cart/index",
+        "pagePath": "pages/cart/cart",
         "text": "购物车",
         "iconPath": "images/menu_shoping_nor.png",
         "selectedIconPath": "images/menu_shoping_pressed.png"

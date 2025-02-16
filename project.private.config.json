@@ -3,6 +3,9 @@
   "projectname": "miniprogram-sc",
   "setting": {
     "compileHotReLoad": false,
-    "urlCheck": false
-  }
+    "urlCheck": false,
+    "bigPackageSizeSupport": false,
+    "preloadBackgroundData": false
+  },
+  "libVersion": "development"
 }

@@ -30,6 +30,13 @@ Page({
       hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
     });
     console.log('关闭页面')
+      // 登录
+    wx.login({
+      success: res => {
+        console.log('login:' + res.code)
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+      }
+    })
     setTimeout(function() {
       // 返回上一页面
       wx.navigateBack({delta: 1})

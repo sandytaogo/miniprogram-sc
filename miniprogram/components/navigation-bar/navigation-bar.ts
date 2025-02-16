@@ -58,6 +58,14 @@ Component({
     displayStyle: ''
   },
   lifetimes: {
+    ready: function() {
+      // wx.onAfterPageUnload(function(res:any){
+      //     console.log('onAfterPageUnload:' + res)
+      // })
+    },
+    created: function() {
+      // console.log('组件被创建了');
+    },
     attached() {
       const rect = wx.getMenuButtonBoundingClientRect()
       wx.getSystemInfo({
@@ -73,6 +81,9 @@ Component({
         }
       })
     },
+    detached: function() {
+     // console.log('组件被销毁了');
+    }
   },
   /**
    * 组件的方法列表

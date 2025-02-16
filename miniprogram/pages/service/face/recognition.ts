@@ -51,6 +51,18 @@ Page({
       }
     })
 
+    wx.checkIsSupportSoterAuthentication({
+      success(res) {
+        console.log(res.supportMode)
+        // res.supportMode = [] 不具备任何被SOTER支持的生物识别方式
+        // res.supportMode = ['fingerPrint'] 只支持指纹识别
+        // res.supportMode = ['fingerPrint', 'facial'] 支持指纹识别和人脸识别
+      },
+      fail (err) {
+        console.error(err)
+      }
+    })
+
   },
   // 打开授权设置界面
   openSetting() {
