@@ -9,6 +9,7 @@ interface IAppOption {
     latitude?: number | undefined,
     speed?: number | undefined,
     accuracy?:number | undefined,
+    other: any,
   }
   userInfoReadyCallback?: WechatMiniprogram.GetUserInfoSuccessCallback,
   setData(param: any):void,

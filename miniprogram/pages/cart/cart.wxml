@@ -1,10 +1,10 @@
-<!--pages/cart/index.wxml-->
+<!--pages/cart/cart.wxml-->
 <navigation-bar title="购物车" back="{{false}}" color="black" background="#FFF"></navigation-bar>
 <view class="container">
   <view class="service-policy">
     <view class="item">30天无忧退货</view>
     <view class="item">48小时快速退款</view>
-    <view class="item">满88元免邮费</view>
+    <view class="item">满20元免邮费</view>
   </view>
   
   <view class="no-cart" wx:if="{{cartGoods.length <= 0}}">
@@ -48,7 +48,7 @@
       <view class="total">{{!isEditCart ? '￥'+cartTotal.checkedGoodsAmount : ''}}</view>
       <view class="delete" bindtap="editCart">{{!isEditCart ? '编辑' : '完成'}}</view>
       <view class="checkout" bindtap="deleteCart" wx:if="{{isEditCart}}">删除所选</view>
-      <view class="checkout" bindtap="checkoutOrder" wx:if="{{!isEditCart}}">下单</view>
+      <view class="checkout" bindtap="confirmOrder" wx:if="{{!isEditCart}}">下单</view>
     </view>
   </view>
 </view>

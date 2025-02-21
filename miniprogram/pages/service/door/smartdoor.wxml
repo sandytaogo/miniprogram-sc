@@ -1,0 +1,14 @@
+<!--pages/service/door/smartdoor.wxml-->
+<navigation-bar
+    title="智能门禁"
+    loading="{{nbLoading}}"
+    front-color="{{nbFrontColor}}"
+    background-color="{{nbBackgroundColor}}"
+    color-animation-duration="2000"
+    color-animation-timing-func="easeIn"
+  />
+  <view class="scan-content">
+    <image class="scan-qr" src="https://xinxinji.cn/images/dl_qrc200.png" background-size="100% 100%"></image>
+  </view>
+
+ 

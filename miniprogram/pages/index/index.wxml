@@ -8,7 +8,7 @@
     <view class="search" bind:tap="navToSearchPage">
       <navigator url="/pages/search/search" class="input">
         <image class="icon"></image>
-        <input class="custom-search" type="text" placeholder="iphone 13 火热发售中" disabled/>
+        <input class="custom-search" type="text" placeholder="{{searchPlaceholder}}" disabled/>
       </navigator>
     </view>
  </view>
@@ -23,7 +23,7 @@
   <view class="container">
     <view class="page-section page-section-spacing swiper">
       <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-        <block wx:for="{{background}}" wx:key="*this">
+        <block wx:for="{{swiperUrls}}" wx:key="*this">
           <swiper-item >
             <view class="swiper-item {{item}}"></view>
             <image style="width: 100%;" src="{{item}}"></image>
@@ -33,7 +33,7 @@
     </view>
 
     <view class="m-menu">
-      <navigator class="item" url="{{item.url}}" wx:for="{{channel}}" wx:key="channel_key">
+      <navigator class="item" url="{{item.url}}" wx:for="{{channels}}" wx:key="channel_key">
         <image src="{{item.icon_url}}" background-size="cover"></image>
         <text>{{item.name}}</text>
       </navigator>

@@ -1,15 +1,15 @@
 // index.ts
 // 获取应用实例
+
+import config from '../../services/config'
+
 var app = getApp();
 
 Page({
   data: {
     goodsListLoadStatus: 0,
-    background: [
-      'https://xinxinji.cn/images/bmfw.jpeg','https://xinxinji.cn/images/zhsq.jpg','https://xinxinji.cn/images/rgzn.png',
-      'https://xinxinji.cn/images/shopping.jpg','https://xinxinji.cn/images/zhfwz.jfif', 'https://xinxinji.cn/images/xqmj.jpg',
-      'https://xinxinji.cn/images/cpsb.png'
-    ],
+    searchPlaceholder:'',
+    swiperUrls: [],
     indicatorDots: true,
     vertical: false,
     autoplay: true,
@@ -18,15 +18,9 @@ Page({
     loadingText:'更多',
     hasMore:true,
     page:1,
-    channel: [
-      {id:"1", name:"测试", url:"", icon_url:"/images/icon_collect_checked.png"},
-      {id:"2", name:"测试2", url:"", icon_url:"/images/icon_collect_checked.png"},
-      {id:"3", name:"测试3", url:"", icon_url:"/images/icon_collect_checked.png"},
-      {id:"4", name:"测试4", url:"", icon_url:"/images/icon_collect_checked.png"},
-      {id:"5", name:"更多", url:"", icon_url:"/images/menu_sort_pressed.png"}
-    ],
+    channels: [],
     floorGoods: [
-      {id:"1", name:"商品", goodsList: []}
+      {id:"1", name:"推荐服务", goodsList: []}
     ],
     city: app.globalData.city,
   },
@@ -43,7 +37,7 @@ Page({
     const page = this.data.page;
     let floorGoods = this.data.floorGoods;
     wx.request({
-      url: 'https://xinxinji.cn/stock/shop/list', // 替换为你的接口地址
+      url: config.domain + '/stock/shop/list', // 替换为你的接口地址
       data: {
         regionId:app.globalData.regionId, 
         lng:app.globalData.longitude ? app.globalData.longitude : '', 
@@ -82,7 +76,18 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad() {
-
+    wx.request({
+      url: config.domain + '/stock/shop/home', // 替换为你的接口地址
+      data: {},
+      success: (res: any) => {
+        this.setData({swiperUrls:res.data.swiperUrls, channels:res.data.channels, searchPlaceholder:res.data.searchPlaceholder})
+        app.setData({other:{searchPlaceholder:res.data.searchPlaceholder}})
+      },
+      fail: (err) => {
+        wx.hideLoading(); // 请求失败也隐藏加载提示
+        console.error('数据加载失败:', err);
+      }
+    });
   },
 
   /**

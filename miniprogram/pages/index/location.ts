@@ -1,4 +1,7 @@
 // pages/index/region.ts
+
+import config from '../../services/config'
+
 Page({
   /**
    * 页面的初始数据
@@ -97,7 +100,7 @@ Page({
     param.parentId = param.parentId ? param.parentId : param.reovinceId;
     param.parentId = param.parentId ? param.parentId : param.cityId;
     wx.request({
-      url: 'https://xinxinji.cn/stock/region/list', // 替换为你的接口地址
+      url: config.domain +  '/stock/region/list', // 替换为你的接口地址
       data:param,
       success: (res: any) => {
         if (param.reovinceId) {
@@ -171,7 +174,7 @@ Page({
     let app = getApp()
     wx.showLoading({ title: '加载中...' }); // 显示加载提示
     wx.request({
-      url: 'https://xinxinji.cn/stock/region/list', // 替换为你的接口地址
+      url: config.domain +  '/stock/region/list', // 替换为你的接口地址
       data: {
         regionId:app.globalData.regionId
       },

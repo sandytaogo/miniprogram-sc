@@ -13,7 +13,7 @@
   <view class="page-header">
     <view class="search" bind:tap="navToSearchPage">
         <image class="icon"></image>
-        <input class="custom-search" type="text" placeholder="iphone 13 火热发售中"/>
+        <input class="custom-search" type="text" placeholder="{{searchPlaceholder}}"/>
     </view>
   </view>
 

@@ -1,12 +1,15 @@
-// pages/cart/index.ts
+// pages/cart/cart.ts
+
+import config from '../../services/config'
+
 Page({
   /**
    * 页面的初始数据
    */
   data: {
     is_rander_finish:false,
-    cartGoods: [],
-    editCartList: [],
+    cartGoods: [{id:0,number:0,goods_id:0,checked:true}],
+    editCartList: [{id:0,number:0,goods_id:0,checked:true}],
     isEditCart: false,
     cartTotal: {
       "goodsCount": 0,
@@ -36,6 +39,7 @@ Page({
   },
   getCartList: function () {
     let that = this;
+    that.data;
   },
   editCart: function () {
     var that = this;
@@ -59,14 +63,19 @@ Page({
       });
     }
   },
-  updateCart: function (productId, goodsId, number, id) {
+  updateCart: function (productId:Number, goodsId:Number, number:Number, id:Number) {
     let that = this
-      that.setData({checkedAllStatus: that.isCheckedAll()})
-  },
+    that.setData({checkedAllStatus: that.isCheckedAll()})
 
+    console.log( productId + '' + goodsId+ number + id)
+  },
+  deleteCart:function name(params:any) {
+    console.log(params)
+  },
   isCheckedAll: function () {
     //判断购物车商品已全选
     return this.data.cartGoods.every(function (element, index, array) {
+      array[index]
       if (element.checked == true) {
         return true
       } else {
@@ -82,6 +91,7 @@ Page({
     } else {
       //编辑状态
       let tmpCartData = this.data.cartGoods.map(function (element, index, array) {
+        array[index]
         if (index == itemIndex){
           element.checked = !element.checked;
         }
@@ -98,8 +108,9 @@ Page({
   checkedAll: function () {
     let that = this
     if (!this.data.isEditCart) {
-      var productIds = this.data.cartGoods.map(function (v : any) {
-        return v.product_id
+      var products = this.data.cartGoods.map(function (v : any) {return v})
+      that.setData({cartGoods: products, checkedAllStatus: that.isCheckedAll(),
+        'cartTotal.checkedGoodsCount': that.getCheckedGoodsCount()
       })
     } else {
       //编辑状态
@@ -108,9 +119,7 @@ Page({
         v.checked = !checkedAllStatus
         return v
       })
-      that.setData({
-        cartGoods: tmpCartData,
-        checkedAllStatus: that.isCheckedAll(),
+      that.setData({cartGoods: tmpCartData, checkedAllStatus: that.isCheckedAll(),
         'cartTotal.checkedGoodsCount': that.getCheckedGoodsCount()
       })
     }
@@ -125,11 +134,10 @@ Page({
     console.log(checkedGoodsCount);
     return checkedGoodsCount;
   },
-  checkoutOrder: function () {
-    console.log(334)
+  confirmOrder: function () {
     //获取已选择的商品
-    let that = this;
     var checkedGoods = this.data.cartGoods.filter(function (element, index, array) {
+      array[index]
       if (element.checked == true) {
         return true;
       } else {
@@ -137,18 +145,18 @@ Page({
       }
     });
     if (checkedGoods.length <= 0) {
-      return false;
+      wx.showToast({title: '没有任何商品！', icon: 'error', duration: 3000})
+      return;
     }
     wx.navigateTo({
-      url: '../shopping/checkout/checkout'
+      url: '/pages/cart/confirmOrder'
     })
   },
-  loadCartData : function name(params:type) {
+  loadCartData : function(params:any) {
     wx.showLoading({title: '加载中...'}); // 显示加载提示
     wx.request({
-      url: 'https://xinxinji.cn/stock/cart/list', // 替换为你的接口地址
-      data: {
-      },
+      url: config.domain + '/stock/cart/list', // 替换为你的接口地址
+      data: {page:params.page},
       success: (res: any) => {
         wx.hideLoading(); // 隐藏加载提示
         this.setData({cartGoods: res.data.rows})

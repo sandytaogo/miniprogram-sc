@@ -1,3 +1,6 @@
+export default (date: Date) => {
+  return date;
+}
 export const formatTime = (date: Date) => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -16,4 +19,9 @@ export const formatTime = (date: Date) => {
 const formatNumber = (n: number) => {
   const s = n.toString()
   return s[1] ? s : '0' + s
+}
+
+module.exports = {
+  formatTime:formatTime,
+  formatNumber:formatNumber
 }

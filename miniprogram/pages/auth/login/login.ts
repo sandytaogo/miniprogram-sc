@@ -1,5 +1,8 @@
 // pages/auth/login/login.ts
 const defaultAvatarUrl = '/images/default_avatar.png'
+
+import config from '../../services/config'
+
 Page({
   /**
    * 页面的初始数据

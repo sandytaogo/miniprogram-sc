@@ -1,4 +1,4 @@
-// pages/service/service.ts
+// pages/service/door/smartdoor.ts
 Page({
 
   /**
@@ -8,15 +8,11 @@ Page({
 
   },
 
-  unkonwTip:function() {
-    wx.showModal({title:"提示", content:"服务开发敬请期待！"})
-  },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad() {
-    
+
   },
 
   /**

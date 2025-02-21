@@ -1,10 +1,12 @@
 // pages/search/search.ts
-Page({
+var app = getApp();
 
+Page({
   /**
    * 页面的初始数据
    */
   data: {
+    searchPlaceholder: app.globalData.other.searchPlaceholder || '',
     historyWords : [
       '鸡',
       '电脑',

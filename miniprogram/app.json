@@ -11,7 +11,9 @@
     "pages/search/search",
     "pages/auth/login/login",
     "pages/goods/goods",
-    "pages/shop/shop"
+    "pages/shop/shop",
+    "pages/cart/confirmOrder",
+    "pages/service/door/smartdoor"
   ],
   "window": {
     "navigationBarTextStyle": "black",

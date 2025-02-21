@@ -18,11 +18,13 @@
   <view class="service-policy">
     <view class="item">30天无忧退货</view>
     <view class="item">48小时快速退款</view>
-    <view class="item">满88元免邮费</view>
+    <view class="item">满20元免邮费</view>
   </view>
   <view class="goods-info">
     <view class="c">
-      <view wx:if="{{shop.dist}}" class="distance"><label class="fa fa-map-marker" style="color: rgb(23, 211, 170);"></label>距离{{shop.dist}}</view>
+      <view wx:if="{{shop.dist}}" class="distance">
+        <label class="fa fa-map-marker" style="color: rgb(23, 211, 170);"></label>距离{{shop.dist}}
+      </view>
       <view wx:if="{{shop.address}}">地址：{{shop.address}}</view>
       <text class="desc">{{shop.goods_brief}}</text>
       <view wx:if="{{shop.price}}">预订<text class="price">￥{{shop.price}}</text></view>
@@ -74,7 +76,7 @@
   <view class="goods-attr">
     <view class="t">商品参数</view>
     <view class="l">
-      <view class="item" wx:for="{{attribute}}" wx:key="{{item.name}}">
+      <view class="item" wx:for="{{attribute}}" wx:key="id">
         <text class="left">{{item.name}}</text>
         <text class="right">{{item.value}}</text>
       </view>
@@ -82,7 +84,7 @@
   </view>
 
   <view class="detail">
-    <import src="../../lib/wxParse/wxParse.wxml" />
+    <import src="/wxParse/wxParse.wxml" />
     <template is="wxParse" data="{{wxParseData:goodsDetail.nodes}}" />
   </view>
 
@@ -92,7 +94,7 @@
       <text class="title">常见问题</text>
     </view>
     <view class="b">
-      <view class="item" wx:for="{{issueList}}" wx:key="{{item.id}}">
+      <view class="item" wx:for="{{issueList}}" wx:key="issue_key">
         <view class="question-box">
           <text class="spot"></text>
           <text class="question">{{item.question}}</text>
@@ -135,7 +137,7 @@
       </view>
     </view>
     <view class="spec-con">
-      <view class="spec-item" wx:for="{{specificationList}}" wx:key="{{item.specification_id}}">
+      <view class="spec-item" wx:for="{{specificationList}}" wx:key="specification_id">
         <view class="name">{{item.name}}</view>
         <view class="values">
           <view class="value {{vitem.checked ? 'selected' : ''}}" bindtap="clickSkuValue" wx:for="{{item.valueList}}" wx:for-item="vitem" wx:key="{{vitem.id}}" data-value-id="{{vitem.id}}" data-name-id="{{vitem.specification_id}}">{{vitem.value}}</view>

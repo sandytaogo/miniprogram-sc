@@ -1,5 +1,5 @@
 // pages/service/voice.ts
-const recorderManager = wx.getRecorderManager()
+var recorderManager = wx.getRecorderManager()
 
 Page({
   /**
@@ -20,6 +20,7 @@ Page({
     let options = {}
     recorderManager.start(options)
     this.setData({content:"开始录制..."})
+    
   },
   recordCancel:function () {
     this.setData({content:"取消录制..."})
@@ -67,7 +68,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    wx.getRecorderManager()
   },
 
   /**

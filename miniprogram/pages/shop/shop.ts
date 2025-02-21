@@ -5,7 +5,7 @@ Page({
    */
   data: {
     id: '',
-    shop: {},
+    shop: {name:''},
     gallery: [],
     attribute: [],
     issueList: [],
@@ -23,6 +23,9 @@ Page({
     noCollectImage: "/images/icon_collect.png",
     hasCollectImage: "/images/icon_collect_checked.png",
     collectBackImage: "/images/icon_collect.png"
+  },
+  switchAttrPop:function() {
+    console.log('switchAttrPop')
   },
   /**
    * 生命周期函数--监听页面加载

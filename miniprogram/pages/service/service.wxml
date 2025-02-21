@@ -2,7 +2,7 @@
 <navigation-bar title="服务" back="{{false}}" color="black" background="#FFF"></navigation-bar>
 <view class="container">
 
-  <navigator class="menu"> 
+  <navigator class="menu" bind:tap="unkonwTip">
     <label class="fa fa-superpowers" style="color: rgb(199, 29, 100);"></label>
     <view>采集信息</view>
   </navigator>
@@ -17,25 +17,25 @@
     <view>语音识别</view>
   </navigator>
 
-  <navigator class="menu"> 
+  <navigator class="menu" bind:tap="unkonwTip"> 
     <label class="fa fa-jsfiddle" style="color: rgb(23, 211, 170);"></label>
     <view>生活服务</view>
   </navigator>
 
-  <navigator class="menu"> 
+  <navigator class="menu" bind:tap="unkonwTip"> 
     <label class="fa fa-superpowers" style="color: rgb(23, 211, 170);"></label>
     <view>生活纳费</view>
   </navigator>
 
-  <navigator class="menu"> 
+  <navigator class="menu" bind:tap="unkonwTip"> 
     <label class="fa fa-heart" style="color: rgb(207, 28, 43);"></label>
     <view>心率检测</view>
   </navigator>
-  <navigator class="menu"> 
+  <navigator class="menu" bind:tap="unkonwTip"> 
     <label class="fa fa-line-chart" style="color: rgb(207, 28, 43);"></label>
     <view>金融理财</view>
   </navigator>
-  <navigator class="menu"> 
+  <navigator class="menu" bind:tap="unkonwTip"> 
     <label class="fa fa-user" style="color: rgb(41, 43, 34);"></label>
     <view>用户反馈</view>
   </navigator>
