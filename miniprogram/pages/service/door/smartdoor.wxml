@@ -8,7 +8,5 @@
     color-animation-timing-func="easeIn"
   />
   <view class="scan-content">
-    <image class="scan-qr" src="https://xinxinji.cn/images/dl_qrc200.png" background-size="100% 100%"></image>
+    <image class="scan-qr" bind:tap="onReuqestQrcode" src="{{qrcodeUrl}}" background-size="100% 100%"></image>
   </view>
-
- 

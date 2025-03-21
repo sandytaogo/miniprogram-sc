@@ -9,7 +9,6 @@
   />
 
 <scroll-view class="container" style="height: 100%;" enable-flex>
-
   <view class="page-header">
     <view class="search" bind:tap="navToSearchPage">
         <image class="icon"></image>

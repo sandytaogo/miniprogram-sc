@@ -5,18 +5,38 @@ page {
   flex-direction: column;
 }
 .header-item {
-  margin-left: 10rpx;
-  margin-right: 10rpx;
+  margin: 15rpx;
 }
+
+.tabs-track {
+  position: absolute;
+  font-weight: 600;
+  z-index: 1;
+  transition-duration: 0.3s;
+  background-color:#10c598;
+  left: 0;
+  bottom: 1px;
+  width: 20px;
+  height: 3px;
+  -webkit-transform: translateX(40rpx);
+  transform: translateX(40rpx);
+  border-radius: 5rpx;
+}
+
+
 .scrollarea {
-  flex: 1;
-  overflow-y: hidden;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+.scrollarea ::-webkit-scrollbar {
+  width: 0px; /* 滚动条的宽度 */
+  color: rgb(61, 58, 58);
 }
 .search {
   flex: 1;
   display: flex;
   align-items: center;
-  height: 88rpx;
   width: 100%;
   padding: 0 0rpx;
   background: #fff;
@@ -79,7 +99,7 @@ page {
 .m-menu .item {
   flex: 1;
   display: block;
-  padding: 20rpx 0;
+  padding: 15rpx 0;
 }
 .m-menu image {
   display: block;
@@ -113,7 +133,6 @@ page {
   height: auto;
   overflow: hidden;
   background: #fff;
-  margin-top: 20rpx;
 }
 
 .good-grid .h {

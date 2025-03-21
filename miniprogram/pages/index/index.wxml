@@ -1,9 +1,9 @@
 <!--index.wxml-->
-<navigation-bar title="智慧社区" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<navigation-bar title="智慧社区" back="{{false}}" color="black" showlogobg="{{true}}" background="#FFF"></navigation-bar>
 <view class="home-page-header">
 <view style="display: flex; flex-direction: row; align-items: center; justify-items: center; grid-template-columns: 10% 90%;flex: 20%;">
     <view style="margin: 10rpx 10rpx; font-weight: bold; align-items: center; justify-items: center;width: fit-content;">
-      <navigator url="/pages/index/location" class="input">{{city}} <i class="fa fa-angle-down"></i></navigator>
+      <navigator url="/pages/index/location" hover-class="none" class="input">{{city}} <i class="fa fa-angle-down"></i></navigator>
     </view>
     <view class="search" bind:tap="navToSearchPage">
       <navigator url="/pages/search/search" class="input">
@@ -12,14 +12,15 @@
       </navigator>
     </view>
  </view>
-  <view style="margin: 10rpx 10rpx;">
-    <label class="header-item">推荐</label>
-    <label class="header-item">关注</label>
-    <label class="header-item">附近服务</label>
-    <label class="header-item">购物商城</label>
+  <view style="padding: 15rpx 15rpx; position: relative;">
+    <label data-index="0" class="header-item" bind:tap="onTabsClick">推荐</label>
+    <label data-index="1" class="header-item" bind:tap="onTabsClick">关注</label>
+    <label data-index="2" class="header-item" bind:tap="onTabsClick">附近服务</label>
+    <label data-index="3" class="header-item" bind:tap="onTabsClick">购物商城</label>
+    <view class="tabs-track" style="{{trackStyle}}"></view>
   </view>
 </view>
-<scroll-view class="scrollarea" type="list" scroll-y="true" bindscrolltolower="loadMoreData" lower-threshold="50">
+<scroll-view class="scrollarea" type="list" scroll-y="true" bindscrolltolower="loadMoreData" lower-threshold="200">
   <view class="container">
     <view class="page-section page-section-spacing swiper">
       <swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
@@ -33,7 +34,7 @@
     </view>
 
     <view class="m-menu">
-      <navigator class="item" url="{{item.url}}" wx:for="{{channels}}" wx:key="channel_key">
+      <navigator class="item" hover-class="none" url="{{item.url}}" wx:for="{{channels}}" wx:key="channel_key">
         <image src="{{item.icon_url}}" background-size="cover"></image>
         <text>{{item.name}}</text>
       </navigator>
@@ -49,7 +50,7 @@
     </view>
     <view class="b">
       <block wx:for="{{item.goodsList}}" wx:for-index="iindex" wx:for-item="iitem" wx:key="goods_list_key">
-        <navigator url="../shop/shop?id={{iitem.id}}" class="item">
+        <navigator hover-class="none" url="../shop/shop?id={{iitem.id}}" class="item">
           <image class="img" src="{{iitem.img}}" background-size="cover"></image>
           <view class="name">{{iitem.name}}</view>
           <view wx:if="{{iitem.dist}}" class="distance"><label class="fa fa-map-marker" style="color: rgb(23, 211, 170);"></label>距离{{iitem.dist}}</view>

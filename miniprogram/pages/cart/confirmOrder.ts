@@ -1,5 +1,5 @@
 // pages/cart/confirmOrder.ts
-import config from '../../services/config'
+import env from '../../config/env'
 
 import util  from '../../utils/util'
 
@@ -50,7 +50,7 @@ Page({
     // 页面显示
     wx.showLoading({title: '加载中...'})
     wx.request({
-      url: config.domain + '/stock/cart/list', // 替换为你的接口地址
+      url: env.domain + '/stock/cart/list', // 替换为你的接口地址
       data: {
         t:Date.now()
       },

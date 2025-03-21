@@ -1,4 +1,5 @@
 // app.ts
+
 App<IAppOption>({
   globalData: {
     userInfo: undefined,
@@ -22,6 +23,10 @@ App<IAppOption>({
     if (param.city) {
       this.globalData.city = param.city
     }
+
+    if (param.userInfo) {
+      this.globalData.userInfo = param.userInfo;
+    }
    },
 
   onLaunch() {
@@ -30,7 +35,6 @@ App<IAppOption>({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
     let globalData = this.globalData;
-
     //获取本地缓存地理位置信息.
     let location = wx.getStorageSync('location');
     if (location) {
@@ -39,9 +43,10 @@ App<IAppOption>({
       globalData.speed = location.speed
       globalData.accuracy = location.accuracy
     }
-    if (location == null || location.date == null || (Date.now() - location.date) > 36000) {
+
+    if (location == null || location.date == null || (Date.now() - location.date) / 1000 > 14400) {
       wx.getLocation({
-        type: 'wgs84',
+        // type: 'wgs84',、
         success (res) {
           globalData.longitude = res.longitude
           globalData.latitude = res.latitude

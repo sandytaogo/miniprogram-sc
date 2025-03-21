@@ -1,8 +1,9 @@
 <!--pages/service/service.wxml-->
-<navigation-bar title="服务" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<navigation-bar title="服务" back="{{false}}" homeButton="{{true}}" color="black" background="#FFF"></navigation-bar>
 <view class="container">
 
-  <navigator class="menu" bind:tap="unkonwTip">
+
+  <navigator class="menu" url="/pages/service/face/scanCollect">
     <label class="fa fa-superpowers" style="color: rgb(199, 29, 100);"></label>
     <view>采集信息</view>
   </navigator>

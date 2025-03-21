@@ -2,6 +2,7 @@
   --weui-FG-0:rgba(0,0,0,.9);
   --height: 44px;
   --left: 16px;
+  padding-bottom: 10px;
 }
 .weui-navigation-bar .android {
   --height: 48px;
@@ -13,11 +14,23 @@
   flex: none;
 }
 
+.logo-bg {
+  position: absolute; 
+  z-index: 1;
+  width: 210rpx; 
+  height: 74px;
+  left: -40rpx;
+  transform: skew(-25deg);
+  background-color: rgb(148, 241, 179); 
+  border-bottom-right-radius: 10px;
+}
+
 .weui-navigation-bar__buttons {
   display: flex;
-  margin-top: 20rpx;
+  //margin-top: 20rpx;
   height: 100%;
   flex-direction: row;
+  align-items: center;
   justify-content: center;
 }
 

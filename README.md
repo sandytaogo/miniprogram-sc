@@ -15,14 +15,21 @@
 #### 语音识别
 #### 人脸识别
 #### 周边服务预约
+
 <div align="center">
   <img src="main.png">
   <img src="gather.png">
+  <img src="profile.png">
 </div>
-#### --
 
-#### --
+#### 依赖
+#### npm install --save-dev @types/sm-crypto
+#### "build": "weapp-builder build",
+#### "build:watch": "weapp-builder build --watch",
+#### "preview": "weapp-preview"
+####
 
+#### 帮助文档
 https://developers.weixin.qq.com/miniprogram/dev/framework/
 https://fontawesome.com.cn/v4/icons
 https://transfonter.org/

@@ -1,6 +1,6 @@
 /* pages/auth/login/login.wxss */
 .page {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -12,8 +12,9 @@
   flex-direction: column;
   align-items: center;
   color: #aaa;
+  margin-top: 40%;
   width: 80%;
-  margin-bottom: 100rpx;
+  margin-bottom: 50rpx;
 }
 
 .userinfo-avatar {
@@ -24,16 +25,12 @@
   border-radius: 50%;
 }
 
-.usermotto {
-  margin-top: 100px;
-}
-
 .avatar-wrapper {
   padding: 0;
   width: 56px !important;
   border-radius: 8px;
-  margin-top: 40px;
-  margin-bottom: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .avatar {
@@ -42,20 +39,44 @@
   height: 56px;
 }
 
+.nickname-label {
+  width: 85px;
+}
+
+.nickname-input {
+  flex: 1;
+}
+
 .nickname-wrapper {
   display: flex;
   width: 100%;
   padding: 16px;
   box-sizing: border-box;
-  border-top: .5px solid rgba(0, 0, 0, 0.1);
+  //border-top: .5px solid rgba(0, 0, 0, 0.1);
   border-bottom: .5px solid rgba(0, 0, 0, 0.1);
   color: black;
 }
 
-.nickname-label {
-  width: 105px;
+.option-area {
+  width: 80%;
+  margin-top: 30rpx;
 }
 
-.nickname-input {
-  flex: 1;
+.login-btn {
+  height: 90rpx;
+  color: #fff;
+  background-color: #21a4ea;
+}
+
+.wechat-auth-btn {
+  width: 2.5em; 
+  height: 2.3em;
+  background-image: url('https://cms-1314943257.cos.ap-nanjing.myqcloud.com/2024/0930/4b7ad830d013572.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  border-radius: 50%;
+}
+
+.usermotto {
+  margin-bottom: 50px;
 }

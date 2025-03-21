@@ -1,28 +1,47 @@
 /* pages/shop/shop.wxss */
+
+page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .container {
-  margin-bottom: 100rpx;
+  overflow-y:scroll;
+  margin-bottom: 400rpx;
+}
+
+.scrollarea {
+  flex: 1;
+  height: auto;
+  overflow-y:scroll;
+}
+
+.scrollarea ::-webkit-scrollbar {
+  width: 0px; /* 滚动条的宽度 */
+  color: rgb(61, 58, 58);
 }
 
 .goodsimgs {
-  width: 750rpx;
-  height: 550rpx;
+  width: 100%;
+  height: 500rpx;
 }
 
 .goodsimgs image {
-  width: 750rpx;
-  height: 750rpx;
+  width: 100%;
+  height: 500rpx;
 }
 
 .service-policy {
-  width: 750rpx;
+  width: 100%;
   height: 73rpx;
   background: #f4f4f4;
-  padding: 0 31.25rpx;
+  padding: 0;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
-}service-policy
+}
 
 .service-policy .item {
   background: url(http://nos.netease.com/mailpub/hxm/yanxuan-wap/p/20150730/style/img/icon-normal/servicePolicyRed-518d32d74b.png) 0 center no-repeat;
@@ -35,38 +54,34 @@
 }
 
 .goods-info {
-  width: 750rpx;
-  height: 306rpx;
-  overflow: hidden;
+  width: 100%;
+ // height: 306rpx;
+ // overflow: hidden;
   background: #fff;
 }
 
 .goods-info .c {
   display: block;
-  width: 718.75rpx;
   height: 100%;
-  margin-left: 31.25rpx;
-  padding: 38rpx 31.25rpx 38rpx 0;
+  margin: 15rpx;
   border-bottom: 1px solid #f4f4f4;
 }
 
 .goods-info .c text {
   display: block;
-  width: 687.5rpx;
+  width: auto;
   text-align: center;
 }
 
 .goods-info .name {
   height: 41rpx;
   margin-bottom: 5.208rpx;
-  font-size: 41rpx;
-  line-height: 41rpx;
+  font-size: 35rpx;
+  line-height: 35rpx;
 }
 
 .goods-info .desc {
-  height: 43rpx;
-  margin-bottom: 41rpx;
-  font-size: 24rpx;
+  padding: 15rpx 0rpx 15rpx 0rpx;
   line-height: 36rpx;
   color: #999;
 }
@@ -97,8 +112,27 @@
   background-size: 10.75rpx 18.75rpx;
 }
 
+.map-context {
+  width: 100%;
+  height: 400rpx;
+  margin: 0rpx 0rpx 15rpx 0rpx;
+}
+
+.shop-map {
+  width: 100%; 
+  height: 400rpx;
+}
+
+.cover-map-view {
+  position: absolute;
+  top:0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+
 .section-nav {
-  width: 750rpx;
+  width: auto;
   height: 108rpx;
   background: #fff;
   margin-bottom: 20rpx;
@@ -198,13 +232,13 @@
 }
 
 .comments .b {
+  width: auto;
   height: auto;
-  width: 720rpx;
 }
 
 .comments .item {
+  width: auto;
   height: auto;
-  width: 720rpx;
   overflow: hidden;
 }
 
@@ -251,7 +285,7 @@
 }
 
 .comments .content {
-  width: 720rpx;
+  width: auto;
   padding-right: 30rpx;
   line-height: 45.8rpx;
   font-size: 29rpx;
@@ -259,7 +293,7 @@
 }
 
 .comments .imgs {
-  width: 720rpx;
+  width: auto;
   height: auto;
   margin-bottom: 25rpx;
 }
@@ -271,7 +305,7 @@
 }
 
 .comments .spec {
-  width: 720rpx;
+  width: auto;
   padding-right: 30rpx;
   line-height: 30rpx;
   font-size: 24rpx;
@@ -280,7 +314,7 @@
 }
 
 .goods-attr {
-  width: 750rpx;
+  width: auto;
   height: auto;
   overflow: hidden;
   padding: 0 31.25rpx 25rpx 31.25rpx;
@@ -288,14 +322,14 @@
 }
 
 .goods-attr .t {
-  width: 687.5rpx;
+  width: auto;
   height: 104rpx;
   line-height: 104rpx;
   font-size: 38.5rpx;
 }
 
 .goods-attr .item {
-  width: 687.5rpx;
+  width: auto;
   height: 68rpx;
   padding: 11rpx 20rpx;
   margin-bottom: 11rpx;
@@ -317,7 +351,7 @@
   float: left;
   font-size: 36.5rpx;
   margin-left: 20rpx;
-  width: 480rpx;
+  width: auto;
   height: 45rpx;
   line-height: 45rpx;
   overflow: hidden;
@@ -325,26 +359,26 @@
 }
 
 .detail {
-  width: 750rpx;
+  width: auto;
   height: auto;
   overflow: hidden;
 }
 
 .detail image {
-  width: 750rpx;
+  width: auto;
   display: block;
 }
 
 .common-problem {
-  width: 750rpx;
+  width: 100%;
   height: auto;
-  overflow: hidden;
+  margin-bottom: 100rpx;
 }
 
 .common-problem .h {
   position: relative;
-  height: 145.5rpx;
-  width: 750rpx;
+  height: 45.5rpx;
+  width: auto;
   padding: 56.25rpx 0;
   background: #fff;
   text-align: center;
@@ -353,7 +387,7 @@
 .common-problem .h .line {
   display: inline-block;
   position: absolute;
-  top: 72rpx;
+  top: 80rpx;
   left: 0;
   z-index: 2;
   height: 1px;
@@ -375,48 +409,46 @@
 }
 
 .common-problem .b {
-  width: 750rpx;
+  width: auto;
   height: auto;
-  overflow: hidden;
-  padding: 0rpx 30rpx;
+  padding: 0rpx 0rpx;
   background: #fff;
 }
 
 .common-problem .item {
   height: auto;
-  overflow: hidden;
-  padding-bottom: 25rpx;
+  padding-bottom: 5rpx;
+}
+.common-problem .question-box {
+  display: block;
 }
 
 .common-problem .question-box .spot {
   float: left;
-  display: block;
   height: 8rpx;
   width: 8rpx;
   background: #b4282d;
   border-radius: 50%;
-  margin-top: 11rpx;
+  margin-top: 20rpx;
 }
 
 .common-problem .question-box .question {
-  float: left;
-  line-height: 30rpx;
+ // line-height: 30rpx;
   padding-left: 8rpx;
-  display: block;
   font-size: 26rpx;
   padding-bottom: 15rpx;
   color: #303030;
 }
 
 .common-problem .answer {
-  line-height: 36rpx;
+ // line-height: 36rpx;
   padding-left: 16rpx;
   font-size: 26rpx;
   color: #787878;
 }
 
 .related-goods {
-  width: 750rpx;
+  width: auto;
   height: auto;
   overflow: hidden;
 }
@@ -424,7 +456,7 @@
 .related-goods .h {
   position: relative;
   height: 145.5rpx;
-  width: 750rpx;
+  width: auto;
   padding: 56.25rpx 0;
   background: #fff;
   text-align: center;
@@ -456,7 +488,7 @@
 }
 
 .related-goods .b {
-  width: 750rpx;
+  width: auto;
   height: auto;
   overflow: hidden;
 }
@@ -503,7 +535,7 @@
   left: 0;
   bottom: 0;
   z-index: 10;
-  width: 750rpx;
+  width: 100%;
   height: 100rpx;
   display: flex;
   background: #fff;

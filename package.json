@@ -1,18 +1,25 @@
 {
   "name": "miniprogram-sc",
   "version": "1.0.0",
+  "miniprogram": "dist",
   "description": "",
   "scripts": {
-    // "build": "weapp-builder build",
-    // "build:watch": "weapp-builder build --watch",
-    // "preview": "weapp-preview"
+    "build": "weapp-builder build",
+    "build:watch": "weapp-builder build --watch",
+    "preview": "weapp-preview"
   },
   "keywords": ["人工智能", "智慧社区"],
   "author": "taoxiaofang",
-  "license": "",
+  "license": "ISC",
   "dependencies": {
+    "sm-crypto": "^0.3.13",
+    "dayjs": "^1.9.3",
+    "tdesign-miniprogram": "^1.0.0",
+    "tslib": "^1.11.1"
   },
   "devDependencies": {
+    "@types/sm-crypto": "^0.3.4",
     "miniprogram-api-typings": "^2.8.3-1"
-  }
+  },
+  "main": ".eslintrc.js"
 }

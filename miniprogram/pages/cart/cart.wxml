@@ -1,5 +1,5 @@
 <!--pages/cart/cart.wxml-->
-<navigation-bar title="购物车" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<navigation-bar title="购物车" back="{{false}}" homeButton="{{true}}" color="black" background="#FFF"></navigation-bar>
 <view class="container">
   <view class="service-policy">
     <view class="item">30天无忧退货</view>

@@ -14,8 +14,12 @@
         <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
       </button>
       <view class="nickname-wrapper">
-        <text class="nickname-label">昵称</text>
-        <input type="nickname" class="nickname-input" placeholder="请输入昵称" bind:change="onInputChange" />
+        <text class="nickname-label">账号</text>
+        <input type="text" class="nickname-input" placeholder="手机号码" maxlength="20"/>
+      </view>
+      <view class="nickname-wrapper">
+        <text class="nickname-label">密码</text>
+        <input type="password" class="nickname-input" placeholder="" maxlength="32" bind:change="onInputChange" />
       </view>
     </block>
     <block wx:elif="{{!hasUserInfo}}">
@@ -26,7 +30,16 @@
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </block>
+
+    <view class="option-area">
+      <button class="login-btn">登录</button>
+    </view>
   </view>
+
+  <view>
+    <button open-type="getUserInfo" class="wechat-auth-btn" bind:getuserinfo="onGetuserinfo"></button>
+  </view>
+  
   <view class="usermotto">
     <text class="user-motto">{{motto}}</text>
   </view>

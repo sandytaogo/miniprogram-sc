@@ -1,6 +1,6 @@
 // pages/index/region.ts
 
-import config from '../../services/config'
+import config from '../../config/env'
 
 Page({
   /**

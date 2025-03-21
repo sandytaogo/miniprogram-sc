@@ -1,6 +1,6 @@
 // pages/cart/cart.ts
 
-import config from '../../services/config'
+import env from '../../config/env'
 
 Page({
   /**
@@ -145,7 +145,7 @@ Page({
       }
     });
     if (checkedGoods.length <= 0) {
-      wx.showToast({title: '没有任何商品！', icon: 'error', duration: 3000})
+      wx.showToast({title: '没有任何商品！', icon: 'none', duration: 3000})
       return;
     }
     wx.navigateTo({
@@ -155,7 +155,7 @@ Page({
   loadCartData : function(params:any) {
     wx.showLoading({title: '加载中...'}); // 显示加载提示
     wx.request({
-      url: config.domain + '/stock/cart/list', // 替换为你的接口地址
+      url: env.domain + '/stock/cart/list', // 替换为你的接口地址
       data: {page:params.page},
       success: (res: any) => {
         wx.hideLoading(); // 隐藏加载提示
@@ -212,7 +212,8 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
-
+    this.loadCartData({})
+    wx.stopPullDownRefresh();
   },
 
   /**

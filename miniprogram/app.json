@@ -6,19 +6,28 @@
     "pages/service/service",
     "pages/service/voice/voice",
     "pages/cart/cart",
-    "pages/profile/profile",
     "pages/service/face/recognition",
     "pages/search/search",
     "pages/auth/login/login",
     "pages/goods/goods",
     "pages/shop/shop",
     "pages/cart/confirmOrder",
-    "pages/service/door/smartdoor"
+    "pages/service/door/smartdoor",
+    "pages/shop/map",
+    "pages/service/face/scanCollect",
+    "pages/user/index",
+    "pages/user/person-info/index",
+    "pages/user/address/list/index",
+    "pages/user/address/edit/index",
+    "pages/coupon/coupon"
   ],
   "window": {
+    "navigationBarTitleText": "智慧社区",
     "navigationBarTextStyle": "black",
     "navigationStyle": "custom",
-    "navigationBarTitleText": "智慧社区"
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#fff",
+    "enablePullDownRefresh": true
   },
   "tabBar": {
     "selectedColor": "#b42b2d",
@@ -42,14 +51,13 @@
         "selectedIconPath": "images/menu_shoping_pressed.png"
       },
       {
-        "pagePath": "pages/profile/profile",
+        "pagePath": "pages/user/index",
         "text": "我的",
         "iconPath": "images/menu_me_nor.png",
         "selectedIconPath": "images/menu_me_pressed.png"
       }
     ]
   },
-  "style": "v2",
   "rendererOptions": {
     "skyline": {
       "defaultDisplayBlock": true,
@@ -65,6 +73,7 @@
   "lazyCodeLoading": "requiredComponents",
   "requiredPrivateInfos": [
     "getLocation",
+    "chooseLocation",
     "onLocationChange",
     "startLocationUpdateBackground",
     "chooseAddress"

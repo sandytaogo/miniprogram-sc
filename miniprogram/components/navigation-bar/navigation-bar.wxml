@@ -1,17 +1,15 @@
 <view class="weui-navigation-bar {{extClass}}">
+  <block wx:if="{{showlogobg}}">
+    <view class="logo-bg" style="{{logoStyle}}"></view>
+  </block>
   <view class="weui-navigation-bar__inner {{ios ? 'ios' : 'android'}}" style="color: {{color}}; background: {{background}}; {{displayStyle}}; {{innerPaddingRight}}; {{safeAreaTop}};">
-
     <!-- 左侧按钮 -->
     <view class='weui-navigation-bar__left' style="{{leftWidth}};">
       <block wx:if="{{back || homeButton}}">
         <!-- 返回上一页 -->
         <block wx:if="{{back}}">
           <view class="weui-navigation-bar__buttons weui-navigation-bar__buttons_goback">
-            <view
-              bindtap="back"
-              class="weui-navigation-bar__btn_goback_wrapper"
-              hover-class="weui-active"
-              hover-stay-time="100"
+            <view bindtap="back" class="weui-navigation-bar__btn_goback_wrapper" hover-class="weui-active" hover-stay-time="100" 
               aria-role="button"
               aria-label="返回"
             >
@@ -22,14 +20,10 @@
         <!-- 返回首页 -->
         <block wx:if="{{homeButton}}">
           <view class="weui-navigation-bar__buttons weui-navigation-bar__buttons_home">
-            <view
-              bindtap="home"
-              class="weui-navigation-bar__btn_home_wrapper"
-              hover-class="weui-active"
-              aria-role="button"
-              aria-label="首页"
-            >
-              <view class="weui-navigation-bar__button weui-navigation-bar__btn_home"></view>
+            <view bindtap="home" class="weui-navigation-bar__btn_home_wrapper" hover-class="weui-active" aria-role="button"aria-label="首页">
+              <view class="weui-navigation-bar__button weui-navigation-bar__btn_home" bind:tap="toHomePage">
+                <image style="width: 22px; height:22px;" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDIwIDIwIiBmaWxsPSJub25lIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xMC41MTA3IDMuMDE5OTdMMTAuNTg5MyAzLjA4OTI5TDE3Ljc0NDEgMTAuMjQ0MUMxNy45MDA0IDEwLjQwMDQgMTcuOTg4MiAxMC42MTI0IDE3Ljk4ODIgMTAuODMzNEMxNy45ODgyIDExLjI2MDcgMTcuNjY2NSAxMS42MTMgMTcuMjUyIDExLjY2MTFMMTcuMTU0OCAxMS42NjY3TDE0Ljk5OTMgMTEuNjY2TDE1IDE2LjY2NjdDMTUgMTcuMDk0MSAxNC42NzgzIDE3LjQ0NjMgMTQuMjYzOCAxNy40OTQ0TDE0LjE2NjcgMTcuNUgxMS4yNVYxNC4xNjY3SDguNzVWMTcuNUg1LjgzMzMzQzUuNDA1OTcgMTcuNSA1LjA1Mzc0IDE3LjE3ODMgNS4wMDU2IDE2Ljc2MzlMNSAxNi42NjY3TDQuOTk5MzQgMTEuNjY2TDIuODQ1MTcgMTEuNjY2N0MyLjY2MSAxMS42NjY3IDIuNDgzMSAxMS42MDU3IDIuMzM4NDggMTEuNDk1TDIuMjU1OTIgMTEuNDIyNkMxLjk1NTUyIDExLjEyMjIgMS45MzI0MSAxMC42NDk1IDIuMTg2NTkgMTAuMzIyNkwyLjI1NTkyIDEwLjI0NDFMOS40MTA3NCAzLjA4OTI5TDkuNDg5MjUgMy4wMTk5N0M5Ljc1ODk1IDIuODEwMjYgMTAuMTI3OSAyLjc4OTI5IDEwLjQxNzQgMi45NTcwNkwxMC41MTA3IDMuMDE5OTdaTTEwLjAwMDggNC4yNjUwNEwzLjg0NzUgMTAuNDE2N0w2LjI0OTE4IDEwLjQxNTdMNi4yNDc1IDE2LjI1SDcuNDk5MTZMNy41IDEyLjkxNjdIMTIuNUwxMi40OTkyIDE2LjI1MDlMMTMuNzUgMTYuMjUxN0wxMy43NDkyIDEwLjQxNTdMMTYuMTUgMTAuNDE3NUwxMC4wMDA4IDQuMjY1MDRaIiBmaWxsPSIjMDdDMTYwIi8+Cjwvc3ZnPg=="/>
+              </view>
             </view>
           </view>
         </block>
@@ -42,11 +36,7 @@
     <!-- 标题 -->
     <view class='weui-navigation-bar__center'>
       <view wx:if="{{loading}}" class="weui-navigation-bar__loading" aria-role="alert">
-        <view
-          class="weui-loading"
-          aria-role="img"
-          aria-label="加载中"
-        ></view>
+        <view class="weui-loading" aria-role="img" aria-label="加载中"></view>
       </view>
       <block wx:if="{{title}}">
         <text>{{title}}</text>
@@ -56,8 +46,8 @@
       </block>
     </view>
     
-    <!-- 右侧留空 -->
-    <view class='weui-navigation-bar__right'>
+    <!-- 右侧留空 style="{{rightWidth}};"-->
+    <view class='weui-navigation-bar__right' >
       <slot name="right"></slot>
     </view>
   </view>

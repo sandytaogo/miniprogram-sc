@@ -1,7 +1,6 @@
 // pages/auth/login/login.ts
-const defaultAvatarUrl = '/images/default_avatar.png'
-
-import config from '../../services/config'
+import env from '../../../config/env'
+const defaultAvatarUrl = env.domain + '/images/minlogo.png'
 
 Page({
   /**
@@ -28,22 +27,17 @@ Page({
   onChooseAvatar(e: any) {
     const { avatarUrl } = e.detail
     const { nickName } = this.data.userInfo
-    this.setData({
-      "userInfo.avatarUrl": avatarUrl,
-      hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
-    });
-    console.log('关闭页面')
+    // this.setData({
+    //   "userInfo.avatarUrl": avatarUrl,
+    //   hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
+    // });
       // 登录
     wx.login({
       success: res => {
-        console.log('login:' + res.code)
+        this.doWeChatAuthorization({jscode:res.code})
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
       }
     })
-    setTimeout(function() {
-      // 返回上一页面
-      wx.navigateBack({delta: 1})
-    }, 1000)
   },
   onInputChange(e: any) {
     const nickName = e.detail.value
@@ -51,18 +45,63 @@ Page({
     this.setData({"userInfo.nickName": nickName, hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl})
   },
   getUserProfile() {
-    const app = getApp()
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
     wx.getUserProfile({
-      desc: '展示用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      desc: '微信授权登录', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
       success: (res) => {
         console.log(res)
-        app.setData({'userInfo' : res.userInfo })
-        this.setData({userInfo: res.userInfo, hasUserInfo: true})
+        // 登录
+        wx.login({
+          success: res => {
+            this.doWeChatAuthorization({jscode:res.code})
+            // 发送 res.code 到后台换取 openId, sessionKey, unionId
+          }
+        })
       }
     })
   },
-
+  onGetuserinfo(e:any) {
+    wx.showLoading({ title: '授权中...' });
+    let data = e.detail;
+    // 登录
+    wx.login({
+      success: res => {
+        this.doWeChatAuthorization({jscode:res.code, encryptedData: data.encryptedData, iv:data.iv, rawData:data.rawData, signature:data.signature})
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+      }
+    })
+  },
+  doWeChatAuthorization(params:any) {
+    const app = getApp()
+    //发起网络请求
+    wx.request({
+      url: env.domain + '/user/mini/sns/jscode2session',
+      data: {'jscode': params.jscode, encryptedData: params.encryptedData, iv:params.iv, rawData:params.rawData, signature:params.signature},
+      method:'POST',
+      header: {'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+      timeout:15000,
+      success : (res:any) => {
+        wx.hideLoading();
+        let data = res.data;
+        if (data.code == 200) {
+          app.setData({'userInfo' : JSON.parse(params.rawData)})
+          this.setData({userInfo: params.rawData, hasUserInfo: true})
+          // 返回上一页面
+          wx.navigateBack({delta: 1}) 
+        } else {
+          wx.showToast({icon:'none', title:res.data.msg});
+        }
+      },
+      fail: (err) => {
+        wx.hideLoading();
+        if (err.errMsg == 'request:fail timeout') {
+          wx.showToast({icon:'none', title:'授权超时'});
+        } else {
+          wx.showToast({icon:'none', title:err.errMsg});
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

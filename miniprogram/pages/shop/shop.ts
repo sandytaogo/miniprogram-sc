@@ -1,11 +1,47 @@
 // pages/shop/shop.ts
+
+import config from '../../config/env'
+
+let map_mark =  {id: 1, latitude: 22.2655998353, longitude: 113.322520, iconPath: '/images/location.png', width:'100rpx',height:'100rpx',
+  // callout: {
+  //   content: '文本内容',
+  //   color: '#ff0000',
+  //   fontSize: 14,
+  //   borderWidth: 2,
+  //   borderRadius: 10,
+  //   borderColor: '#000000',
+  //   bgColor: '#fff',
+  //   padding: 5,
+  //   display: 'ALWAYS',
+  //   textAlign: 'center'
+  // }
+    label: {
+    content: 'label 文本',
+    fontSize: 14,
+    textAlign: 'center',
+    borderWidth: 1,
+    borderRadius: 5,
+    bgColor: '#fff',
+    padding: 5
+  }
+}
+
+interface MapMarker {
+  id: Number, 
+  latitude: 22.2655998353, 
+  longitude: 113.322520, 
+  iconPath: '', 
+  width:'100rpx',
+  height:'100rpx'
+}
+
 Page({
   /**
    * 页面的初始数据
    */
   data: {
     id: '',
-    shop: {name:''},
+    shop: {name:'', lng: 113.54342, lat: 22.26666},
     gallery: [],
     attribute: [],
     issueList: [],
@@ -18,20 +54,37 @@ Page({
     cartGoodsCount: 0,
     userHasCollect: 0,
     number: 1,
+    markers: [{id:1,latitude: 22.2655998353, longitude: 113.322520, width:'100rpx',height:'100rpx'}],
+    customCalloutMarkerIds: [],
+    num: 1,
     checkedSpecText: '请选择规格数量',
     openAttr: false,
     noCollectImage: "/images/icon_collect.png",
     hasCollectImage: "/images/icon_collect_checked.png",
     collectBackImage: "/images/icon_collect.png"
   },
-  switchAttrPop:function() {
-    console.log('switchAttrPop')
+  labeltap:function(e:any) {
+    console.log('labeltap' + e)
+  },
+  markertap:function(e:any) {
+    console.log('markertap' + e)
+  },
+  switchAttrPop:function(e:any) {
+    console.log('switchAttrPop' + e)
+  },
+  openDetailMap:function(e:any) {
+    wx.navigateTo({url:'map?latitude='+this.data.shop.lat+'&longitude='+this.data.shop.lng+'&name='+this.data.shop.name+''})
+  },
+  addToCart:function(e:any) {
+    wx.navigateTo({
+      url: '/pages/cart/confirmOrder'
+    })
   },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
-   this.setData({id: options.id})
+  onLoad(options:any) {
+   this.setData({id: options.id, markers:[]})
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -46,7 +99,7 @@ Page({
     wx.showLoading({ title: '加载中...' }); // 显示加载提示
     var app = getApp()
     wx.request({
-      url: 'https://xinxinji.cn/stock/shop/detail', // 替换为你的接口地址
+      url: config.domain + '/stock/shop/detail', // 替换为你的接口地址
       data: {
         shopId:this.data.id,
         lng:app.globalData.longitude ? app.globalData.longitude : '', 
@@ -54,8 +107,12 @@ Page({
       },
       success: (res: any) => {
         wx.hideLoading(); // 隐藏加载提示
-        let data = res.data
-        this.setData({shop: res.data, gallery:data.imageList})
+        let data = res.data;
+        map_mark.longitude = data.lng;
+        map_mark.latitude = data.lat;
+        map_mark.label.content = data.name;
+        this.setData({shop: res.data, gallery:data.imageList, issueList: res.data.issueList, markers:[map_mark]})
+        // let mapCtx = wx.createMapContext('myMap')
       },
       fail: (err) => {
         wx.hideLoading(); // 请求失败也隐藏加载提示
@@ -63,6 +120,9 @@ Page({
       }
     });
     this.setData({nbLoading:''})
+
+
+
   },
   /**
    * 生命周期函数--监听页面隐藏

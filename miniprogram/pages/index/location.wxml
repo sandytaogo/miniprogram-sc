@@ -7,14 +7,15 @@
     color-animation-duration="2000"
     color-animation-timing-func="easeIn"
   />
-  <view class="container">
-    <view class="label">您的位置</view>
-    <view class="location">
-      <view class="left">{{locationMsg}}</view>
-      <view class="right" bind:tap="getLocation">获取当前位置</view>
-    </view>
-    <view class="label">其他城市</view>
-    <view class="region">
+  <scroll-view class="scrollarea" scroll-y="true">
+    <view class="container">
+      <view class="label">您的位置</view>
+      <view class="location">
+        <view class="left">{{locationMsg}}</view>
+        <view class="right" bind:tap="getLocation">获取当前位置</view>
+      </view>
+      <view class="label">其他城市</view>
+      <view class="region">
         <scroll-view scroll-y="true" class="colmun">
           <view wx:for="{{reovinces}}" wx:key="reovinces">
             <view bind:tap="chooseReovinceRegion" data-reovince-id="{{item.id}}">{{item.name}}</view>
@@ -36,3 +37,4 @@
     </view>
    
   </view>
+</scroll-view>
