@@ -94,9 +94,8 @@ Component({
       }
       this.setData({
         ios: !isAndroid,
-        innerPaddingRight:  `padding-right: ${windowInfo.windowWidth - rect.left}px;`,
-        leftWidth: `width: ${windowInfo.windowWidth - rect.left }px`,
-        rightWidth: isAndroid ? `width: ${windowInfo.windowWidth - rect.left}px` : ``,
+        innerPaddingRight:  `padding-right: ${windowInfo.windowWidth - (rect.left < rect.right ? rect.left : rect.right) }px;`,
+        leftWidth: `width: ${windowInfo.windowWidth - (rect.left < rect.right ? rect.left : rect.right) }px`,
         safeAreaTop: isDevtools || isAndroid ? `height: calc(${rect.height}px + ${rect.top}px); padding-top: ${rect.top}px` : ``,
        
         extClass: isAndroid || isDevtools ? 'android' : '',

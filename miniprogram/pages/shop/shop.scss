@@ -24,12 +24,13 @@ page {
 
 .goodsimgs {
   width: 100%;
-  height: 500rpx;
+  height: 400rpx;
+  border-radius: 10rpx;
 }
 
 .goodsimgs image {
   width: 100%;
-  height: 500rpx;
+  height: 400rpx;
 }
 
 .service-policy {
@@ -44,7 +45,7 @@ page {
 }
 
 .service-policy .item {
-  background: url(http://nos.netease.com/mailpub/hxm/yanxuan-wap/p/20150730/style/img/icon-normal/servicePolicyRed-518d32d74b.png) 0 center no-repeat;
+  background: url(https://xinxinji.cn/images/miniapp/servicePolicyRed.png) 0 center no-repeat;
   background-size: 10rpx;
   padding-left: 15rpx;
   display: flex;
@@ -99,6 +100,7 @@ page {
   text-align: center;
 }
 
+
 .goods-info .brand text {
   display: inline-block;
   width: auto;
@@ -108,7 +110,7 @@ page {
   font-size: 25rpx;
   color: #f48f18;
   border-radius: 4px;
-  background: url(http://nos.netease.com/mailpub/hxm/yanxuan-wap/p/20150730/style/img/icon-normal/detailTagArrow-18bee52dab.png) 95% center no-repeat;
+  background: url(https://xinxinji.cn/images/miniapp/servicePolicyRed.png) 95% center no-repeat;
   background-size: 10.75rpx 18.75rpx;
 }
 
@@ -368,6 +370,47 @@ page {
   width: auto;
   display: block;
 }
+
+.shop-detail {
+  width: 100%;
+  height: auto;
+}
+.shop-detail .h {
+  position: relative;
+  width: auto;
+  height: 25.5rpx;
+  padding-bottom: 30rpx;
+  text-align: center;
+}
+
+.shop-detail .h .line {
+  display: inline-block;
+  position: absolute;
+  top: 20rpx;
+  left: 0;
+  z-index: 2;
+  height: 1px;
+  margin-left: 225rpx;
+  width: 300rpx;
+  background: #ccc;
+}
+
+.shop-detail .h .title {
+  display: inline-block;
+  position: absolute;
+  z-index: 3;
+  top: 0rpx;
+  left: 0;
+  margin-left: 285rpx;
+  width: 180rpx;
+  background: #fff;
+}
+
+.shop-detail .img-detail {
+  width: 100%;
+  padding-bottom: 25rpx;
+}
+
 
 .common-problem {
   width: 100%;

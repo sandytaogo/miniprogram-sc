@@ -1,5 +1,4 @@
 // app.ts
-
 App<IAppOption>({
   globalData: {
     userInfo: undefined,
@@ -23,14 +22,18 @@ App<IAppOption>({
     if (param.city) {
       this.globalData.city = param.city
     }
-
-    if (param.userInfo) {
+    if (param.hasOwnProperty('userInfo')) {
       this.globalData.userInfo = param.userInfo;
     }
    },
 
   onLaunch() {
     // 展示本地存储能力
+    let userData = wx.getStorageSync('user_safe_info');
+    if (userData) {
+      this.globalData.userInfo = userData.userInfo;
+    }
+    
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)

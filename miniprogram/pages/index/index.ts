@@ -108,18 +108,6 @@ Page({
         console.error('数据加载失败:', err);
       }
     });
-
-    wx.request({
-      url: env.domain + '/user/publickey', // 替换为你的接口地址
-      data: {},
-      success: (res: any) => {
-        //console.log(res.data)
-      },
-      fail: (err) => {
-        wx.hideLoading(); // 请求失败也隐藏加载提示
-        console.error('数据加载失败:', err);
-      }
-    });
   },
 
   /**

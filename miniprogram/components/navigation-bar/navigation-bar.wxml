@@ -1,4 +1,4 @@
-<view class="weui-navigation-bar {{extClass}}">
+<view class="weui-navigation-bar {{extClass}}" style="background: {{background}};">
   <block wx:if="{{showlogobg}}">
     <view class="logo-bg" style="{{logoStyle}}"></view>
   </block>

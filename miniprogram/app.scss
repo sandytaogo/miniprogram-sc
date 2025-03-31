@@ -19,11 +19,22 @@
   justify-content: space-between;
 }
 
+.t-switch {
+  --td-switch-checked-color: #34c759;
+}
 
-
-
-
-
+.t-button {
+  --td-button-font-weight: 500;
+  --td-button-medium-font-size: 32rpx;
+  --td-button-default-color: #fff;
+  --td-button-default-bg-color: #fa4126;
+  --td-button-default-border-color: #fa4126;
+  --td-button-default-disabled-color: #fff;
+  --td-button-default-disabled-bg: #cccccc;
+  --td-button-default-disabled-border-color: #cccccc;
+  --td-button-default-active-bg-color: #fa4126;
+  --td-button-default-active-border-color: #fa4126;
+}
 
 @font-face {
   font-family: 'FontAwesome';

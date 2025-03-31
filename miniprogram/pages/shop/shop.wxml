@@ -115,6 +115,16 @@
       <template is="wxParse" data="{{wxParseData:goodsDetail.nodes}}" />
     </view>
 
+    <view class="shop-detail">
+      <view class="h">
+        <view class="line"></view>
+        <text class="title">详情介绍</text>
+      </view>
+      <view class="img-detail" wx:for="{{gallery}}" wx:key="gallery_list_item">
+        <image wx:if="{{item.type == 0}}" style="width: 100%;" src="{{item.path}}" background-size="cover"></image>
+      </view>
+    </view>
+
     <view class="common-problem">
       <view class="h">
         <view class="line"></view>

@@ -1,13 +1,3 @@
-import { sm2 } from 'sm-crypto';
-
-let keypair = sm2.generateKeyPairHex();
-let publicKey = keypair.publicKey; // 公钥
-let privateKey = keypair.privateKey; // 私钥
-console.log(publicKey)
-
-export default (date: Date) => {
-  return date;
-}
 
 export const formatTime = (date: Date) => {
   const year = date.getFullYear()
@@ -89,11 +79,35 @@ export const getRect = function (context:any, selector:any, needAll:boolean = fa
   });
 };
 
+/**
+ * 获取cdn裁剪后链接
+ *
+ * @param {string} url 基础链接
+ * @param {number} width 宽度，单位px
+ * @param {number} [height] 可选，高度，不填时与width同值
+ */
+const cosThumb = (url, width, height = width) => {
+  if (url.indexOf('?') > -1) {
+    return url;
+  }
+
+  if (url.indexOf('http://') === 0) {
+    url = url.replace('http://', 'https://');
+  }
+
+  return `${url}?imageMogr2/thumbnail/${~~width}x${~~height}`;
+};
+
+export default (date: Date) => {
+  return date;
+}
+
 module.exports = {
   formatTime:formatTime,
   formatNumber:formatNumber,
   phoneRegCheck:phoneRegCheck,
   priceFormat:priceFormat,
   phoneEncryption:phoneEncryption,
-  getRect:getRect
+  getRect:getRect,
+  cosThumb:cosThumb,
 }

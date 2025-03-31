@@ -6,7 +6,7 @@
       <navigator url="/pages/index/location" hover-class="none" class="input">{{city}} <i class="fa fa-angle-down"></i></navigator>
     </view>
     <view class="search" bind:tap="navToSearchPage">
-      <navigator url="/pages/search/search" class="input">
+      <navigator hover-class="none" url="/pages/search/search" class="input">
         <image class="icon"></image>
         <input class="custom-search" type="text" placeholder="{{searchPlaceholder}}" disabled/>
       </navigator>
