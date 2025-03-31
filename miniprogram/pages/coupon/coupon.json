@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "优惠券",
+  "navigationBarTextStyle": "black",
+  "navigationStyle": "default",
+  "usingComponents": {
+    "t-pull-down-refresh": "tdesign-miniprogram/pull-down-refresh/pull-down-refresh",
+    "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "coupon-card": "components/coupon-card/index"
+  }
+}

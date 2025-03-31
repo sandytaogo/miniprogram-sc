@@ -1,0 +1,30 @@
+<!--pages/shop/map.wxml-->
+<view class="page-body">
+  
+  <view class="page-section page-section-gap">
+    <map id="myMap" class="map-show"
+      latitude="{{latitude}}"
+      longitude="{{longitude}}"
+      bindmarkertap="markertap"
+      bindcallouttap="callouttap"
+      bindlabeltap="labeltap"
+      markers="{{markers}}"
+      scale="16"
+    >
+      <view class="barck-btn" bind:tap="toBackPage">
+        <image style="width: 100%; height: 100%;" src="/images/detail_back.png"></image>
+      </view>
+      <view slot="callout">
+        <block wx:for="{{customCalloutMarkerIds}}" wx:key="*this">
+          <cover-view  class="customCallout" marker-id="{{item}}" >
+            <cover-image class="icon" src="/image/voice.png"></cover-image>
+            <cover-view class="content"> 
+              {{num}}-{{item}}-{{index}}
+            </cover-view>
+          </cover-view>
+        </block>
+      </view>
+    </map>
+  </view>
+
+</view>

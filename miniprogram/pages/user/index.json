@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "个人中心",
+  "navigationStyle": "custom",
+
+  "usingComponents": {
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
+    "t-popup": "tdesign-miniprogram/popup/popup",
+    "t-toast": "tdesign-miniprogram/toast/toast",
+    "t-user-center-card": "./components/user-center-card/index",
+    "t-order-group": "./components/order-group/index"
+  },
+  "enablePullDownRefresh": true
+}

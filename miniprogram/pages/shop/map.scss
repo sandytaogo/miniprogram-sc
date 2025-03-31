@@ -1,0 +1,23 @@
+/* pages/shop/map.wxss */
+
+.myMap {
+  width: 100%; 
+  height: 100%;
+}
+
+.map-show {
+  width: 100%; 
+  height: 100vh;
+}
+
+.barck-btn {
+  position: absolute;
+  background: url(/images/detail_back.png?v=1) 0 0 repeat-x;
+  background-color: #fff;
+  background-size: 100% 100%;
+  top: 100rpx;
+  left: 50rpx;
+  width: 80rpx;
+  height: 65rpx;
+  border-radius: 10rpx;
+}
