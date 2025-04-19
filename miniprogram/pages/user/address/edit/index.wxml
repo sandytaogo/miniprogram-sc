@@ -64,20 +64,10 @@
         </t-cell>
 
         <view class="divider-line" />
-        <t-cell
-          class="form-cell"
-          t-class-note="t-cell-note address__tag"
-          t-class-title="t-cell-title"
-          title="标签"
-          bordered="{{false}}"
-        >
+        <t-cell class="form-cell"  t-class-note="t-cell-note address__tag" t-class-title="t-cell-title" title="标签" bordered="{{false}}" >
           <view class="t-input address-flex-box" slot="note">
-            <t-button
-              wx:for="{{labels}}"
-              wx:for-item="label"
-              wx:key="index"
-              size="extra-small"
-              t-class="label-list {{locationState.labelIndex === index ? 'active-btn':''}}"
+            <t-button wx:for="{{labels}}" wx:for-item="label"  wx:key="index" size="extra-small"
+              t-class="label-list {{locationState.labelIndex === label.id ? 'active-btn':''}}"
               bindtap="onPickLabels"
               data-item="{{index}}"
             >

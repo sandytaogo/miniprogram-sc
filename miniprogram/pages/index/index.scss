@@ -8,6 +8,22 @@ page {
   margin: 15rpx;
 }
 
+.header-area {
+  margin: 10rpx 10rpx; 
+  font-weight: bold; 
+  align-items: center; 
+  justify-items: center;
+  width: fit-content;
+}
+
+.header-search {
+  display: flex; 
+  flex-direction: row; 
+  align-items: center; 
+  justify-items: center; 
+  grid-template-columns: 10% 90%;flex: 20%;
+}
+
 .tabs-track {
   position: absolute;
   font-weight: 600;
@@ -140,7 +156,7 @@ page {
   flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
-  height: 60rpx;
+  height: 70rpx;
   font-size: 33rpx;
   color: #333;
 }
@@ -195,7 +211,7 @@ page {
   height: 46rpx;
   line-height: 46rpx;
   text-align: left;
-  font-size: 30rpx;
+  font-size: 35rpx;
   color: #b4282d;
 }
 .good-grid .item .distance {

@@ -23,7 +23,7 @@
   },
   "include": [
     "./**/*.ts"
-  ],
+, "miniprogram/pages/order/components/goods-card/index.js"  ],
   "exclude": [
     "node_modules"
   ]

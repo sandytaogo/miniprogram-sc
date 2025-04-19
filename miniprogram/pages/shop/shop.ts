@@ -41,7 +41,7 @@ Page({
    */
   data: {
     id: '',
-    shop: {name:'', lng: 113.54342, lat: 22.26666},
+    shop: {id: '', name: '', img: '', prePrice: 0, lng: 113.54342, lat: 22.26666},
     gallery: [],
     attribute: [],
     issueList: [],
@@ -63,39 +63,16 @@ Page({
     hasCollectImage: "/images/icon_collect_checked.png",
     collectBackImage: "/images/icon_collect.png"
   },
-  labeltap:function(e:any) {
-    console.log('labeltap' + e)
-  },
-  markertap:function(e:any) {
-    console.log('markertap' + e)
-  },
-  switchAttrPop:function(e:any) {
-    console.log('switchAttrPop' + e)
-  },
-  openDetailMap:function(e:any) {
-    wx.navigateTo({url:'map?latitude='+this.data.shop.lat+'&longitude='+this.data.shop.lng+'&name='+this.data.shop.name+''})
-  },
-  addToCart:function(e:any) {
-    wx.navigateTo({
-      url: '/pages/cart/confirmOrder'
-    })
-  },
-  /**
+    /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options:any) {
-   this.setData({id: options.id, markers:[]})
-  },
+    this.setData({id: options.id, markers:[]})
+   },
   /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
+  * 生命周期函数--监听页面初次渲染完成
+  */
   onReady() {
-    
-  },
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
     wx.showLoading({ title: '加载中...' }); // 显示加载提示
     var app = getApp()
     wx.request({
@@ -120,10 +97,38 @@ Page({
       }
     });
     this.setData({nbLoading:''})
-
-
+  },
+  /**
+  * 生命周期函数--监听页面显示
+  */
+  onShow() {
 
   },
+  labeltap:function(e:any) {
+    console.log('labeltap' + e)
+  },
+  markertap:function(e:any) {
+    console.log('markertap' + e)
+  },
+  switchAttrPop:function(e:any) {
+    console.log('switchAttrPop' + e);
+  },
+  openDetailMap:function(e:any) {
+    wx.navigateTo({url:'map?latitude='+this.data.shop.lat+'&longitude='+this.data.shop.lng+'&name='+this.data.shop.name+''})
+  },
+  /**
+   * 添加预约订单.
+   * @param event
+   */
+  addToPreOrder:function(event:any) {
+    let orderData = {... this.data.shop, storeId: this.data.shop.id, 
+      storeName: this.data.shop.name, title: this.data.shop.name,
+      primaryImage:this.data.shop.img, quantity:1, price: this.data.shop.prePrice
+    };
+    wx.setStorageSync('shop.goodsRequestList', JSON.stringify([orderData]));
+    wx.navigateTo({url: '/pages/order/order-confirm/orderConfirm?type=shop'});
+  },
+
   /**
    * 生命周期函数--监听页面隐藏
    */

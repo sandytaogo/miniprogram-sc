@@ -33,17 +33,18 @@ export const config = {
  * 获取用户信息， 来源用户缓存.
  */
 const getUserInfo =  function() {
-  let userData = wx.getStorageSync('user_safe_info');
+  let userData = wx.getStorageSync('sandy_sc_user_safe_info');
   if (userData == '' || userData == undefined) {
     return null;
   }
   return userData;
 };
 const setUserInfo = function(params: any) {
-  wx.setStorageSync('user_safe_info', params);
+  wx.setStorageSync('sandy_sc_user_safe_info', params);
 };
 
 export default {
+  config:config,
   domain:domain,
   cdn:cdn,
   getUserInfo:getUserInfo,

@@ -14,5 +14,6 @@
     "t-switch": "tdesign-miniprogram/switch/switch",
     "t-cascader": "tdesign-miniprogram/cascader/cascader",
     "t-location": "/pages/user/components/t-location/index"
-  }
+  },
+  "enablePullDownRefresh": false
 }

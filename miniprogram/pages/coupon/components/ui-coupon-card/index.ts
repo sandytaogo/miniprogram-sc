@@ -48,8 +48,8 @@ Component({
       value: '¥', // 优惠货币
     },
     status: {
-      type: String,
-      value: 'default',
+      type: Number,
+      value: 0,
     },
     image: {
       type: String,
@@ -70,11 +70,10 @@ Component({
   observers: {
     status: function (value) {
       let theme = 'primary';
-      // 已过期或已使用的券 颜色置灰
-      if (value === 'useless' || value === 'disabled') {
+      // 已过期或已使用的券 颜色置灰 0:primary 1:useless 2:disabled
+      if (value === 1 || value === 2) {
         theme = 'weak';
       }
-
       this.setData({ theme });
     },
   },

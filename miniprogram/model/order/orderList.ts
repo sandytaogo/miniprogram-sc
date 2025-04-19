@@ -6,7 +6,7 @@ export function genOrders(params) {
       pageNum: 1,
       pageSize: 10,
       totalCount: 7,
-      orders: [
+      data: [
         {
           saasId: '88888888',
           storeId: '1000',
@@ -44,14 +44,12 @@ export function genOrders(params) {
               roomId: null,
               goodsMainType: 0,
               goodsViceType: 0,
-              goodsName:
-                '腾讯极光盒子4智能网络电视机顶盒6K千兆网络机顶盒4K高分辨率',
+              goodsName:'腾讯极光盒子4智能网络电视机顶盒6K千兆网络机顶盒4K高分辨率',
               specifications: [
                 { specTitle: '颜色', specValue: '贵族青' },
                 { specTitle: '类型', specValue: '尊享礼盒装' },
               ],
-              goodsPictureUrl:
-                'https://cdn-we-retail.ym.tencent.com/tsr/goods/dz-3b.png',
+              goodsPictureUrl: 'https://cdn-we-retail.ym.tencent.com/tsr/goods/dz-3b.png',
               originPrice: '0',
               actualPrice: '9999',
               buyQuantity: 1,
@@ -1017,14 +1015,14 @@ export function genOrders(params) {
   const { pageNum, pageSize, orderStatus } = params.parameter;
   // 实现筛选
   if (orderStatus > -1) {
-    resp.data.orders = resp.data.orders.filter(
-      (order) => order.orderStatus === orderStatus,
+    resp.data.data = resp.data.data.filter((order) => 
+      order.orderStatus === orderStatus,
     );
   }
   // 实现分页
   resp.data.pageNum = pageNum;
   resp.data.pageSize = pageSize;
-  resp.data.orders = resp.data.orders.slice(
+  resp.data.orders = resp.data.data.slice(
     (pageNum - 1) * pageSize,
     pageNum * pageSize,
   );

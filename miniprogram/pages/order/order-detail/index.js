@@ -1,11 +1,8 @@
 import { formatTime } from '../../../utils/util';
 import { OrderStatus, LogisticsIconMap } from '../config';
-import {
-  fetchBusinessTime,
-  fetchOrderDetail,
-} from '../../../services/order/orderDetail';
+import {fetchBusinessTime, fetchOrderDetail} from '../../../services/order/orderDetail';
 import Toast from 'tdesign-miniprogram/toast/index';
-import { getAddressPromise } from '../../usercenter/address/list/util';
+import { getAddressPromise } from '../../user/address/list/util';
 
 Page({
   data: {
@@ -23,7 +20,7 @@ Page({
   },
 
   onLoad(query) {
-    this.orderNo = query.orderNo;
+    this.id = query.id;
     this.init();
     this.navbar = this.selectComponent('#navbar');
     this.pullDownRefresh = this.selectComponent('#wr-pull-down-refresh');
@@ -50,13 +47,12 @@ Page({
   init() {
     this.setData({ pageLoading: true });
     this.getStoreDetail();
-    this.getDetail()
-      .then(() => {
-        this.setData({ pageLoading: false });
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+    this.getDetail().then(() => {
+      this.setData({ pageLoading: false });
+    })
+    .catch((e) => {
+      console.error(e);
+    });
   },
 
   // 页面刷新，展示下拉刷新
@@ -70,16 +66,20 @@ Page({
     }
   },
 
-  // 页面刷新，展示下拉刷新
-  onPullDownRefresh_(e) {
-    const { callback } = e.detail;
-    return this.getDetail().then(() => callback && callback());
+  /**
+   * 页面刷新，展示下拉刷新
+   * @param event
+   */ 
+  onPullDownRefreshCustom(event) {
+    this.setData({pullDownRefreshing: true});
+    const { callback } = event.detail ? event.detail : event;
+    return this.getDetail().then(() => 
+      callback && callback()
+    );
   },
 
   getDetail() {
-    const params = {
-      parameter: this.orderNo,
-    };
+    const params = {id: this.id};
     return fetchOrderDetail(params).then((res) => {
       const order = res.data;
       const _order = {
@@ -112,29 +112,26 @@ Page({
         receiverAddress: this.composeAddress(order),
         groupInfoVo: order.groupInfoVo,
       };
-      this.setData({
-        order,
-        _order,
-        formatCreateTime: formatTime(
-          parseFloat(`${order.createTime}`),
-          'YYYY-MM-DD HH:mm',
-        ), // 格式化订单创建时间
+      this.setData({order, _order,
+        formatCreateTime: formatTime(parseFloat(`${order.createTime}`), 'YYYY-MM-DD HH:mm'), // 格式化订单创建时间
         countDownTime: this.computeCountDownTime(order),
-        addressEditable:
-          [OrderStatus.PENDING_PAYMENT, OrderStatus.PENDING_DELIVERY].includes(
+        addressEditable: [OrderStatus.PENDING_PAYMENT, OrderStatus.PENDING_DELIVERY].includes(
             order.orderStatus,
           ) && order.orderSubStatus !== -1, // 订单正在取消审核时不允许修改地址（但是返回的状态码与待发货一致）
-        isPaid: !!order.paymentVO.paySuccessTime,
+        isPaid: order.paymentVO ? !!order.paymentVO.paySuccessTime : 0,
         invoiceStatus: this.datermineInvoiceStatus(order),
         invoiceDesc: order.invoiceDesc,
-        invoiceType:
-          order.invoiceVO?.invoiceType === 5 ? '电子普通发票' : '不开发票', //是否开票 0-不开 5-电子发票
+        invoiceType:order.invoiceVO?.invoiceType === 5 ? '电子普通发票' : '不开发票', //是否开票 0-不开 5-电子发票
         logisticsNodes: this.flattenNodes(order.trajectoryVos || []),
+        pullDownRefreshing: false,
       });
     });
   },
 
-  // 展开物流节点
+  /**
+   * 展开物流节点
+   * @param nodes.
+   */ 
   flattenNodes(nodes) {
     return (nodes || []).reduce((res, node) => {
       return (node.nodes || []).reduce((res1, subNode, index) => {
@@ -218,7 +215,7 @@ Page({
       .catch(() => {});
 
     wx.navigateTo({
-      url: `/pages/usercenter/address/list/index?selectMode=1`,
+      url: `/pages/user/address/list/index?selectMode=1`,
     });
   },
 

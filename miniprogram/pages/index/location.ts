@@ -148,7 +148,7 @@ Page({
     const pages = getCurrentPages();
     for (let i =0; i < pages.length; i++) {
       if (pages[i]['route'] == "pages/index/index") {
-        pages[i].refresh();
+        pages[i].onRefresh();
         break;
       }
     }

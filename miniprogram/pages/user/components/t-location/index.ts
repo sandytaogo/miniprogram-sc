@@ -1,45 +1,34 @@
 import Toast from 'tdesign-miniprogram/toast/index';
 import { getPermission } from '../../../../utils/getPermission';
-import { phoneRegCheck } from '../../../../utils/util';
+import { phoneRegCheck, telephoneCheck } from '../../../../utils/util';
 import { addressParse } from '../../../../utils/addressParse';
 import { resolveAddress, rejectAddress } from '../../address/list/util';
 
 Component({
   externalClasses: ['t-class'],
   properties: {
-    title: {
-      type: String,
-    },
-    navigateUrl: {
-      type: String,
-    },
-    navigateEvent: {
-      type: String,
-    },
-    isCustomStyle: {
-      type: Boolean,
-      value: false,
-    },
-    isDisabledBtn: {
-      type: Boolean,
-      value: false,
-    },
-    isOrderSure: {
-      type: Boolean,
-      value: false,
-    },
+    title: { type: String },
+    navigateUrl: {type: String },
+    navigateEvent: {type: String },
+    isCustomStyle: {type: Boolean, value: false},
+    isDisabledBtn: {type: Boolean,value: false},
+    isOrderSure: {type: Boolean,value: false},
   },
   methods: {
+  /**
+   * addressID userName provinceName cityName countyName detailInfo postalCode  telNumber
+   * detailInfoNew streetName  nationalCode nationalCodeFull
+   */ 
     getWxLocation() {
       if (this.properties.isDisabledBtn) return;
       getPermission({ code: 'scope.address', name: '通讯地址' }).then(() => {
         wx.chooseAddress({success: async (options) => {
             const { provinceName, cityName, countyName, detailInfo, userName, telNumber } = options;
-            if (!phoneRegCheck(telNumber)) {
-              Toast({context: this,selector: '#t-toast',message: '请填写正确的手机号'});
+            if (!telephoneCheck(telNumber) && !phoneRegCheck(telNumber)) {
+              Toast({context: this,selector: '#t-toast',message: '请填写正确联系号码'});
               return;
             }
-            const target = {name: userName,phone: telNumber,countryName: '中国',countryCode: 'chn',
+            const target = {name: userName, phone: telNumber, countryName: '中国', countryCode: 'chn',
               detailAddress: detailInfo,
               provinceName: provinceName,
               cityName: cityName,
@@ -59,7 +48,7 @@ Component({
                 wx.navigateTo({url: this.properties.navigateUrl,
                   success: function (res) {
                     res.eventChannel.emit(navigateEvent, params);
-                  },
+                  }
                 });
               } else {
                 this.triggerEvent('change', params);
@@ -101,6 +90,6 @@ Component({
         rejectAddress(params);
         console.error(err);
       }
-    },
+    }
   }
 });

@@ -1,5 +1,4 @@
 import { mockIp, mockReqId } from '../../utils/mock';
-
 const orderResps = [
   {
     data: {
@@ -39,8 +38,7 @@ const orderResps = [
           roomId: null,
           goodsMainType: 0,
           goodsViceType: 0,
-          goodsName:
-            '腾讯极光盒子4智能网络电视机顶盒6K千兆网络机顶盒4K高分辨率',
+          goodsName:'腾讯极光盒子4智能网络电视机顶盒6K千兆网络机顶盒4K高分辨率',
           specifications: [
             { specTitle: '颜色', specValue: '贵族青' },
             { specTitle: '类型', specValue: '尊享礼盒装' },
@@ -127,7 +125,6 @@ const orderResps = [
       storeId: '1000',
       storeName: '云Mall深圳旗舰店',
       uid: '88888888205468',
-
       parentOrderNo: '132381532610540875',
       orderId: '132381537256650240',
       orderNo: '132381532610540875',
@@ -150,9 +147,7 @@ const orderResps = [
       cancelReasonType: 0,
       cancelReason: '',
       rightsType: 0,
-
       createTime: '1587140043976',
-
       orderItemVOs: [
         {
           id: '132381537407645696',
@@ -163,8 +158,7 @@ const orderResps = [
           goodsMainType: 0,
           goodsViceType: 0,
           goodsName: '白色短袖连衣裙荷叶边裙摆宽松韩版休闲纯白清爽优雅连衣裙',
-          goodsPictureUrl:
-            'https://cdn-we-retail.ym.tencent.com/tsr/goods/nz-09a.png',
+          goodsPictureUrl:'https://cdn-we-retail.ym.tencent.com/tsr/goods/nz-09a.png',
           originPrice: '40000',
           actualPrice: '29800',
           specifications: [
@@ -196,10 +190,8 @@ const orderResps = [
           roomId: null,
           goodsMainType: 0,
           goodsViceType: 0,
-          goodsName:
-            '不锈钢刀叉勺套装家用西餐餐具ins简约耐用不锈钢金色银色可选',
-          goodsPictureUrl:
-            'https://cdn-we-retail.ym.tencent.com/tsr/goods/gh-2b.png',
+          goodsName:'不锈钢刀叉勺套装家用西餐餐具ins简约耐用不锈钢金色银色可选',
+          goodsPictureUrl:'https://cdn-we-retail.ym.tencent.com/tsr/goods/gh-2b.png',
           originPrice: '29900',
           actualPrice: '19900',
           specifications: [
@@ -225,10 +217,8 @@ const orderResps = [
           roomId: null,
           goodsMainType: 0,
           goodsViceType: 0,
-          goodsName:
-            '纯色纯棉休闲圆领短袖T恤纯白亲肤厚柔软细腻面料纯白短袖套头T恤',
-          goodsPictureUrl:
-            'https://cdn-we-retail.ym.tencent.com/tsr/goods/nz-08a.png',
+          goodsName:'纯色纯棉休闲圆领短袖T恤纯白亲肤厚柔软细腻面料纯白短袖套头T恤',
+          goodsPictureUrl:'https://cdn-we-retail.ym.tencent.com/tsr/goods/nz-08a.png',
           originPrice: '31900',
           actualPrice: '26900',
           specifications: [
@@ -259,7 +249,6 @@ const orderResps = [
         logisticsStatus: null,
         logisticsCompanyCode: '',
         logisticsCompanyName: '',
-
         receiverAddressId: '2',
         provinceCode: '440000',
         cityCode: '440300',
@@ -402,10 +391,8 @@ const orderResps = [
           roomId: null,
           goodsMainType: 0,
           goodsViceType: 0,
-          goodsName:
-            '迷你便携高颜值蓝牙无线耳机立体声只能触控式操作简约立体声耳机',
-          goodsPictureUrl:
-            'https://cdn-we-retail.ym.tencent.com/tsr/goods/dz-2a.png',
+          goodsName:'迷你便携高颜值蓝牙无线耳机立体声只能触控式操作简约立体声耳机',
+          goodsPictureUrl:'https://cdn-we-retail.ym.tencent.com/tsr/goods/dz-2a.png',
           originPrice: '15900',
           actualPrice: '8900',
           specifications: [
@@ -438,8 +425,7 @@ const orderResps = [
           goodsMainType: 0,
           goodsViceType: 0,
           goodsName: '白色短袖连衣裙荷叶边裙摆宽松韩版休闲纯白清爽优雅连衣裙',
-          goodsPictureUrl:
-            'https://cdn-we-retail.ym.tencent.com/tsr/goods/nz-09a.png',
+          goodsPictureUrl:'https://cdn-we-retail.ym.tencent.com/tsr/goods/nz-09a.png',
           originPrice: '40000',
           actualPrice: '29800',
           specifications: [
@@ -471,10 +457,8 @@ const orderResps = [
           roomId: null,
           goodsMainType: 0,
           goodsViceType: 0,
-          goodsName:
-            '腾讯极光盒子4智能网络电视机顶盒6K千兆网络机顶盒4K高分辨率',
-          goodsPictureUrl:
-            'https://cdn-we-retail.ym.tencent.com/tsr/goods/dz-3a.png',
+          goodsName:'腾讯极光盒子4智能网络电视机顶盒6K千兆网络机顶盒4K高分辨率',
+          goodsPictureUrl:'https://cdn-we-retail.ym.tencent.com/tsr/goods/dz-3a.png',
           originPrice: '16900',
           actualPrice: '9900',
           specifications: [
@@ -506,10 +490,8 @@ const orderResps = [
           roomId: null,
           goodsMainType: 0,
           goodsViceType: 0,
-          goodsName:
-            '带帽午休毯虎年款多功能加厚加大加绒简约多功能午休毯连帽披肩',
-          goodsPictureUrl:
-            'https://cdn-we-retail.ym.tencent.com/tsr/goods/muy-3a.png',
+          goodsName:'带帽午休毯虎年款多功能加厚加大加绒简约多功能午休毯连帽披肩',
+          goodsPictureUrl:'https://cdn-we-retail.ym.tencent.com/tsr/goods/muy-3a.png',
           originPrice: '39900',
           actualPrice: '29900',
           specifications: [
@@ -542,8 +524,7 @@ const orderResps = [
           goodsMainType: 0,
           goodsViceType: 0,
           goodsName: '运动连帽拉链卫衣休闲开衫长袖多色运动细绒面料运动上衣',
-          goodsPictureUrl:
-            'https://cdn-we-retail.ym.tencent.com/tsr/goods/nz-17a.png',
+          goodsPictureUrl:'https://cdn-we-retail.ym.tencent.com/tsr/goods/nz-17a.png',
           originPrice: '39900',
           actualPrice: '25900',
           specifications: [
@@ -660,7 +641,6 @@ const orderResps = [
           isShow: true,
         },
       ],
-
       couponAmount: '5000',
       autoCancelTime: null,
       orderStatusName: '待收货',
@@ -846,10 +826,8 @@ const orderResps = [
           roomId: null,
           goodsMainType: 0,
           goodsViceType: 0,
-          goodsName:
-            '不锈钢刀叉勺套装家用西餐餐具ins简约耐用不锈钢金色银色可选',
-          goodsPictureUrl:
-            'https://cdn-we-retail.ym.tencent.com/tsr/goods/gh-2b.png',
+          goodsName:'不锈钢刀叉勺套装家用西餐餐具ins简约耐用不锈钢金色银色可选',
+          goodsPictureUrl:'https://cdn-we-retail.ym.tencent.com/tsr/goods/gh-2b.png',
           originPrice: '29900',
           actualPrice: '19900',
           specifications: [
@@ -1101,8 +1079,7 @@ const orderResps = [
           goodsMainType: 0,
           goodsViceType: 0,
           goodsName: '白色短袖连衣裙荷叶边裙摆宽松韩版休闲纯白清爽优雅连衣裙',
-          goodsPictureUrl:
-            'https://cdn-we-retail.ym.tencent.com/tsr/goods/nz-09a.png',
+          goodsPictureUrl:'https://cdn-we-retail.ym.tencent.com/tsr/goods/nz-09a.png',
           originPrice: '40000',
           actualPrice: '29800',
           specifications: [

@@ -44,4 +44,12 @@
     <view class="popup-close" bind:tap="closeMakePhone">取消</view>
   </view>
 </t-popup>
+
+<t-popup visible="{{showLogoutPopup}}" placement="bottom" bind:visible-change="closeLogoutPopup" data-index="2">
+  <view class="popup-content">
+    <view class="popup-phone" bind:tap="logout">退出登录</view>
+    <view class="popup-close" bind:tap="closeLogoutPopup">取消</view>
+  </view>
+</t-popup>
+
 <t-toast id="t-toast" />

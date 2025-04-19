@@ -1,10 +1,10 @@
 <!--index.wxml-->
 <navigation-bar title="智慧社区" back="{{false}}" color="black" showlogobg="{{true}}" background="#FFF"></navigation-bar>
 <view class="home-page-header">
-<view style="display: flex; flex-direction: row; align-items: center; justify-items: center; grid-template-columns: 10% 90%;flex: 20%;">
-    <view style="margin: 10rpx 10rpx; font-weight: bold; align-items: center; justify-items: center;width: fit-content;">
+<view class="header-search">
+    <view class="header-area">
       <navigator url="/pages/index/location" hover-class="none" class="input">{{city}} <i class="fa fa-angle-down"></i></navigator>
-    </view>
+    </view> 
     <view class="search" bind:tap="navToSearchPage">
       <navigator hover-class="none" url="/pages/search/search" class="input">
         <image class="icon"></image>
@@ -54,10 +54,12 @@
           <image class="img" src="{{iitem.img}}" background-size="cover"></image>
           <view class="name">{{iitem.name}}</view>
           <view wx:if="{{iitem.dist}}" class="distance"><label class="fa fa-map-marker" style="color: rgb(23, 211, 170);"></label>距离{{iitem.dist}}</view>
-          <view class="price">￥{{iitem.price}}</view>
+          <view class="price">
+            <price wx:if="{{iitem.prePrice}}" price="{{iitem.prePrice}}" wr-class="pay-money__price" decimalSmaller fill />
+          </view>
         </navigator>
       </block>
     </view>
   </view>
-  <load-more class="load-more" list-is-empty="{{!floorGoods.length}}" status="{{goodsListLoadStatus}}" bind:retry="onReTry" >{{loadingText}}</load-more>
+  <loading status="{{listLoading}}" noMoreText="{{noMoreText}}"/>
 </scroll-view>

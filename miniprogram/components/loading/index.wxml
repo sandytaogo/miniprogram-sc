@@ -1,0 +1,5 @@
+<!--components/loading/index.wxml-->
+<view class="load-more" bind:tap="onRetryHandle">
+  <view wx:if="{{status == 1}}" >{{loadingText}}</view>
+  <view wx:if="{{status == 2}}" >{{noMoreText}}</view>
+</view>

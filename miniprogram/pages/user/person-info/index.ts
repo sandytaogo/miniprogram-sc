@@ -1,3 +1,5 @@
+import env from '../../../config/env';
+import service from '../../../services/service';
 import { fetchPerson } from '../../../services/user/fetchPerson';
 import { phoneEncryption } from '../../../utils/util';
 import Toast from 'tdesign-miniprogram/toast/index';
@@ -5,7 +7,7 @@ import Toast from 'tdesign-miniprogram/toast/index';
 Page({
   data: {
     personInfo: {
-      avatarUrl: '',
+      avatarUrl: 'https://xinxinji.cn/images/miniapp/avatar/user-avatar2x.png',
       nickName: '',
       gender: 0,
       phoneNumber: '',
@@ -25,27 +27,19 @@ Page({
     this.fetchData();
   },
   fetchData() {
-    fetchPerson().then((personInfo) => {
-      this.setData({
-        personInfo,
-        'personInfo.phoneNumber': phoneEncryption(personInfo.phoneNumber),
-      });
+    fetchPerson().then((personInfo: any) => {
+      this.setData({personInfo, 'personInfo.phoneNumber': phoneEncryption(personInfo.phoneNumber)});
     });
   },
   onClickCell({ currentTarget }) {
     const { dataset } = currentTarget;
     const { nickName } = this.data.personInfo;
-
     switch (dataset.type) {
       case 'gender':
-        this.setData({
-          typeVisible: true,
-        });
+        this.setData({typeVisible: true});
         break;
       case 'name':
-        wx.navigateTo({
-          url: `/pages/user/name-edit/index?name=${nickName}`,
-        });
+        wx.navigateTo({url: `/pages/user/name-edit/index?name=${nickName}` });
         break;
       case 'avatarUrl':
         this.toModifyAvatar();
@@ -55,39 +49,54 @@ Page({
       }
     }
   },
-  onClose() {
-    this.setData({
-      typeVisible: false,
-    });
+
+  /**
+   * 更新用户昵称.
+   * @param user 
+   */
+  onUpdateNickNameObserver(user: any) {
+    this.data.personInfo.nickName = user.nickName;
+    this.setData({personInfo: this.data.personInfo});
   },
-  onConfirm(e) {
-    const { value } = e.detail;
-    this.setData(
-      {
-        typeVisible: false,
-        'personInfo.gender': value,
-      },
+  onGenderConfirm(event: any) {
+    const { value } = event.detail;
+    this.setData({typeVisible: false,'personInfo.gender': value},
       () => {
-        Toast({
-          context: this,
-          selector: '#t-toast',
-          message: '设置成功',
-          theme: 'success',
-        });
-      },
+        Toast({context: this,selector: '#t-toast',message: '设置成功',theme: 'success'});
+      }
     );
+  },
+  /**
+   * 性别关闭窗口.
+   */
+  onGenderClose() {
+    this.setData({typeVisible: false});
   },
   async toModifyAvatar() {
     try {
       const tempFilePath = await new Promise((resolve, reject) => {
-        wx.chooseImage({
+        wx.chooseMedia({
           count: 1,
           sizeType: ['compressed'],
           sourceType: ['album', 'camera'],
           success: (res) => {
-            const { path, size } = res.tempFiles[0];
-            if (size <= 10485760) {
-              resolve(path);
+            const { tempFilePath, size } = res.tempFiles[0];
+            if (size <= 1485760) {
+              service.uploadFile({
+                url: env.domain + '/user/u/avatar',
+                name : 'image',
+                encipherMode: 4,
+                filePath:  tempFilePath,
+                success:(res: any) => {
+                  if (res.data.code == 200) {
+                    this.setData({personInfo: res.data.data});
+                  }
+                },
+                fail: (err: any) => {
+                  console.error("上传失败" + err);
+                }
+              });
+              resolve(tempFilePath);
             } else {
               reject({ errMsg: '图片大小超出限制，请重新上传' });
             }
@@ -95,22 +104,38 @@ Page({
           fail: (err) => reject(err),
         });
       });
-      const tempUrlArr = tempFilePath.split('/');
-      const tempFileName = tempUrlArr[tempUrlArr.length - 1];
-      Toast({
-        context: this,
-        selector: '#t-toast',
-        message: `已选择图片-${tempFileName}`,
-        theme: 'success',
-      });
+     // const tempUrlArr = tempFilePath.split('/');
+      //const tempFileName = tempUrlArr[tempUrlArr.length - 1];
+      //Toast({ context: this,selector: '#t-toast',message: `已选择图片-${tempFileName}`,theme: 'success' });
     } catch (error) {
-      if (error.errMsg === 'chooseImage:fail cancel') return;
-      Toast({
-        context: this,
-        selector: '#t-toast',
-        message: error.errMsg || error.msg || '修改头像出错了',
-        theme: 'error',
-      });
+      if (error.errMsg === 'chooseImage:fail cancel' || error.errMsg === 'chooseMedia:fail cancel') return;
+      Toast({context: this,selector: '#t-toast',message: error.errMsg || error.msg || '修改头像出错了', theme: 'error' });
     }
   },
+  /**
+   * 确认事件.
+   * @param event 
+   */
+  onConfirm(event: any) {
+    service.request({
+      url: env.domain + '/user/u/updatePerson',
+      method:'PUT',
+      data: this.data.personInfo,
+      encipherMode: 4,
+      header: {'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/json'},
+      success: (res:any) => {
+        if (res.data.code == 200) {
+          wx.navigateBack({ delta:1 }); //backRefresh: true
+        }
+      },
+      fail:(err: any) => {
+        wx.hideLoading();
+        if (err.errMsg == 'request:fail timeout') {
+          wx.showToast({icon:'none', title:'修改超时'});
+        } else {
+          wx.showToast({icon:'none', title:err.errMsg});
+        }
+      }
+    });
+  }
 });

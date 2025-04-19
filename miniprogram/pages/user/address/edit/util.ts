@@ -1,5 +1,5 @@
 import env from '../../../../config/env'
-
+import service from '../../../../services/service'
 let addressPromise:any = [];
 
 /** 地址编辑Promise */
@@ -18,18 +18,18 @@ export const getAddressPromise = () => {
 export const resolveAddress = (address:any) => {
   const allAddress = [...addressPromise];
   addressPromise = [];
-  const cache = env.getUserInfo();
   wx.showLoading({title:'保存中...'});
-  wx.request({
+  service.request({
     url: env.domain + '/user/address',
     data : address,
     method: address.id ? 'PUT' : 'POST',
-    header:{Cookie: cache.cookie},
+    encipherMode: 4,
+    header: {'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/json'},
     success: (res: any) => {
       wx.hideLoading();
       if (res.data.code == 200) {
         wx.navigateBack({ delta: 1 });
-        allAddress.forEach(({ resolver }) => resolver(address));
+        allAddress.forEach(({ resolver }) => resolver(res.data.data));
       } else {
         wx.showToast({icon: 'none', title: res.data.msg});
       }

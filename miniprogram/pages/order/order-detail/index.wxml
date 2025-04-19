@@ -1,4 +1,4 @@
-<t-pull-down-refresh id="t-pull-down-refresh" bindrefresh="onPullDownRefresh_" t-class-indicator="t-class-indicator">
+<t-pull-down-refresh id="t-pull-down-refresh" value="{{pullDownRefreshing}}" bindrefresh="onPullDownRefreshCustom" t-class-indicator="t-class-indicator">
   <!-- 页面内容 -->
   <view class="order-detail">
     <view class="header">
@@ -33,7 +33,7 @@
       </view>
 
       <!-- 物流 -->
-      <view class="order-logistics" wx:if="{{logisticsNodes[0]}}" bindtap="onDeliveryClick">
+      <view class="order-logistics" wx:if="{{logisticsNodes[0] || 1 ==1 }}" bindtap="onDeliveryClick">
         <t-icon name="deliver" size="40rpx" class="logistics-icon" prefix="wr" />
         <view class="logistics-content">
           <view>{{logisticsNodes[0].desc}}</view>

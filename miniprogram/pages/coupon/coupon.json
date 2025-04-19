@@ -8,5 +8,6 @@
     "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
     "t-icon": "tdesign-miniprogram/icon/icon",
     "coupon-card": "components/coupon-card/index"
-  }
+  },
+  "enablePullDownRefresh": false
 }

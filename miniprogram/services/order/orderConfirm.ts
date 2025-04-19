@@ -1,16 +1,22 @@
-import { config } from '../../config/index';
+import { config, domain } from '../../config/env';
 import { mockIp, mockReqId } from '../../utils/mock';
+import service from '../service'
 
-/** 获取结算mock数据 */
-function mockFetchSettleDetail(params) {
+/** 
+ * 获取结算mock数据 
+ * @param params.
+ */
+function mockFetchSettleDetail(params: any) {
   const { delay } = require('../_utils/delay');
   const { genSettleDetail } = require('../../model/order/orderConfirm');
-
   return delay().then(() => genSettleDetail(params));
 }
 
-/** 提交mock订单 */
-function mockDispatchCommitPay() {
+/** 
+ * 提交mock订单 
+ * @param params.
+ */
+function mockDispatchCommitPay(prams: any) {
   const { delay } = require('../_utils/delay');
 
   return delay().then(() => ({
@@ -34,25 +40,49 @@ function mockDispatchCommitPay() {
   }));
 }
 
-/** 获取结算数据 */
-export function fetchSettleDetail(params) {
+/**
+ * 获取结算数据 
+ * @param {*} params 
+ */
+export function fetchSettleDetail(params: any) {
   if (config.useMock) {
     return mockFetchSettleDetail(params);
   }
-
   return new Promise((resolve) => {
-    resolve('real api');
+    service.request({
+      'url': domain + '/stock/order/settle',
+      method: 'POST',
+      data: params,
+      encipherMode: 4,
+      header: {'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/json'},
+      success: (res: any) => {
+        resolve(res.data);
+      },
+      fail: (err: any) => {
+        console.error(err);
+      }
+    });
   });
 }
 
 /* 提交订单 */
-export function dispatchCommitPay(params) {
+export function dispatchCommitPay(params: any) {
   if (config.useMock) {
     return mockDispatchCommitPay(params);
   }
-
   return new Promise((resolve) => {
-    resolve('real api');
+    service.request({
+      'url': domain + '/stock/order',
+      data: params,
+      method: 'POST',
+      encipherMode: 4,
+      header: {'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/json'},
+      success: (res: any) => {
+        resolve(res.data);
+      },
+      fail: (err: any) => {
+      }
+    });
   });
 }
 
@@ -62,7 +92,6 @@ export function dispatchSupplementInvoice() {
     const { delay } = require('../_utils/delay');
     return delay();
   }
-
   return new Promise((resolve) => {
     resolve('real api');
   });

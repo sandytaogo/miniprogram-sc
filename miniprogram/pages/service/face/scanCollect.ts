@@ -1,24 +1,14 @@
 // pages/service/face/scanCollect.ts
+import env from '../../../config/env';
+import service from '../../../services/service';
+
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    dataDict:[
-      {
-        "id":"1",
-        "name":"王经理",
-        "area":"#19",
-        "avatar":"https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0"
-      },
-      {
-        "id":"2",
-        "name":"张经理",
-        "area":"#20",
-        "avatar":"https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0"
-      }
-    ],
-    total:2
+    dataDict:[],
+    total:0
   },
 
   /**
@@ -32,7 +22,17 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-    
+    service.request({
+      url: env.domain + '/stock/property/list',
+      method: 'get',
+      success:(res: any) => {
+        this.setData({dataDict: res.data, total: res.data.length});
+      }, 
+      fail: (err: any) => {
+        wx.hideLoading(); // 请求失败也隐藏加载提示
+        console.error('数据加载失败:', err);
+      }
+    });
   },
 
   /**
@@ -60,10 +60,9 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
-    console.log("刷新中...")
-    setTimeout(function(){
-      wx.stopPullDownRefresh();
-    }, 1000);
+
+    wx.stopPullDownRefresh();
+  
   },
 
   /**

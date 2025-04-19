@@ -2,9 +2,8 @@ import Toast from 'tdesign-miniprogram/toast/index';
 import { fetchDeliveryAddress } from '../../../../services/address/fetchAddress';
 import { areaData } from '../../../../config/index';
 import { resolveAddress, rejectAddress } from './util';
-import env from '../../../../config/env'
-
 const innerPhoneReg = '^1(?:3\\d|4[4-9]|5[0-35-9]|6[67]|7[0-8]|8\\d|9\\d)\\d{8}$';
+const telephoneReg="^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$";
 const innerNameReg = '^[a-zA-Z\\d\\u4e00-\\u9fa5]+$';
 const labelsOptions = [ { id: 0, name: '家' }, { id: 1, name: '公司' } ];
 
@@ -75,7 +74,7 @@ Page({
    */
   onWeixinAddressPassed(params:any) {
     this.setData({
-      locationState: {
+      locationState: {...this.data.locationState,
         cityCode: params.cityCode,
         cityName: params.cityName,
         countryCode: params.countryCode,
@@ -94,9 +93,28 @@ Page({
     const { isLegal, tips } = this.onVerifyInputLegal();
     this.setData({ submitActive: isLegal});
   },
+  /**
+   * 处理标签显示.
+   * @param detail 
+   */
+  handerLabel(detail: any) {
+    let flag = false;
+    labelsOptions.forEach(item => {
+      if (item.name == detail.addressTag) {
+        flag = true;
+        detail.labelIndex = item.id;
+      }
+    });
+    if (flag == false) {
+      detail.labelIndex = 3;
+      labelsOptions.push({id: 3, name: detail.addressTag});
+    }
+    return detail;
+  },
   getAddressDetail(id:string) {
     fetchDeliveryAddress(id).then((detail: any) => {
-      this.setData({ locationState: detail }, () => {
+      detail = this.handerLabel(detail);
+      this.setData({labels: labelsOptions, locationState: detail}, () => {
         const { isLegal, tips } = this.onVerifyInputLegal();
         this.setData({submitActive: isLegal});
         this.privateData.verifyTips = tips;
@@ -137,6 +155,9 @@ Page({
   onPickArea() {
     this.setData({ areaPickerVisible: true });
   },
+  addLabels() {
+    this.setData({visible: true});
+  },
   onPickLabels(e:any) {
     const { item } = e.currentTarget.dataset;
     const {locationState: { labelIndex = undefined }, labels = []} = this.data;
@@ -144,11 +165,8 @@ Page({
     if (item === labelIndex) {
       payload = { labelIndex: null, addressTag: '' };
     }
-    this.setData({'locationState.labelIndex': payload.labelIndex});
+    this.setData({'locationState.labelIndex': payload.labelIndex, 'locationState.addressTag': payload.addressTag});
     this.triggerEvent('triggerUpdateValue', payload);
-  },
-  addLabels() {
-    this.setData({visible: true});
   },
   confirmHandle() {
     const { labels, labelValue } = this.data;
@@ -168,7 +186,8 @@ Page({
     const prefixNameReg = String(this.properties.nameReg || innerNameReg);
     const nameRegExp = new RegExp(prefixNameReg);
     const phoneRegExp = new RegExp(prefixPhoneReg);
-
+    const telephoneRegExp = new RegExp(telephoneReg);
+  
     if (!name || !name.trim()) {
       return {isLegal: false,tips: '请填写收货人'};
     }
@@ -178,8 +197,8 @@ Page({
     if (!phone || !phone.trim()) {
       return {isLegal: false,tips: '请填写手机号'};
     }
-    if (!phoneRegExp.test(phone)) {
-      return {isLegal: false,tips: '请填写正确的手机号'};
+    if (!phoneRegExp.test(phone) && !telephoneRegExp.test(phone)) {
+      return {isLegal: false, tips: '请填写正确联系号码'};
     }
     if (!districtName || !districtName.trim()) {
       return {isLegal: false,tips: '请选择省市区信息'};
@@ -234,13 +253,16 @@ Page({
       });
     });
   },
-
+  /**
+   * 选择地图位置.
+   */
   onSearchAddress() {
     this.builtInSearch({ code: 'scope.userLocation', name: '地址位置' }).then(() => {
       wx.chooseLocation({
         success: (res) => {
           if (res.name) {
-            this.triggerEvent('addressParse', {address: res.address,name: res.name,latitude: res.latitude,longitude: res.longitude});
+            this.setData({'locationState.latitude': res.latitude, 'locationState.longitude': res.longitude});
+            this.triggerEvent('addressParse', {name: res.name, address: res.address, latitude: res.latitude, longitude: res.longitude});
           } else {
             Toast({context: this,selector: '#t-toast',message: '地点为空，请重新选择',icon: '', duration: 1000});
           }
@@ -283,7 +305,6 @@ Page({
       addressTag: locationState.addressTag ? locationState.addressTag : labelsOptions[locationState.labelIndex].name,
       latitude: locationState.latitude,
       longitude: locationState.longitude,
-     
     });
   },
   getWeixinAddress(e:any) {

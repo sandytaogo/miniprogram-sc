@@ -1,7 +1,7 @@
 // pages/auth/login/login.ts
 import env from '../../../config/env'
 import { sm2 } from 'sm-crypto';
-
+import { delay } from '../../../services/_utils/delay';
 const defaultAvatarUrl = env.domain + '/images/minlogo.png'
 
 Page({
@@ -13,11 +13,43 @@ Page({
     hasUserInfo: false,
     account:'',
     password:'',
+    isLoginBtndisabled: false,
+    isWechatAuthDisabled: false,
     userInfo: {avatarUrl: defaultAvatarUrl, nickName: ''},
     canIUseGetUserProfile: wx.canIUse('getUserProfile'),
     canIUseNicknameComp: wx.canIUse('input.type.nickname'),
     userSafeInfo:{privateKey:'', publicKey:'', cookie: '', refreshToken: '', accessToken : '', userInfo: undefined, server: {publickey:''}
     },
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad() {
+    const deviceInfo = wx.getDeviceInfo();
+    this.setData({uid: deviceInfo.platform + '-' + deviceInfo.system + '-' + deviceInfo.model});
+  },
+  
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady() {
+    let userSafeInfoCache = env.getUserInfo();
+    if (userSafeInfoCache == "" || userSafeInfoCache == undefined || userSafeInfoCache.publicKey == undefined) {
+      let keypair = sm2.generateKeyPairHex();
+      this.data.userSafeInfo.publicKey = keypair.publicKey;
+      this.data.userSafeInfo.privateKey = keypair.privateKey;
+    } else {
+      this.setData({userSafeInfo: userSafeInfoCache});
+    }
+    this.loadSafePublicKey();
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow() {
+    
   },
   /**
    * 加载服务器信息安全加密public key.
@@ -40,7 +72,7 @@ Page({
             userSafeInfo.cookie = res.header['Set-Cookie'];
           }
           this.setData({userSafeInfo : userSafeInfo});
-          wx.setStorageSync('user_safe_info', userSafeInfo);
+          env.setUserInfo(userSafeInfo);
         }
       },
       fail: (err) => {
@@ -99,13 +131,21 @@ Page({
       }
     })
   },
-  onGetuserinfo(e:any) {
+
+  /**
+   * 获取微信用户信息.
+   * @param event
+   */
+  onGetuserinfo(event:any) {
+    this.setData({isWechatAuthDisabled: true});
     wx.showLoading({title: '授权中...' });
-    let data = e.detail;
+    let data = event.detail;
     // 登录
     wx.login({
       success: res => {
-        this.doWeChatAuthorization({jscode:res.code, encryptedData: data.encryptedData, iv:data.iv, rawData:data.rawData, signature:data.signature});
+        delay(500).then(() =>
+          this.doWeChatAuthorization({jscode:res.code, encryptedData: data.encryptedData, iv:data.iv, rawData:data.rawData, signature:data.signature})
+        );
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
       }
     })
@@ -127,83 +167,83 @@ Page({
           this.data.userSafeInfo['accessToken'] = data.data.accessToken;
           this.data.userSafeInfo['refreshToken'] = data.data.refreshToken;
           this.data.userSafeInfo.userInfo = userInfoObj;
-          wx.setStorageSync('user_safe_info', this.data.userSafeInfo);
-          this.setData({userInfo: userInfoObj, hasUserInfo: true})
+          env.setUserInfo(this.data.userSafeInfo);
+          this.setData({userInfo: userInfoObj, hasUserInfo: true, isWechatAuthDisabled: false});
           app.setData({'userInfo' : userInfoObj});
           // 返回上一页面
           this.onLoginCallback();
           wx.navigateBack({delta: 1});
         } else {
+          this.setData({isWechatAuthDisabled: false});
           wx.showToast({icon:'none', title:res.data.msg});
         }
       },
       fail: (err) => {
         wx.hideLoading();
+        this.setData({isWechatAuthDisabled: false});
         if (err.errMsg == 'request:fail timeout') {
           wx.showToast({icon:'none', title:'授权超时'});
         } else {
           wx.showToast({icon:'none', title:err.errMsg});
         }
       }
-    })
-  },
-  onLoginEvent(e:any) {
-    wx.showLoading({title: '登录中...' });
-    wx.request({
-      url: env.domain + '/user/u/login',
-      data: {
-        account: sm2.doEncrypt(this.data.account, this.data.userSafeInfo.server.publickey, 0),
-        password: sm2.doEncrypt(this.data.password, this.data.userSafeInfo.server.publickey, 0),
-        publickey: this.data.userSafeInfo.publicKey,
-        t: Date.now(),
-        uid: this.data.uid,
-        token: ''
-      },
-      method:'POST',
-      header: {'content-type': 'application/x-www-form-urlencoded; charset=UTF-8', 'Cookie' : this.data.userSafeInfo.cookie},
-      timeout:15000,
-      success : (res:any) => {
-        wx.hideLoading();
-        let data = res.data;
-        if (data.code == 200) {
-          wx.showToast({icon:'success', title: data.msg});
-          // 返回上一页面
-          this.onLoginCallback();
-          wx.navigateBack({delta: 1});
-        } else {
-          wx.showToast({icon:'none', title:res.data.msg});
-        }
-      },
-      fail: (err) => {
-        wx.hideLoading();
-        if (err.errMsg == 'request:fail timeout') {
-          wx.showToast({icon:'none', title:'登录超时'});
-        } else {
-          wx.showToast({icon:'none', title:err.errMsg});
-        }
-      }
-    })
+    });
   },
   /**
-   * 生命周期函数--监听页面加载
+   * 登录系统事件.
+   * @param event 触发事件对象.
    */
-  onLoad() {
-    const deviceInfo = wx.getDeviceInfo();
-    this.setData({uid: deviceInfo.platform + '-' + deviceInfo.system + '-' + deviceInfo.model});
-  },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-    let userSafeInfoCache = wx.getStorageSync('user_safe_info');
-    if (userSafeInfoCache == "" || userSafeInfoCache == undefined || userSafeInfoCache.publicKey == undefined) {
-      let keypair = sm2.generateKeyPairHex();
-      this.data.userSafeInfo.publicKey = keypair.publicKey;
-      this.data.userSafeInfo.privateKey = keypair.privateKey;
-    } else {
-      this.setData({userSafeInfo: userSafeInfoCache});
+  onLoginEvent(event:any) {
+    if (this.data.account == '') {
+      wx.showToast({icon:'none', title:'账号为空!'});
+      return;
     }
-    this.loadSafePublicKey();
+    if (this.data.password == '') {
+      wx.showToast({icon:'none', title:'密码为空!'});
+      return;
+    }
+    //开始认证账号信息.
+    wx.showLoading({title: '登录中...' });
+    this.setData({isLoginBtndisabled: true});
+    delay(500).then(() => {
+      wx.request({
+        url: env.domain + '/user/u/login',
+        data: {
+          account: sm2.doEncrypt(this.data.account, this.data.userSafeInfo.server.publickey, 0),
+          password: sm2.doEncrypt(this.data.password, this.data.userSafeInfo.server.publickey, 0),
+          publickey: this.data.userSafeInfo.publicKey,
+          t: Date.now(),
+          uid: this.data.uid,
+          token: ''
+        },
+        method:'POST',
+        header: {'content-type': 'application/x-www-form-urlencoded; charset=UTF-8', 'Cookie' : this.data.userSafeInfo.cookie},
+        timeout:15000,
+        success : (res:any) => {
+          wx.hideLoading();
+          let data = res.data;
+          if (data.code == 200) {
+            wx.showToast({icon:'success', title: data.msg});
+            this.data.hasUserInfo = true;
+            // 返回上一页面
+            this.onLoginCallback();
+            wx.navigateBack({delta: 1});
+          } else {
+            wx.showToast({icon:'none', title:res.data.msg});
+            this.setData({isLoginBtndisabled: false});
+          }
+        },
+        fail: (err) => {
+          wx.hideLoading();
+          this.setData({isLoginBtndisabled: false});
+          if (err.errMsg == 'request:fail timeout') {
+            wx.showToast({icon:'none', title:'登录超时'});
+          } else {
+            wx.showToast({icon:'none', title:err.errMsg});
+          }
+        }
+      })
+    });
   },
 
   /**
@@ -213,17 +253,10 @@ Page({
     let currentPages = getCurrentPages();
     if (1 < currentPages.length) {
       let currentPage = currentPages[currentPages.length - 2];
-      if (currentPage.onAuthCallback) {
-        currentPage.onAuthCallback();
+      if (currentPage.onRefresh) {
+        currentPage.onRefresh();
       }
     }
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-    
   },
 
   /**
@@ -237,7 +270,15 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload() {
-
+    if (this.data.hasUserInfo == false) {
+      let currentPages = getCurrentPages();
+      if (1 < currentPages.length) {
+        let currentPage = currentPages[currentPages.length - 2];
+        if (currentPage.onBack) {
+          currentPage.onBack();
+        }
+      }
+    }
   },
 
   /**

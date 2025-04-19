@@ -32,12 +32,12 @@
     </block>
 
     <view class="option-area">
-      <button class="login-btn" bind:tap="onLoginEvent">登录</button>
+      <button disabled="{{isLoginBtndisabled}}" class="login-btn" bind:tap="onLoginEvent">登录</button>
     </view>
   </view>
 
   <view>
-    <button open-type="getUserInfo" class="wechat-auth-btn" bind:getuserinfo="onGetuserinfo"></button>
+    <button disabled="{{isWechatAuthDisabled}}"open-type="getUserInfo" class="wechat-auth-btn" bind:getuserinfo="onGetuserinfo"></button>
   </view>
   
   <view class="usermotto">

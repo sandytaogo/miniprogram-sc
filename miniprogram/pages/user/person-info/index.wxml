@@ -1,13 +1,6 @@
 <view class="person-info">
   <t-cell-group>
-    <t-cell
-      title="头像"
-      center="{{true}}"
-      data-type="avatarUrl"
-      bind:click="onClickCell"
-      arrow
-      t-class-left="order-group__left"
-    >
+    <t-cell title="头像" center="{{true}}" data-type="avatarUrl" bind:click="onClickCell"  arrow t-class-left="order-group__left">
       <t-image slot="note" src="{{personInfo.avatarUrl}}" t-class="avatarUrl" mode="aspectFill" />
     </t-cell>
     <t-cell
@@ -41,14 +34,14 @@
   </t-cell-group>
 </view>
 <view class="person-info__wrapper">
-  <view class="person-info__btn" bind:tap="openUnbindConfirm"> 切换账号登录 </view>
+  <view class="person-info__btn" bind:tap="onConfirm">确定</view>
 </view>
 <t-select-picker
   show="{{typeVisible}}"
   picker-options="{{pickerOptions}}"
   title="选择性别"
   value="{{personInfo.gender}}"
-  bind:confirm="onConfirm"
-  bind:close="onClose"
+  bind:confirm="onGenderConfirm"
+  bind:close="onGenderClose"
 />
 <t-toast id="t-toast" />

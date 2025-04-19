@@ -1,5 +1,7 @@
 {
   "navigationBarTitleText": "订单详情",
+  "navigationBarTextStyle": "black",
+  "navigationStyle": "default",
   "usingComponents": {
     "t-pull-down-refresh": "tdesign-miniprogram/pull-down-refresh/pull-down-refresh",
     "t-button": "tdesign-miniprogram/button/button",
@@ -13,5 +15,6 @@
     "order-card": "../components/order-card/index",
     "order-goods-card": "../components/order-goods-card/index",
     "order-button-bar": "../components/order-button-bar/index"
-  }
+  },
+  "enablePullDownRefresh": false
 }

@@ -1,6 +1,8 @@
 {
   "usingComponents": {
-    "navigation-bar": "/components/navigation-bar/navigation-bar"
+    "navigation-bar": "/components/navigation-bar/navigation-bar",
+    "price": "/components/price/index",
+    "loading": "/components/loading/index"
   },
   "enablePullDownRefresh": true
 }

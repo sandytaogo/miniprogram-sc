@@ -47,7 +47,7 @@
 			<slot name="operator" />
 		</view>
 	</view>
-	<view wx:if="{{status === 'useless' || status === 'disabled'}}" class="wr-coupon__seal seal-{{status}}}" />
+	<view wx:if="{{status === 1 || status === 2}}" class="wr-coupon__seal seal-{{status}}}" />
 	<view wx:if="{{mask}}" class="wr-coupon__mask" />
 	<view wx:if="{{superposable}}" class="wr-coupon__tag">可叠加</view>
 </view>

@@ -38,7 +38,7 @@
           <view class="user-name">{{row.name}}</view>
           <view class="txt-group">
             <view>
-              <label>华发物业</label>
+              <label>{{row.propertyComany}}</label>
               <label>|AREA</label>
             </view>
             <view class="area">

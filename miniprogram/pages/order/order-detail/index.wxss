@@ -25,9 +25,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: url('https://cdn-we-retail.ym.tencent.com/miniapp/template/order-bg.png');
+  background-color: #d34b4b;
+ /* background-image: url('https://cdn-we-retail.ym.tencent.com/miniapp/template/order-bg.png');
   background-repeat: no-repeat;
   background-size: contain;
+  */
 }
 .order-detail .order-detail__header .title,
 .order-detail .order-detail__header .desc {

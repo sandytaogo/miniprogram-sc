@@ -1,9 +1,8 @@
 import { mockIp, mockReqId } from '../../utils/mock';
 
-export const transformGoodsDataToConfirmData = (goodsDataList) => {
-  const list = [];
-
-  goodsDataList.forEach((goodsData) => {
+export const transformGoodsDataToConfirmData = (goodsDataList: any) => {
+  const list = [] as any;
+  goodsDataList.forEach((goodsData: any) => {
     list.push({
       storeId: goodsData.storeId,
       spuId: goodsData.spuId,
@@ -36,9 +35,8 @@ export const transformGoodsDataToConfirmData = (goodsDataList) => {
 };
 
 /** 生成结算数据 */
-export function genSettleDetail(params) {
+export function genSettleDetail(params: any) {
   const { userAddressReq, couponList, goodsRequestList } = params;
-
   const resp = {
     data: {
       settleType: 0,
@@ -46,7 +44,7 @@ export function genSettleDetail(params) {
       totalGoodsCount: 3,
       packageCount: 1,
       totalAmount: '289997',
-      totalPayAmount: '',
+      totalPayAmount: 0 as number,
       totalDiscountAmount: '110000',
       totalPromotionAmount: '1100',
       totalCouponAmount: '0',
@@ -68,7 +66,7 @@ export function genSettleDetail(params) {
           storeTotalPayAmount: '179997',
           storeTotalDiscountAmount: '110000',
           storeTotalCouponAmount: '0',
-          skuDetailVos: [],
+          skuDetailVos: [] as any,
           couponList: [
             {
               couponId: 11,
@@ -97,10 +95,10 @@ export function genSettleDetail(params) {
   resp.data.storeGoodsList[0].skuDetailVos = list;
 
   // 判断是否携带优惠券数据
-  const discountPrice = [];
+  const discountPrice = [] as any;
 
   if (couponList && couponList.length > 0) {
-    couponList.forEach((coupon) => {
+    couponList.forEach((coupon: any) => {
       if (coupon.status === 'default') {
         discountPrice.push({
           type: coupon.type,
@@ -113,21 +111,19 @@ export function genSettleDetail(params) {
   // 模拟计算场景
 
   // 计算总价
-  const totalPrice = list.reduce((pre, cur) => {
+  const totalPrice = list.reduce((pre: number, cur: any) => {
     return pre + cur.quantity * Number(cur.settlePrice);
   }, 0);
 
   // 计算折扣
   const totalDiscountPrice =
-    discountPrice.length > 0
-      ? discountPrice.reduce((pre, cur) => {
+    discountPrice.length > 0 ? discountPrice.reduce((pre: number, cur: any) => {
           if (cur.type === 1) {
             return pre + cur.value;
           }
           if (cur.type === 2) {
             return pre + (Number(totalPrice) * cur.value) / 10;
           }
-
           return pre + cur;
         }, 0)
       : 0;
@@ -136,8 +132,7 @@ export function genSettleDetail(params) {
 
   resp.data.totalCouponAmount = totalDiscountPrice;
 
-  resp.data.totalPayAmount =
-    totalPrice - totalDiscountPrice - Number(resp.data.totalPromotionAmount);
+  resp.data.totalPayAmount = totalPrice - totalDiscountPrice - Number(resp.data.totalPromotionAmount);
 
   if (userAddressReq) {
     resp.data.settleType = 1;

@@ -16,7 +16,7 @@ page{
 
 .address-item{
   display: flex;
-  height: 155.55rpx;
+  height: 80rpx;
   background: #fff;
   padding: 41.6rpx 0 41.6rpx 31.25rpx;
 }
@@ -45,8 +45,8 @@ text-align: center;
 
 .address-box .l .default{
   margin-left: 6.25rpx;
-  display: block;
-  width: 62rpx;
+  display: inline-block;
+  width: 52rpx;
   height: 33rpx;
   border-radius: 5rpx;
   border: 1px solid #b4282d;
@@ -56,24 +56,36 @@ text-align: center;
   color: #b4282d;
 }
 
+.address-box .l .custom {
+  margin-left: 6.25rpx;
+  display: inline-block;
+  width: 52rpx;
+  height: 33rpx;
+  border-radius: 5rpx;
+  border: 1px solid #1c87c5;
+  font-size: 20.5rpx;
+  text-align: center;
+  line-height: 29rpx;
+  color: #1c87c5;
+}
+
 .address-box .m{
   flex: 1;
-  height: 72.25rpx;
   color: #999;
 }
 
-.address-box .mobile{
+.address-box .mobile {
   display: block;
-  height: 29rpx;
+  height: 43rpx;
   line-height: 29rpx;
   margin-bottom: 6.25rpx;
   font-size: 30rpx;
   color:#333;
 }
 
-.address-box .address{
+.address-box .address {
   display: block;
-  height: 37.5rpx;
+  height: 40rpx;
   line-height: 37.5rpx;
   font-size: 25rpx;
   color:#666;
@@ -293,4 +305,9 @@ text-align: center;
   text-align: center;
   color: #fff;
   font-size: 30rpx;
+}
+
+.pay-money-price {
+  color: red;
+  font-size: 35rpx;
 }

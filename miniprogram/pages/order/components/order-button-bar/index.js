@@ -2,6 +2,8 @@ import Toast from 'tdesign-miniprogram/toast/index';
 import Dialog from 'tdesign-miniprogram/dialog/index';
 import { OrderButtonTypes } from '../../config';
 
+import {completeOrder, cancelOrder} from '../../../../services/order/orderDetail';
+
 Component({
   options: {
     addGlobalClass: true,
@@ -33,9 +35,7 @@ Component({
               } = order;
               const goodsImg = goodsList[0] && goodsList[0].imgUrl;
               const goodsName = goodsList[0] && goodsList[0].name;
-              return {
-                ...button,
-                openType: 'share',
+              return {...button, openType: 'share',
                 dataShare: {
                   goodsImg,
                   goodsName,
@@ -44,7 +44,7 @@ Component({
                   remainMember,
                   groupPrice,
                   storeId: order.storeId,
-                },
+                }
               };
             }
             return button;
@@ -114,57 +114,54 @@ Component({
           this.onBuyAgain(this.data.order);
       }
     },
-
+    /**
+     * 取消订单.
+     */
     onCancel() {
-      Toast({
-        context: this,
-        selector: '#t-toast',
-        message: '你点击了取消订单',
-        icon: 'check-circle',
-      });
-    },
-
-    onConfirm() {
-      Dialog.confirm({
-        title: '确认是否已经收到货？',
-        content: '',
-        confirmBtn: '确认收货',
-        cancelBtn: '取消',
-      })
-        .then(() => {
-          Toast({
-            context: this,
-            selector: '#t-toast',
-            message: '你确认了确认收货',
-            icon: 'check-circle',
-          });
-        })
-        .catch(() => {
-          Toast({
-            context: this,
-            selector: '#t-toast',
-            message: '你取消了确认收货',
-            icon: 'check-circle',
-          });
+      Dialog.confirm({title: '确认是否取消订单？',content: '', confirmBtn: '确认取消',cancelBtn: '取消'}).then(() => {
+        cancelOrder({orderNo: this.data.order.orderNo}).then((res) => {
+          if (res.code == 200) {
+            wx.navigateBack({delta: 1});
+          } else {
+            Toast({context: this,selector: '#t-toast',message: res.msg, icon: 'check-circle'});
+          }
         });
+      }).catch(() => {
+        Toast({context: this,selector: '#t-toast',message: '放弃取消了订单',icon: 'check-circle'});
+      });
     },
-
+    /**
+     * 确认订单.
+     */
+    onConfirm() {
+      Dialog.confirm({title: '确认是否完成订单？',content: '', confirmBtn: '确认完成',cancelBtn: '取消'}).then(() => {
+        completeOrder({orderNo: this.data.order.orderNo}).then((res) => {
+          if (res.code == 200) {
+            wx.navigateBack({delta: 1});
+          }
+        });
+      }).catch(() => {
+        Toast({context: this,selector: '#t-toast',message: '你取消了完成订单',icon: 'check-circle'});
+      });
+    },
+    /**
+     * 支付处理事件.
+     */
     onPay() {
-      Toast({
-        context: this,
-        selector: '#t-toast',
-        message: '你点击了去支付',
-        icon: 'check-circle',
-      });
+      wx.navigateTo({url: `/pages/pay/prepay?orderNo=${this.data.order.orderNo}&payAmt=${this.data.order.amount}`});
+     // Toast({context: this,selector: '#t-toast', message: '你点击了去支付',icon: 'check-circle'});
     },
 
-    onBuyAgain() {
-      Toast({
-        context: this,
-        selector: '#t-toast',
-        message: '你点击了再次购买',
-        icon: 'check-circle',
-      });
+    /***
+     * 再次购买事件.
+     */
+    onBuyAgain(order) {
+      if (order.goodsList && order.goodsList.length > 0) {
+        wx.navigateTo({url: `/pages/shop/shop?id=${order.storeId}`});
+      } else {
+        wx.navigateTo({url: `/pages/shop/shop?id=${order.storeId}`});
+      }
+     // Toast({ context: this,selector: '#t-toast',message: '你点击了再次购买', icon: 'check-circle' });
     },
 
     onApplyRefund(order) {
@@ -182,29 +179,24 @@ Component({
         payAmt: order.amount,
         canApplyReturn: true,
       };
-      const paramsStr = Object.keys(params)
-        .map((k) => `${k}=${params[k]}`)
-        .join('&');
+      const paramsStr = Object.keys(params).map((k) => `${k}=${params[k]}`).join('&');
       wx.navigateTo({ url: `/pages/order/apply-service/index?${paramsStr}` });
     },
-
+    /**
+     * 退款处理事件.
+     */
     onViewRefund() {
-      Toast({
-        context: this,
-        selector: '#t-toast',
-        message: '你点击了查看退款',
-        icon: '',
-      });
+      Toast({ context: this,selector: '#t-toast',message: '你点击了查看退款',icon: ''});
     },
 
-    /** 添加订单评论 */
+    /** 
+     * 添加订单评论 
+     */
     onAddComment(order) {
       const imgUrl = order?.goodsList?.[0]?.thumb;
       const title = order?.goodsList?.[0]?.title;
       const specs = order?.goodsList?.[0]?.specs;
-      wx.navigateTo({
-        url: `/pages/goods/comments/create/index?specs=${specs}&title=${title}&orderNo=${order?.orderNo}&imgUrl=${imgUrl}`,
-      });
-    },
-  },
+      wx.navigateTo({url: `/pages/goods/comments/create/index?specs=${specs}&title=${title}&orderNo=${order?.orderNo}&imgUrl=${imgUrl}`});
+    }
+  }
 });

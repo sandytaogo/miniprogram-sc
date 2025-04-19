@@ -34,7 +34,11 @@
         </view>
         <view wx:if="{{shop.address}}">地址：{{shop.address}}</view>
         <!-- <text class="desc">{{shop.goods_brief}}</text> -->
-        <view wx:if="{{shop.price}}">预约<label class="price">￥{{shop.price}}</label></view>
+        <view wx:if="{{shop.prePrice}}">预约
+          <label class="price">
+            <price wx:if="{{shop.prePrice}}" price="{{shop.prePrice}}" wr-class="pay-money__price" decimalSmaller fill />
+          </label>
+        </view>
         <!-- <view class="brand" wx:if="{{brand.name}}">
           <navigator url="../brandDetail/brandDetail?id={{brand.brandId}}">
             <text>{{brand.name}}</text>
@@ -206,5 +210,5 @@
   </view>
   
   <view class="c">取消预约</view>
-  <view class="r" bindtap="addToCart">预约服务</view>
+  <view class="r" bindtap="addToPreOrder">预约服务</view>
 </view>

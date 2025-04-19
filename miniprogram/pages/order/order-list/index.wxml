@@ -20,14 +20,16 @@
     </t-tabs>
   </view>
   <t-pull-down-refresh
-    id="pull-down-refresh"
+    id="wr-pull-down-refresh"
+    value="{{pullDownRefreshing}}"
     normal-bar-height="{{200}}"
     max-bar-height="{{272}}"
     refreshTimeout="{{3000}}"
     background="#f5f5f5"
     use-loading-slot
     loading-size="60rpx"
-    bindrefresh="onPullDownRefresh_"
+    bindrefresh="onCustomPullDownRefresh"
+    bindscrolltolower="onScrolltolower"
     t-class-indicator="t-class-indicator"
   >
     <order-card
@@ -76,7 +78,7 @@
     >
       <!-- 空态 -->
       <view slot="empty" class="empty-wrapper">
-        <t-empty t-class="t-empty-text" src="{{emptyImg}}">暂无相关订单</t-empty>
+        <t-empty t-class="t-empty-text" image="{{emptyImg}}" description="暂无相关订单"/>
       </view>
     </load-more>
   </t-pull-down-refresh>

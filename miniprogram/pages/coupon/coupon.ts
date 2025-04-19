@@ -20,26 +20,22 @@ Page({
     this.fetchList();
   },
 
+  /**
+   * 刷新页面.
+   */
+  onRefresh () {
+    this.fetchList();
+  },
+
   fetchList(status = this.data.status) {
     let statusInFetch = '';
     switch (Number(status)) {
-      case 0: {
-        statusInFetch = 'default';
-        break;
-      }
-      case 1: {
-        statusInFetch = 'useless';
-        break;
-      }
-      case 2: {
-        statusInFetch = 'disabled';
-        break;
-      }
-      default: {
-        throw new Error(`unknown fetchStatus: ${statusInFetch}`);
-      }
+      case 0: { statusInFetch = 'default'; break;}
+      case 1: {statusInFetch = 'useless';break;}
+      case 2: { statusInFetch = 'disabled';break;}
+      default: {throw new Error(`unknown fetchStatus: ${statusInFetch}`);}
     }
-    fetchCouponList(statusInFetch).then((couponList:any) => {
+    fetchCouponList(status).then((couponList:any) => {
       this.setData({ couponList });
     });
   },
@@ -64,4 +60,7 @@ Page({
       this.setData({ pullDownRefreshEnable: false });
     }, 1000);
   },
+  onBack() {
+    wx.navigateBack({ delta: 1 });
+  }
 });

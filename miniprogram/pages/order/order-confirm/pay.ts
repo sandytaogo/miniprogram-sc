@@ -4,7 +4,7 @@ import Toast from 'tdesign-miniprogram/toast/index';
 import { dispatchCommitPay } from '../../../services/order/orderConfirm';
 
 // 真实的提交支付
-export const commitPay = (params) => {
+export const commitPay = (params: any) => {
   return dispatchCommitPay({
     goodsRequestList: params.goodsRequestList, // 待结算的商品集合
     invoiceRequest: params.invoiceRequest, // 发票信息
@@ -25,37 +25,21 @@ export const commitPay = (params) => {
   });
 };
 
-export const paySuccess = (payOrderInfo) => {
-  const { payAmt, tradeNo, groupId, promotionId } = payOrderInfo;
+export const paySuccess = (payOrder: any) => {
+  const { payAmt, tradeNo, groupId, promotionId } = payOrder;
   // 支付成功
-  Toast({
-    context: this,
-    selector: '#t-toast',
-    message: '支付成功',
-    duration: 2000,
-    icon: 'check-circle',
-  });
-
-  const params = {
-    totalPaid: payAmt,
-    orderNo: tradeNo,
-  };
-  if (groupId) {
-    params.groupId = groupId;
-  }
-  if (promotionId) {
-    params.promotionId = promotionId;
-  }
-  const paramsStr = Object.keys(params)
-    .map((k) => `${k}=${params[k]}`)
-    .join('&');
+  Toast({context: this,selector: '#t-toast', message: '支付成功',duration: 2000,icon: 'check-circle'});
+  const params = { totalPaid: payAmt, orderNo: tradeNo, groupId: undefined, promotionId: undefined};
+  if (groupId) { params.groupId = groupId;}
+  if (promotionId) {params.promotionId = promotionId;}
+  const paramsStr = Object.keys(params).map((k: any) => `${k}=${params[k]}`).join('&');
   // 跳转支付结果页面
   wx.redirectTo({ url: `/pages/order/pay-result/index?${paramsStr}` });
 };
 
-export const payFail = (payOrderInfo, resultMsg) => {
+export const payFail = (payOrder: any, resultMsg: string) => {
   if (resultMsg === 'requestPayment:fail cancel') {
-    if (payOrderInfo.dialogOnCancel) {
+    if (payOrder.dialogOnCancel) {
       //结算页，取消付款，dialog提示
       Dialog.confirm({
         title: '是否放弃付款',
@@ -67,22 +51,10 @@ export const payFail = (payOrderInfo, resultMsg) => {
       });
     } else {
       //订单列表页，订单详情页，取消付款，toast提示
-      Toast({
-        context: this,
-        selector: '#t-toast',
-        message: '支付取消',
-        duration: 2000,
-        icon: 'close-circle',
-      });
+      Toast({context: this,selector: '#t-toast',message: '支付取消',duration: 2000,icon: 'close-circle'});
     }
   } else {
-    Toast({
-      context: this,
-      selector: '#t-toast',
-      message: `支付失败：${resultMsg}`,
-      duration: 2000,
-      icon: 'close-circle',
-    });
+    Toast({context: this, selector: '#t-toast', message: `支付失败：${resultMsg}`, duration: 2000, icon: 'close-circle'});
     setTimeout(() => {
       wx.redirectTo({ url: '/pages/order/order-list/index' });
     }, 2000);
@@ -90,12 +62,12 @@ export const payFail = (payOrderInfo, resultMsg) => {
 };
 
 // 微信支付方式
-export const wechatPayOrder = (payOrderInfo) => {
+export const wechatPayOrder = (payOrder: any) => {
   // const payInfo = JSON.parse(payOrderInfo.payInfo);
   // const { timeStamp, nonceStr, signType, paySign } = payInfo;
-  return new Promise((resolve) => {
+  return new Promise((resolve: any) => {
     // demo 中直接走支付成功
-    paySuccess(payOrderInfo);
+    paySuccess(payOrder);
     resolve();
     /* wx.requestPayment({
       timeStamp,

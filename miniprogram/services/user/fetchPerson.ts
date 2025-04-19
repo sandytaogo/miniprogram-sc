@@ -1,5 +1,5 @@
-import { config } from '../../config/env';
-
+import { config, domain } from '../../config/env';
+import service from '../../services/service';
 /** 获取个人中心信息 */
 function mockFetchPerson() {
   const { delay } = require('../_utils/delay');
@@ -23,6 +23,16 @@ export function fetchPerson() {
     return mockFetchPerson();
   }
   return new Promise((resolve) => {
-    resolve('real api');
+    service.request({
+      'url': domain + '/user/u/person',
+      method: 'GET',
+      encipherMode:4,
+      header: {'X-Requested-With': 'XMLHttpRequest'},
+      success: (res:any) => {
+        resolve(res.data);
+      },
+      fail: (err: any) => {
+      }
+    });
   });
 }

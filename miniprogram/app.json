@@ -11,8 +11,9 @@
     "pages/cart/cart",
     "pages/search/search",
     "pages/goods/goods",
+    "pages/goods/comments/index",
+    "pages/goods/comments/create/index",
     "pages/shop/shop",
-    "pages/cart/confirmOrder",
     "pages/shop/map",
     "pages/service/face/scanCollect",
     "pages/user/index",
@@ -24,8 +25,11 @@
     "pages/coupon/coupon-detail/index",
     "pages/coupon/coupon-activity-goods/index",
     "pages/order/order-list/index",
+    "pages/order/order-confirm/orderConfirm",
     "pages/order/order-detail/index",
-    "pages/order/after-service-list/index"
+    "pages/order/after-service-list/index",
+    "pages/order/pay-result/index",
+    "pages/pay/prepay"
   ],
   "window": {
     "navigationBarTitleText": "智慧社区",

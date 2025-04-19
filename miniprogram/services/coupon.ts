@@ -1,21 +1,33 @@
-import { config } from '../config/env';
+import env, { config } from '../config/env';
+import service from '../services/service';
 
 let useMock = config.useMock;
-useMock = true;
+//useMock = true;
 /** 获取优惠券列表 */
-function mockFetchCoupon(status) {
+function mockFetchCoupon(status: any) {
   const { delay } = require('_utils/delay');
   const { getCouponList } = require('../model/coupon');
   return delay().then(() => getCouponList(status));
 }
 
 /** 获取优惠券列表 */
-export function fetchCouponList(status = 'default') {
+export function fetchCouponList(status = 0) {
   if (useMock) {
     return mockFetchCoupon(status);
   }
   return new Promise((resolve) => {
-    resolve('real api');
+    service.request({
+      'url': env.domain + '/stock/coupon/list',
+      method: 'GET',
+      encipherMode:4,
+      data: {status:status + ''},
+      header: {'X-Requested-With': 'XMLHttpRequest'},
+      success: (res:any) => {
+        resolve(res.data);
+      },
+      fail: (err: any) => {
+      }
+    });
   });
 }
 

@@ -29,7 +29,7 @@ App<IAppOption>({
 
   onLaunch() {
     // 展示本地存储能力
-    let userData = wx.getStorageSync('user_safe_info');
+    let userData = wx.getStorageSync('sandy_sc_user_safe_info');
     if (userData) {
       this.globalData.userInfo = userData.userInfo;
     }

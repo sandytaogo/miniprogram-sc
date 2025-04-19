@@ -10,10 +10,10 @@ page view {
 
 .person-info__btn {
   width: 100%;
+  display: flex;
   border: 2rpx solid #ddd;
   border-radius: 48rpx;
   padding: 18rpx 0;
-  display: flex;
   align-self: center;
   justify-content: center;
 }

@@ -17,7 +17,6 @@ Page({
     };
     return fetchOrderDetail(params).then((res) => {
       const order = res.data;
-
       const invoice = {
         buyerName: order?.invoiceVO?.buyerName, //个人或公司名称
         buyerTaxNo: order?.invoiceVO?.buyerTaxNo, //税号

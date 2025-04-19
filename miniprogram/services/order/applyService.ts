@@ -1,7 +1,7 @@
 import { config } from '../../config/index';
 
 /** 获取售后单mock数据 */
-function mockFetchRightsPreview(params) {
+function mockFetchRightsPreview(params: any) {
   const { delay } = require('../_utils/delay');
   const { genRightsPreview } = require('../../model/order/applyService');
 
@@ -9,7 +9,7 @@ function mockFetchRightsPreview(params) {
 }
 
 /** 获取售后单数据 */
-export function fetchRightsPreview(params) {
+export function fetchRightsPreview(params: any) {
   if (config.useMock) {
     return mockFetchRightsPreview(params);
   }
@@ -32,7 +32,7 @@ export function dispatchConfirmReceived() {
 }
 
 /** 获取可选的mock售后原因列表 */
-function mockFetchApplyReasonList(params) {
+function mockFetchApplyReasonList(params: any) {
   const { delay } = require('../_utils/delay');
   const { genApplyReasonList } = require('../../model/order/applyService');
 
@@ -40,7 +40,7 @@ function mockFetchApplyReasonList(params) {
 }
 
 /** 获取可选的售后原因列表 */
-export function fetchApplyReasonList(params) {
+export function fetchApplyReasonList(params: any) {
   if (config.useMock) {
     return mockFetchApplyReasonList(params);
   }
@@ -51,7 +51,7 @@ export function fetchApplyReasonList(params) {
 }
 
 /** 发起mock售后申请 */
-function mockDispatchApplyService(params) {
+function mockDispatchApplyService(params: any) {
   const { delay } = require('../_utils/delay');
   const { applyService } = require('../../model/order/applyService');
 
@@ -59,7 +59,7 @@ function mockDispatchApplyService(params) {
 }
 
 /** 发起售后申请 */
-export function dispatchApplyService(params) {
+export function dispatchApplyService(params: any) {
   if (config.useMock) {
     return mockDispatchApplyService(params);
   }

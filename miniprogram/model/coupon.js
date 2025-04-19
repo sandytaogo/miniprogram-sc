@@ -8,7 +8,7 @@
  * @param {CouponCardStatus} [status]
  * @param {CouponCardType} [type]
  */
-export function getCoupon(id = 0, status = 'default', type = (id % 2) + 1) {
+export function getCoupon(id = 0, status = 0, type = (id % 2) + 1) {
   return {
     /** key */
     key: `${id}`,
@@ -34,6 +34,6 @@ export function getCoupon(id = 0, status = 'default', type = (id % 2) + 1) {
 }
 
 /** 优惠券列表 */
-export function getCouponList(status = 'default', length = 10) {
+export function getCouponList(status = 0, length = 10) {
   return new Array(length).fill(0).map((_, idx) => getCoupon(idx, status));
 }

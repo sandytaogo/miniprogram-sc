@@ -1,5 +1,16 @@
+/**
+ * MIT .
+ * @author sandy
+ * @since 1.0.0 2024-09-23 12:12:12
+ */
 import env from '../../config/env'
 import service from '../../services/service'
+
+const unUserInfo = {
+  avatarUrl: env.cdn + '/images/miniapp/avatar/default_avatar.png',
+  nickName: '未登录',
+  phoneNumber: ''
+}; 
 
 const menuData = [
   [
@@ -17,21 +28,18 @@ const menuData = [
 ];
 
 const orderTagInfos = [
-  {title: '待付款',iconName: 'wallet',orderNum: 0,tabType: 5,status: 1},
-  {title: '待发货',iconName: 'deliver',orderNum: 0,tabType: 10,status: 1},
-  {title: '待收货',iconName: 'package',orderNum: 0,tabType: 40,status: 1},
-  {title: '待评价', iconName: 'comment',orderNum: 0,tabType: 60,status: 1},
+  {title: '待确认',iconName: 'wallet',orderNum: 0,tabType: 5,status: 1},
+  {title: '进行中',iconName: 'deliver',orderNum: 0,tabType: 10,status: 1},
+  {title: '待完成',iconName: 'package',orderNum: 0,tabType: 40,status: 1},
+  {title: '待评价', iconName: 'comment',orderNum: 0,tabType: 50,status: 1},
   {title: '退款/售后',iconName: 'exchang',orderNum: 0,tabType: 0,status: 1},
 ];
 
 Page({
   data: {
     showMakePhone: false,
-    userInfo: {
-      avatarUrl: '',
-      nickName: '未登录',
-      phoneNumber: '',
-    },
+    showLogoutPopup : false,
+    userInfo: unUserInfo,
     menuData,
     orderTagInfos,
     customerServiceInfo: {},
@@ -39,7 +47,9 @@ Page({
     showKefu: true,
     versionNo: '',
   },
-
+  /**
+   * 页面首次加载完成执行函数.
+   */
   onLoad() {
     this.getVersionInfo();
   },
@@ -47,26 +57,33 @@ Page({
    * 每次进入页面就绪状态开始执行初始化.
    */
   onReady() {
-
+    //TODO method ...
   },
+  /**
+   * 页面显示渲染处理界面显示.
+   */
   onShow() {
   //  this.getTabBar().init();
     //this.init();
     const app = getApp();
     if (app.globalData.userInfo) {
       this.setData({userInfo:app.globalData.userInfo, currAuthStep:2});
+    } else {
+      this.setUnauthor();
+      return;
     }
     service.request({
-      url: env.domain + '/user/uc/counter',
+      url: env.domain + '/stock/uc/counter',
       header: {'X-Requested-With': 'XMLHttpRequest'},
       method: 'GET',
-      authCheck: false,
+      encipherMode:4,
+      checkAuthgoto: false,
       success: (res: any) => {
         let data = res.data;
-        let menuData = this.data.menuData;
-        let orderTagInfos = this.data.orderTagInfos;
         if (data.code == 200) {
           //更新用户订单信息.
+          let menuData = this.data.menuData;
+          let orderTagInfos = this.data.orderTagInfos;
           orderTagInfos[0].orderNum = data.data.unpay;
           orderTagInfos[1].orderNum = data.data.unshipment;
           orderTagInfos[2].orderNum = data.data.unconfirm;
@@ -75,15 +92,10 @@ Page({
           //用户地址优惠券等信息.
           menuData[0][0]['tit'] = data.data.address ? data.data.address : '';
           menuData[0][1]['tit'] = data.data.coupon ? data.data.coupon : '';
-        } else {
-          menuData[0].forEach(item => {
-            item['tit'] = '';
-          });
-          orderTagInfos.forEach(item => {
-            item['orderNum'] = 0;
-          });
+          this.setData({menuData: menuData, orderTagInfos: orderTagInfos});
+        } else if (data.code == 401) {
+          this.setUnauthor();
         }
-        this.setData({menuData: menuData, orderTagInfos: orderTagInfos});
       }, 
       fail : (err: any)  => {
       }
@@ -98,8 +110,8 @@ Page({
   },
 
   fetUseriInfoHandle() {
-        this.setData({currAuthStep: 2});
-        wx.stopPullDownRefresh();
+    this.setData({currAuthStep: 2});
+    wx.stopPullDownRefresh();
   },
 
   onClickCell(currentTarget:any) {
@@ -125,7 +137,7 @@ Page({
         this.setData({ showMakePhone: true });
         break;
       }
-      case 'logout' : { this.logout(); break;}
+      case 'logout' : { this.showLogoutPopup(); break;}
       default: {
         break;
       }
@@ -176,10 +188,33 @@ Page({
     this.setData({versionNo: envVersion === 'release' ? version : envVersion});
   },
   /**
+   * 设置用未授权登录系统.
+   */
+  setUnauthor() {
+    let menuData = this.data.menuData;
+    let orderTagInfos = this.data.orderTagInfos;
+    menuData[0].forEach(item => {
+      item['tit'] = '';
+    });
+    orderTagInfos.forEach(item => {
+      item['orderNum'] = 0;
+    });
+    this.setData({currAuthStep: 1, menuData:menuData, orderTagInfos: orderTagInfos, userInfo: unUserInfo});
+  },
+
+  showLogoutPopup() {
+    this.setData({showLogoutPopup: true });
+  },
+  closeLogoutPopup() {
+    this.setData({showLogoutPopup: false });
+  },
+
+  /**
    * 退出账号.
    */
   logout() {
     if (this.data.currAuthStep == 1) {
+      this.closeLogoutPopup();
       return;
     }
     wx.showLoading({title: '请稍后...'})
@@ -194,7 +229,8 @@ Page({
           env.setUserInfo(null);
           let app = getApp();
           app.setData({userInfo: null});
-          this.setData({currAuthStep: 1,userInfo: {avatarUrl: '',nickName: '未登录',phoneNumber: '',}});
+          this.setUnauthor();
+          this.closeLogoutPopup();
         }
       },
       fail: (err:any) => {

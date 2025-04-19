@@ -45,11 +45,7 @@ Component({
         if (this.properties.priceUnit === 'yuan') {
           const priceSplit = price.toString().split('.');
           pArr[0] = priceSplit[0];
-          pArr[1] = !priceSplit[1]
-            ? '00'
-            : priceSplit[1].length === 1
-            ? `${priceSplit[1]}0`
-            : priceSplit[1];
+          pArr[1] = !priceSplit[1] ? '00' : priceSplit[1].length === 1 ? `${priceSplit[1]}0` : priceSplit[1];
         } else {
           price = Math.round(price * 10 ** 8) / 10 ** 8; // 恢复精度丢失
           price = Math.ceil(price); // 向上取整
