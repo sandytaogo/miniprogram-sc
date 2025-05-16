@@ -40,7 +40,7 @@ Page({
     console.log('清除缓存...')
   },
   navToSearchPage:function(e:any) {
-    console.log(e)
+    wx.navigateTo({url: '/pages/goods/result/index'});
   },
   /**
    * 生命周期函数--监听页面加载

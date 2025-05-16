@@ -1,0 +1,65 @@
+<scroll-view class="{{scrollViewClass}}" type="list" scroll-y="true" 
+  scroll-top="88888888"
+  scroll-into-view="{{toView}}"
+ 	scroll-with-animation="true"
+   bindscrolltoupper="onScrolltoupper" 
+   upper-threshold="200">
+  <view class="context-body" >
+    <view id="id_{{item.id}}" class="msg-item" wx:for="{{messageList}}" 
+      wx:for-item="item" wx:key="msgkey"
+      data-receive-Id="{{item.receiveId}}"
+    >
+      <view class="msg-layout">
+        <view class="msg-avatar">
+          <image wx:if="{{receiveId == item.receiveId}}" class="image-avatar" src="{{item.avatar}}"/>
+        </view>
+        <view class="msg-car-body">
+          <view class="{{receiveId != item.receiveId ? 'msg-content-right' : 'msg-content'}}">{{item.content}}</view>
+          <view class="msg-bottom">{{item.dateformat}}</view>
+        </view>
+        <view class="msg-right">
+          <view class="msg-avatar">
+            <image wx:if="{{receiveId != item.receiveId}}" class="image-avatar" src="{{item.avatar}}"/>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view id="msg_end_flag"></view>
+  </view>
+  <!-- 列表加载中/已全部加载 -->
+  <load-more
+      wx:if="{{!pullDownRefreshing}}"
+      list-is-empty="{{!messageList.length}}"
+      status="{{listLoading}}"
+      bindretry="onReTryLoad"
+  >
+  </load-more>
+</scroll-view>
+
+<view class="bottom-container">
+  <view class="send-option">
+    <view class="send-left">
+      <t-icon name="article" size="65rpx" color="#6fb1ab" />
+    </view>
+    <view class="send-content">
+      <textarea id="inputTextarea" 
+        adjust-position="false"
+        cursor-spacing="14"
+        hold-keyboard="{{isHoldKeyboard}}" 
+        value="{{sandText}}" 
+        class="send-input" 
+        bindinput="inputChangeHander" 
+        auto-height="true"
+        maxlength="255" 
+        placeholder="" />
+    </view>
+    <view class="send-btns">
+      <view>
+        <button type="primary" class="btn send-btn" bind:tap="onSendMessage"  style="display: {{isShowSendBtn ? 'block' : 'none'}};">发送</button>
+        <button type="default" class="btn img-btn" style="display: {{isShowSendBtn ? 'none' : 'block'}};"  bind:tap="bindChooseMedia" >
+          <t-icon style="margin-top: 10rpx;" name="add-circle" size="50rpx" color="#536f6d" />
+        </button>
+      </view>
+    </view>
+  </view>
+</view>

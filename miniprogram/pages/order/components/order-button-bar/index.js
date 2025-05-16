@@ -193,10 +193,14 @@ Component({
      * 添加订单评论 
      */
     onAddComment(order) {
+      const skuId = order?.goodsList?.[0]?.skuId;
       const imgUrl = order?.goodsList?.[0]?.thumb;
       const title = order?.goodsList?.[0]?.title;
       const specs = order?.goodsList?.[0]?.specs;
-      wx.navigateTo({url: `/pages/goods/comments/create/index?specs=${specs}&title=${title}&orderNo=${order?.orderNo}&imgUrl=${imgUrl}`});
+      ///&imgUrl=${imgUrl}
+      wx.navigateTo({
+        url: `/pages/goods/comments/create/index?orderNo=${order?.orderNo}&specs=${specs}&title=${title}&storeId=${order.storeId}&goodsId=${skuId}`
+      });
     }
   }
 });

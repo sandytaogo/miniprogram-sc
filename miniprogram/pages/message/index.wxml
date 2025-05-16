@@ -1,0 +1,44 @@
+<t-pull-down-refresh
+    id="wr-pull-down-refresh"
+    value="{{pullDownRefreshing}}"
+    normal-bar-height="{{200}}"
+    max-bar-height="{{272}}"
+    refreshTimeout="{{3000}}"
+    background="#f5f5f5"
+    use-loading-slot
+    loading-size="60rpx"
+    bindrefresh="onCustomPullDownRefresh"
+    bindscrolltolower="onScrolltolower"
+    t-class-indicator="t-class-indicator"
+  >
+    <view class="msg-item" wx:for="{{messageList}}" wx:for-item="item" wx:key="msgkey" 
+      data-receive-Id="{{item.receiveId}}"
+      data-created-Id="{{item.createdId}}"
+      bind:tap="onToChatEvent"
+    >
+      <view class="msg-icon">
+        <image class="image-avatar" src="{{item.avatar}}"/>
+      </view>
+      <view class="msg-car-body">
+        <view class="msg-title">{{item.name}}</view>
+        <view class="msg-content">{{item.content}}</view>
+      </view>
+      <view class="msg-right">
+        <view>{{item.dateformat}}</view>
+        <view wx:if="{{item.counter && item.counter > 0}}" class="msg-counter">{{ 99 < item.counter ? "99+" : item.counter }}</view>
+      </view>
+    </view>
+
+    <!-- 列表加载中/已全部加载 -->
+    <load-more
+      wx:if="{{!pullDownRefreshing}}"
+      list-is-empty="{{!messageList.length}}"
+      status="{{listLoading}}"
+      bindretry="onReTryLoad"
+    >
+      <!-- 空态 -->
+      <view slot="empty" class="empty-wrapper">
+        <t-empty t-class="t-empty-text" image="{{emptyImg}}" description="暂无相关消息"/>
+      </view>
+    </load-more>
+  </t-pull-down-refresh>

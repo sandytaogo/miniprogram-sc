@@ -54,7 +54,6 @@ Page({
       },
       fail: (err: any) => {
         wx.hideLoading(); // 请求失败也隐藏加载提示
-        console.error('数据加载失败:', err);
       }
     });
   },

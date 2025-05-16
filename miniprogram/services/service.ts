@@ -5,6 +5,7 @@
  */
 import env from '../config/env';
 import { sm2, sm4 } from 'sm-crypto';
+
 /**
  * 网络通信统一封装 encipherMode:2 sm2 ， encipherMode:3 sm3， encipherMode:4 sm4  .
  * @param params [encipherMode: 2, 3, 4 ]
@@ -19,17 +20,16 @@ const request = function(params: any) {
   } else {
     params.data = requestEncrypt(params.data, params.encipherMode, cache);
   }
-  
   let requestParam = {...params,
     success: (res: any) => {
+      res = responeDecrypt(res, params.encipherMode, cache);
       if (res.data.code == 401) {
-        if (params.checkAuth === false && success) {
-          success(res);
+        if (params.checkAuth === false && fail) {
+          fail( {errno: res.data.code, errMsg: res.data.msg});
         } else {
           refreshToken(params);
         }
       } else if (success) {
-        res = responeDecrypt(res, params.encipherMode, cache);
         success(res);
       }
     },
@@ -50,6 +50,17 @@ const request = function(params: any) {
   wx.request(requestParam);
 };
 
+const jsonParse = function(data: any) {
+  try {
+    if (typeof data == 'string') {
+      return JSON.parse(data);
+    }
+  } catch (e) {
+      //ignore.
+  }
+  return data;
+}
+
 /**
  * 上传文件.
  * @param params 
@@ -60,6 +71,7 @@ const uploadFile = function(params: any) {
   let fail = params.fail;
   let requestParam = {...params,
     success: (res: any) => {
+      res.data = jsonParse(res.data);
       if (res.data.code == 401) {
         if (params.checkAuth === false && success) {
           success(res);
@@ -105,13 +117,24 @@ const refreshToken = function(params: any) {
       'refreshToken': info ? info.refreshToken : ''
     },
     success: (res:any) => {
+      if (typeof res.data == 'string') {
+        try {
+          if (res.data.substring(0, 2) == "04") {
+            res.data = res.data.substring(2, res.data.length);
+          }
+          res.data = sm2.doDecrypt(res.data, info.privateKey, 0);
+          res.data = JSON.parse(res.data);
+        } catch (e) {
+          res.data = {code: 401};
+        }
+      }
       if (res.data.code == 401) {
         let app = getApp();
         app.setData({userInfo: null});
         env.setUserInfo(null);
         if (params.checkAuthgoto == false) {
-          if (params.success) {
-            params.success(res);
+          if (params.fail) {
+            params.fail( {errno: res.data.code, errMsg: res.data.msg});
           }
           return;
         }
@@ -121,6 +144,8 @@ const refreshToken = function(params: any) {
           info.cookie = res.header['Set-Cookie'];
         }
         info.accessToken = res.data.data.accessToken;
+        info.server.sm4 = res.data.data.sm4;
+        info.server.publickey =  res.data.data.publickey;
         env.setUserInfo(info);
         if (params) {
           retryRequest(params);
@@ -157,7 +182,6 @@ const retryRequest = function (params: any) {
       requestParam.header = {'Cookie' : cache.cookie};
     }
   }
-  //requestParam.header['X-Requested-With'] = 'XMLHttpRequest';
   wx.request(requestParam);
 }
 
@@ -209,9 +233,14 @@ const responeDecrypt = function(res : any, encipherMode: number, key: any) {
   if (res.data == undefined || res.data == '') {
     return res;
   }
-  switch (encipherMode) {
-    case 2 : res.data = sm2.doDecrypt(res.data, key.privatekey, 0); break;
-    case 4 : res.data = sm4Decrypt(res.data, key.server.sm4); break;
+  try {
+    switch (encipherMode) {
+      case 2 : res.data = sm2.doDecrypt(res.data, key.privatekey, 0); break;
+      case 4 : res.data = sm4Decrypt(res.data, key.server.sm4); break;
+    }
+  } catch (e) {
+    console.error(e);
+    //res.data = {code: 401};
   }
   return res;
 };

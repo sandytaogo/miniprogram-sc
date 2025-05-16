@@ -61,5 +61,5 @@
       </block>
     </view>
   </view>
-  <loading status="{{listLoading}}" noMoreText="{{noMoreText}}"/>
+  <load-more status="{{listLoading}}" noMoreText="{{noMoreText}}" bindretry="onRetry"/>
 </scroll-view>

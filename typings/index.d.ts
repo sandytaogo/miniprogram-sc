@@ -13,4 +13,6 @@ interface IAppOption {
   }
   userInfoReadyCallback?: WechatMiniprogram.GetUserInfoSuccessCallback,
   setData(param: any):void,
+
+  timedTaskStart() : void,
 }

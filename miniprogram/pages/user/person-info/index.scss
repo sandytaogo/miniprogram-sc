@@ -26,11 +26,11 @@ page view {
   left: 0;
 }
 
-.avatarUrl {
-  width: 80rpx;
-  height: 80rpx;
+.avatarUrl, .t-image__img {
+  width: 80rpx !important;
+  height: 80rpx !important;
   border-radius: 50% !important;
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 .t-class-confirm {

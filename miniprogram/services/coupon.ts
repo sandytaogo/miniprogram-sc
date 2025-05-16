@@ -74,6 +74,17 @@ export function fetchCouponDetail(id, status = 'default') {
     return mockFetchCouponDetail(id, status);
   }
   return new Promise((resolve) => {
-    resolve('real api');
+    service.request({
+      'url': env.domain + '/stock/coupon',
+      method: 'GET',
+      encipherMode:4,
+      data: { id:id },
+      header: {'X-Requested-With': 'XMLHttpRequest'},
+      success: (res:any) => {
+        resolve(res.data);
+      },
+      fail: (err: any) => {
+      }
+    });
   });
 }

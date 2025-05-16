@@ -11,6 +11,8 @@
     "pages/cart/cart",
     "pages/search/search",
     "pages/goods/goods",
+    "pages/goods/result/index",
+    "pages/goods/details/index",
     "pages/goods/comments/index",
     "pages/goods/comments/create/index",
     "pages/shop/shop",
@@ -29,7 +31,9 @@
     "pages/order/order-detail/index",
     "pages/order/after-service-list/index",
     "pages/order/pay-result/index",
-    "pages/pay/prepay"
+    "pages/pay/prepay",
+    "pages/message/index",
+    "pages/message/chat"
   ],
   "window": {
     "navigationBarTitleText": "智慧社区",
@@ -53,6 +57,12 @@
         "text": "服务",
         "iconPath": "images/menu_sort_nor.png",
         "selectedIconPath": "images/menu_sort_pressed.png"
+      },
+      {
+        "pagePath": "pages/message/index",
+        "text": "消息",
+        "iconPath": "images/menu_topic_nor.png",
+        "selectedIconPath": "images/menu_topic_pressed.png"
       },
       {
         "pagePath": "pages/cart/cart",

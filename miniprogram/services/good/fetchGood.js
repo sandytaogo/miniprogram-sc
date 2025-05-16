@@ -1,5 +1,6 @@
 import { config } from '../../config/env';
 
+const useMock = true;
 /** 获取商品列表 */
 function mockFetchGood(ID = 0) {
   const { delay } = require('../_utils/delay');
@@ -9,7 +10,7 @@ function mockFetchGood(ID = 0) {
 
 /** 获取商品列表 */
 export function fetchGood(ID = 0) {
-  if (config.useMock) {
+  if (useMock) {
     return mockFetchGood(ID);
   }
   return new Promise((resolve) => {

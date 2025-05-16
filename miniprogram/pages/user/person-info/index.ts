@@ -84,7 +84,7 @@ Page({
             if (size <= 1485760) {
               service.uploadFile({
                 url: env.domain + '/user/u/avatar',
-                name : 'image',
+                name : 'media',
                 encipherMode: 4,
                 filePath:  tempFilePath,
                 success:(res: any) => {

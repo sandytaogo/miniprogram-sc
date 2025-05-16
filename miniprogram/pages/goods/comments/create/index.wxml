@@ -12,9 +12,7 @@
     <view class="rate-container">
       <text class="rate-title">商品评价</text>
       <view class="rate">
-        <t-rate
-          value="{{goodRateValue}}"
-          bind:change="onRateChange"
+        <t-rate value="{{goodRateValue}}" bind:change="onRateChange"
           size="26"
           gap="6"
           color="{{['#ffc51c', '#ddd']}}"

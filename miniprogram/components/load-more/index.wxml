@@ -4,7 +4,6 @@
   bindtap="tapHandle"
 >
   <!-- 加载中 -->
-
   <t-loading
     t-class="t-class-loading"
     t-class-text="t-class-loading-text"
@@ -22,8 +21,7 @@
 
   <!-- 加载失败 -->
   <view class="load-more__error" wx:if="{{status===3}}">
-    加载失败
-    <text class="load-more__refresh-btn" bind:tap="tapHandle">刷新</text>
+    加载失败<text class="load-more__refresh-btn" bind:tap="tapHandle">刷新</text>
   </view>
 </view>
 

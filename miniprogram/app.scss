@@ -2,6 +2,19 @@
 
 @import 'style/iconfont.wxss';
 
+
+page {
+  --tab-bar-badge-top: -5px; /* 根据需要调整值 */
+  --tab-bar-badge-right: 25px; /* 根据需要调整值 */
+}
+ 
+.tabBarBadge {
+  position: absolute;
+  top: var(--tab-bar-badge-top);
+  right: var(--tab-bar-badge-right);
+  transform: translate(50%, -50%); /* 根据需要调整 */
+}
+
 .container {
   //height: 100%;
   display: flex;

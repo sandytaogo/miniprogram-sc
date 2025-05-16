@@ -1,6 +1,6 @@
 .load-more {
-  font-size: 24rpx;
-  height: 100rpx;
+  font-size: 30rpx;
+  height: 80rpx;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,21 +8,23 @@
 
 .load-more .t-class-loading {
   display: flex;
+  font-size: inherit;
   justify-content: center;
-
   --td-loading-color: #fa4126;
 }
 
 .load-more .t-class-loading-text {
-  color: #bbbbbb;
+  font-size: inherit;
+  color: #8b8686;
 }
 
 .t-class-divider-content {
   margin: 0 10rpx;
-  color: #bbbbbb;
+  font-size: inherit;
+  color: #8b8686;
 }
 .load-more .t-class-indicator {
-  color: #b9b9b9 !important;
+  color: #8b8686 !important;
 }
 
 .load-more__error {

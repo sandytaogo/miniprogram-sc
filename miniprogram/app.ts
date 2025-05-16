@@ -1,3 +1,6 @@
+import env from './config/env';
+import service from './services/service';
+
 // app.ts
 App<IAppOption>({
   globalData: {
@@ -27,16 +30,41 @@ App<IAppOption>({
     }
    },
 
+  timedTaskStart() {
+    setInterval(() => {
+      if (this.globalData.userInfo == null || this.globalData.userInfo == undefined) {
+        return;
+      }
+      service.request({
+        url: env.domain + '/stock/message/unreadCount',
+        method:'GET',
+        checkAuthgoto: false,
+        header: {'X-Requested-With': 'XMLHttpRequest'},
+        success: (res:any) => {
+          wx.hideLoading();
+          if (typeof res.data == 'number' && res.data > 0) {
+            wx.setTabBarBadge({index: 2, text: `${res.data}`});
+          } else {
+            wx.removeTabBarBadge({index: 2 });
+          }
+        },
+        fail:(err:any) => {
+          wx.hideLoading();
+        }
+      });
+    }, 45000);
+  },
+
   onLaunch() {
     // 展示本地存储能力
-    let userData = wx.getStorageSync('sandy_sc_user_safe_info');
-    if (userData) {
-      this.globalData.userInfo = userData.userInfo;
-    }
-    
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
+
+    let userData = wx.getStorageSync('sandy_sc_user_safe_info');
+    if (userData) {
+      this.globalData.userInfo = userData.userInfo;
+    }    
     let globalData = this.globalData;
     //获取本地缓存地理位置信息.
     let location = wx.getStorageSync('location');
@@ -62,5 +90,7 @@ App<IAppOption>({
         }
        })
     }
+    //启动定时任务.
+    this.timedTaskStart();
   }
 })

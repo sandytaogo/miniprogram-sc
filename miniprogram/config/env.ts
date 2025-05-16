@@ -17,7 +17,6 @@
 //const domain = "http://127.0.0.1";
 //const domain = "http://172.27.240.1";
 const domain = "https://xinxinji.cn";
-
 /**
  * Content Delivery Network
  */

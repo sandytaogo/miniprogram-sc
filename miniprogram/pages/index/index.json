@@ -2,7 +2,7 @@
   "usingComponents": {
     "navigation-bar": "/components/navigation-bar/navigation-bar",
     "price": "/components/price/index",
-    "loading": "/components/loading/index"
+    "load-more": "/components/load-more/index"
   },
   "enablePullDownRefresh": true
 }

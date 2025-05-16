@@ -10,17 +10,15 @@ Page({
 
   id: '',
 
-  onLoad(query) {
-    const id = parseInt(query.id);
+  onLoad(query: any) {
+    const id = query.id;
     this.id = id;
     this.getGoodsList(id);
   },
 
-  getGoodsList(id) {
-    fetchCouponDetail(id).then(({ detail }) => {
-      this.setData({
-        detail,
-      });
+  getGoodsList(id: string) {
+    fetchCouponDetail(id).then((data: any) => {
+      this.setData({detail: data.detail});
     });
   },
 

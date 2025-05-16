@@ -1,0 +1,80 @@
+/* pages/message/index.wxss */
+
+.msg-item {
+  display: flex;
+  border-bottom: solid 1px #efe6e6;
+  justify-content: space-around;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+  height: auto;
+  //flex-wrap: wrap; /* 防止外边距折叠 */
+}
+
+.image-avatar {
+  margin-left: 20rpx;
+  align-items: center;
+  width: 80rpx;
+  height: 80rpx;
+  //margin: 10px; /* 设置外边距 */
+  border-radius: 30rpx;
+}
+
+.msg-car-body {
+  display: flex;
+  margin: 0 0 0 16rpx;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.msg-title {
+  display: flex;
+  height: 50rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  align-items: center;
+}
+.msg-content {
+  height: 50rpx;
+  max-width: 450rpx;
+  font-size: 28rpx;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.msg-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.msg-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 25rpx;
+  margin-right: 10rpx;
+  text-align: center;
+  margin: 10px; /* 设置外边距 */
+}
+
+.msg-counter {
+  border-radius: 50%;
+  color: #fff; 
+  font-size: 25rpx;
+  background-color: red; 
+  align-items: center;
+  width: 35rpx;
+  height: 35rpx;
+}
+
+.t-empty__thumb .t-image {
+  width: 0rpx;
+  height: 0rpx;
+}
+
+.t-empty-text {
+  font-size: 30rpx;
+  color: #999;
+}

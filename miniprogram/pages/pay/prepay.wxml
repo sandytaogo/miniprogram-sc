@@ -1,7 +1,7 @@
 <!--pages/pay/prepay.wxml-->
 <view class="pay-result">
 	<view class="pay-status">
-		<t-icon name="check-circle-filled" size="60rpx" color="#47D368" />
+		<t-icon name="money" size="60rpx" color="#47D368" />
 		<text>预约支付</text>
 	</view>
   <price class="total-price" price="{{payAmt}}" fill="{{true}}" decimalSmaller />

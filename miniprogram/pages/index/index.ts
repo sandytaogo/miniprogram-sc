@@ -8,6 +8,7 @@ import {getRect} from '../../utils/util'
 var app = getApp();
 Page({
   data: {
+    intervalHomeId: 0,
     searchPlaceholder:'',
     swiperUrls: [],
     indicatorDots: true,
@@ -30,18 +31,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad() {
-    wx.request({
-      url: env.domain + '/stock/shop/home', // 替换为你的接口地址
-      data: {},
-      success: (res: any) => {
-        this.setData({swiperUrls:res.data.swiperUrls, channels:res.data.channels, searchPlaceholder:res.data.searchPlaceholder})
-        app.setData({other:{searchPlaceholder:res.data.searchPlaceholder}})
-      },
-      fail: (err) => {
-        wx.hideLoading(); // 请求失败也隐藏加载提示
-        console.error('数据加载失败:', err);
-      }
-    });
     /**
      * 初始化事件.
      */
@@ -72,6 +61,27 @@ Page({
     //   res.top // #the-id 节点的上边界坐标（相对于显示区域）
     // });
     // query.exec();
+    this.fetchHomeData();
+    this.data.intervalHomeId = setInterval (() => {
+      this.fetchHomeData();
+    }, 5000);
+  },
+  /**
+   * 获取首页数据.
+   */
+  fetchHomeData: function() {
+    wx.request({
+      url: env.domain + '/stock/shop/home', // 替换为你的接口地址
+      data: {},
+      success: (res: any) => {
+        this.setData({swiperUrls:res.data.swiperUrls, channels:res.data.channels, searchPlaceholder:res.data.searchPlaceholder})
+        app.setData({other:{searchPlaceholder:res.data.searchPlaceholder}});
+       clearInterval(this.data.intervalHomeId);
+      },
+      fail: (err) => {
+        wx.hideLoading(); // 请求失败也隐藏加载提示
+      }
+    });
   },
   navToSearchPage:function(e:any) {
     console.log(e)
@@ -103,6 +113,7 @@ Page({
     let floorGoods = this.data.floorGoods;
     wx.request({
       url: env.domain + '/stock/shop/list', // 替换为你的接口地址
+      timeout: 15000,
       data: {
         regionId:app.globalData.regionId, 
         lng:app.globalData.longitude ? app.globalData.longitude : '', 
@@ -127,19 +138,29 @@ Page({
     });
   },
   loadMoreData: function() {
-    if (this.data.listLoading == 0 ) {
+    if ( this.data.listLoading == 0 ) {
       this.loadData(); // 调用加载数据的函数
     }
   },
 
+  onPageScroll(event: any) {
+     if (this.data.listLoading === 0) {
+      this.loadMoreData();
+     }
+   },
+
   onRefresh:function(params:any) {
+    this.fetchHomeData();
     params = params ? params : {};
     this.setData({page:1, listLoading: 0, city: app.globalData.city, floorGoods: [{id:"1", name:"推荐服务", goodsList: []}]});
     this.loadMoreData();
   },
-
-  onReTry:function() {
-    console.log('onReTry')
+  /**
+   * 重试事件.
+   * @param event.
+   */
+  onRetry:function(event: any) {
+    this.loadData();
   },
 
   /**

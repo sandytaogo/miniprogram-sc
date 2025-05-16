@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { config } from '../../config/env';
 
+const useMock = true;
+
 /** 获取搜索历史 */
 function mockSearchResult(params) {
   const { delay } = require('../_utils/delay');
@@ -29,7 +31,7 @@ function mockSearchResult(params) {
 
 /** 获取搜索历史 */
 export function getSearchResult(params) {
-  if (config.useMock) {
+  if (useMock) {
     return mockSearchResult(params);
   }
   return new Promise((resolve) => {

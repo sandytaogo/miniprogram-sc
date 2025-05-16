@@ -47,20 +47,29 @@ Page({
     this.setData({status});
     this.refreshList(status);
   },
-
+  /**
+   * 页面上拉触底事件的处理函数,监听用户上拉触底事件。
+   * @param event 
+   */
   onReachBottom(event: any) {
     if (this.data.listLoading === 0) {
       this.getOrderList(this.data.curTab);
     }
   },
-
+  /**
+   * 滚动条滚动事件触发.
+   * @param event 
+   */
   onPageScroll(event: any) {
    // this.pullDownRefresh && this.pullDownRefresh.onPageScroll(e);
     if (this.data.listLoading === 0) {
       this.getOrderList(this.data.curTab);
     }
   },
-
+  /**
+   * 自定义tab下拉刷新.
+   * @param event 
+   */
   onCustomPullDownRefresh(event: any) {
     const callback  = event.detail;
     this.setData({ pullDownRefreshing: true });
@@ -81,15 +90,30 @@ Page({
       this.getOrderList(this.data.curTab);
     }
   },
+  /**
+   *切换tab页.
+   * @param event.
+   */
+  onTabChange(event: any) {
+    const { value } = event.detail;
+    this.setData({status: value});
+    this.refreshList(value);
+  },
+  /**
+   * 获取订单列表.
+   * @param statusCode 
+   * @param reset 
+   */
   getOrderList(statusCode = -1, reset = false) {
-    const params = {
-      parameter: {pageSize: this.page.size,pageNum: this.page.num, orderStatus: -1}
-    };
+    const params = {parameter: {pageSize: this.page.size,pageNum: this.page.num, orderStatus: -1}};
     if (statusCode !== -1) {
       params.parameter.orderStatus = statusCode;
     }
     this.setData({ listLoading: 1 });
     return fetchOrders(params).then((res: any) => {
+        if (this.page.num == 1) {
+          this.getOrdersCount();
+        }
         this.page.num++;
         let orderList : any = [];
         if (res && res.data && res.data.data) {
@@ -135,24 +159,14 @@ Page({
           this.setData({orderList: this.data.orderList.concat(orderList), listLoading: orderList.length > 0 ? 0 : 2});
         });
       }).catch((err: any) => {
-        //this.setData({ listLoading: 3 });
+        this.setData({ listLoading: 3 });
         return Promise.reject(err);
       });
-     
   },
-
-  onReTryLoad(event: any) {
-    this.getOrderList(this.data.curTab);
-  },
-
-  onTabChange(e: any) {
-    const { value } = e.detail;
-    this.setData({
-      status: value,
-    });
-    this.refreshList(value);
-  },
-
+  /**
+   * 获取订单总记录数.
+   * @param params 
+   */
   getOrdersCount(params: any) {
     return fetchOrdersCount(params).then((res: any) => {
       const tabsCount = res.data || [];
@@ -166,24 +180,39 @@ Page({
       this.setData({ tabs });
     });
   },
-
+  /**
+   * 重试获取订单列表.
+   * @param event 
+   */
+  onReTryLoad(event: any) {
+    this.getOrderList(this.data.curTab);
+  },
+  /**
+   * 刷新重置查询条件信息.
+   * @param status 
+   */
   refreshList(status = -1) {
     this.page = { size: this.page.size,num: 1};
     this.setData({ curTab: status, orderList: [] });
     return Promise.all([
-      this.getOrderList(status, true),
-      this.getOrdersCount(),
+      this.getOrderList(status, true)
     ]);
   },
-
+  /**
+   * 页面刷新事件.
+   */
   onRefresh() {
     this.refreshList(this.data.curTab);
+  },
+  /**
+   * 返回退出界面.
+   */
+  onBack() {
+    wx.navigateBack({ delta: 1 });
   },
 
   onOrderCardTap(e: any) {
     const { order } = e.currentTarget.dataset;
-    wx.navigateTo({
-      url: `/pages/order/order-detail/index?id=${order.id}`,
-    });
+    wx.navigateTo({url: `/pages/order/order-detail/index?id=${order.id}`});
   }
 });
