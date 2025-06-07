@@ -9,6 +9,7 @@
       bindcallouttap="callouttap"
       bindlabeltap="labeltap"
       markers="{{markers}}"
+      polyline="{{ polylines }}"
       scale="16"
     >
       <view class="barck-btn" bind:tap="toBackPage">

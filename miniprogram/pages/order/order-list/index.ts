@@ -19,7 +19,7 @@ Page({
     orderList: [],
     listLoading: 0,
     pullDownRefreshing: false,
-    emptyImg: 'https://xinxinji.cn/images/miniapp/empty-order-list.jpg',
+    emptyImg: 'https://xinxinji.cn/miniapp/empty-order-list.jpg',
     backRefresh: false,
     status: -1,
   },

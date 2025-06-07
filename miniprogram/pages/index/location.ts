@@ -17,7 +17,7 @@ Page({
   getLocation() {
     let app = getApp()
     let that = this
-    wx.getLocation({
+    wx.getFuzzyLocation({
       type: 'wgs84',
       success (res) {
         // globalData.longitude = res.longitude

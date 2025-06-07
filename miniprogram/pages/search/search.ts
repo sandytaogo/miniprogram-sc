@@ -7,41 +7,11 @@ Page({
    */
   data: {
     searchPlaceholder: app.globalData.other.searchPlaceholder || '',
-    historyWords : [
-      '鸡',
-      '电脑',
-      'iPhone12',
-      '车载手机支架',
-      '自然堂',
-      '小米10',
-      '原浆古井贡酒',
-      '欧米伽',
-      '华为',
-      '针织半身裙',
-      '氢跑鞋',
-      '三盒处理器',
-    ],
-    popularWords: [
-      '鸡',
-      '电脑',
-      'iPhone12',
-      '车载手机支架',
-      '自然堂',
-      '小米10',
-      '原浆古井贡酒',
-      '欧米伽',
-      '华为',
-      '针织半身裙',
-      '氢跑鞋',
-      '三盒处理器',
-    ]
+    searchValue : '',
+    historyWords : ['鸡','电脑','iPhone12','车载手机支架','自然堂','小米10','原浆古井贡酒','欧米伽','华为','针织半身裙', '氢跑鞋','三盒处理器'],
+    popularWords: ['鸡', '电脑','iPhone12', '车载手机支架','自然堂','小米10','原浆古井贡酒', '欧米伽','华为', '针织半身裙', '氢跑鞋','三盒处理器']
   },
-  handleClearHistory() {
-    console.log('清除缓存...')
-  },
-  navToSearchPage:function(e:any) {
-    wx.navigateTo({url: '/pages/goods/result/index'});
-  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -62,6 +32,25 @@ Page({
    */
   onShow() {
 
+  },
+
+  handleClearHistory() {
+    console.log('清除缓存...')
+  },
+  /**
+   * 搜索输入事件.
+   * @param event 
+   */
+  onSearchInputEvent(event: any) {
+    let searchValue = event.detail.value;
+    this.data.searchValue = searchValue;
+  },
+
+  navToSearchPage:function(event:any) {
+    if (event && this.data.searchValue == '') {
+      return;
+    }
+    wx.navigateTo({url: '/pages/goods/result/index?searchValue=' + this.data.searchValue + ''});
   },
 
   /**

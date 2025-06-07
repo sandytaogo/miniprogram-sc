@@ -15,11 +15,11 @@
       </button>
       <view class="nickname-wrapper">
         <text class="nickname-label">账号</text>
-        <input type="text" value="{{account}}" class="nickname-input" placeholder="手机号码" bind:change="onInputAccountChange" maxlength="20" />
+        <input type="text" value="{{account}}" class="nickname-input" placeholder="手机号码" bindinput="onInputAccountChange" maxlength="20" />
       </view>
       <view class="nickname-wrapper">
         <text class="nickname-label">密码</text>
-        <input type="password" value="{{password}}" class="nickname-input" placeholder="" maxlength="32" bind:change="onInputPasswordChange" />
+        <input type="password" value="{{password}}" class="nickname-input" placeholder="" maxlength="32" bindinput="onInputPasswordChange" />
       </view>
     </block>
     <block wx:elif="{{!hasUserInfo}}">

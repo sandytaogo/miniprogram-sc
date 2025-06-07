@@ -2,13 +2,11 @@
 import { getSearchResult } from '../../../services/good/fetchSearchResult';
 import Toast from 'tdesign-miniprogram/toast/index';
 
-const initFilters = {
-  overall: 1,
-  sorts: '',
-};
+const initFilters = {overall: 1, sorts: ''};
 
 Page({
   data: {
+    regionId:null,
     goodsList: [],
     sorts: '',
     overall: 1,
@@ -25,32 +23,23 @@ Page({
   },
 
   total: 0,
-  pageNum: 1,
+  page: 1,
   pageSize: 30,
 
   onLoad(options) {
     const { searchValue = '' } = options || {};
-    this.setData(
-      {
-        keywords: searchValue,
-      },
-      () => {
+    let app = getApp();
+    this.setData({keywords: searchValue, regionId:app.globalData.regionId}, () => {
         this.init(true);
-      },
-    );
+    });
   },
 
   generalQueryData(reset = false) {
     const { filter, keywords, minVal, maxVal } = this.data;
     const { pageNum, pageSize } = this;
     const { sorts, overall } = filter;
-    const params = {
-      sort: 0, // 0 综合，1 价格
-      pageNum: 1,
-      pageSize: 30,
-      keyword: keywords,
-    };
-
+    // 0 综合，1 价格
+    const params = { sort: 0,  page: 1, pageSize: 30, regionId:this.data.regionId, keyword: keywords};
     if (sorts) {
       params.sort = 1;
       params.sortType = sorts === 'desc' ? 1 : 0;
@@ -63,11 +52,7 @@ Page({
     params.minPrice = minVal ? minVal * 100 : 0;
     params.maxPrice = maxVal ? maxVal * 100 : undefined;
     if (reset) return params;
-    return {
-      ...params,
-      pageNum: pageNum + 1,
-      pageSize,
-    };
+    return { ...params,pageNum: pageNum + 1,pageSize };
   },
 
   async init(reset = true) {
@@ -86,18 +71,9 @@ Page({
         const { spuList, totalCount = 0 } = data;
         if (totalCount === 0 && reset) {
           this.total = totalCount;
-          this.setData({
-            emptyInfo: {
-              tip: '抱歉，未找到相关商品',
-            },
-            hasLoaded: true,
-            loadMoreStatus: 0,
-            loading: false,
-            goodsList: [],
-          });
+          this.setData({ emptyInfo: { tip: '抱歉，未找到相关商品', },hasLoaded: true,loadMoreStatus: 0, loading: false, goodsList: []});
           return;
         }
-
         const _goodsList = reset ? spuList : goodsList.concat(spuList);
         _goodsList.forEach((v) => {
           v.tags = v.spuTagList.map((u) => u.title);
@@ -106,45 +82,25 @@ Page({
         const _loadMoreStatus = _goodsList.length === totalCount ? 2 : 0;
         this.pageNum = params.pageNum || 1;
         this.total = totalCount;
-        this.setData({
-          goodsList: _goodsList,
-          loadMoreStatus: _loadMoreStatus,
-        });
+        this.setData({goodsList: _goodsList,loadMoreStatus: _loadMoreStatus});
       } else {
-        this.setData({
-          loading: false,
-        });
-        wx.showToast({
-          title: '查询失败，请稍候重试',
-        });
+        this.setData({loading: false });
+        wx.showToast({title: '查询失败，请稍候重试' });
       }
     } catch (error) {
-      this.setData({
-        loading: false,
-      });
+      this.setData({loading: false});
     }
-    this.setData({
-      hasLoaded: true,
-      loading: false,
-    });
+    this.setData({hasLoaded: true, loading: false });
   },
 
   handleCartTap() {
-    wx.switchTab({
-      url: '/pages/cart/index',
-    });
+    wx.switchTab({ url: '/pages/cart/index'});
   },
 
   handleSubmit() {
-    this.setData(
-      {
-        goodsList: [],
-        loadMoreStatus: 0,
-      },
-      () => {
+    this.setData({goodsList: [], loadMoreStatus: 0 }, () => {
         this.init(true);
-      },
-    );
+    });
   },
 
   onReachBottom() {
@@ -160,56 +116,32 @@ Page({
   },
 
   handleAddCart() {
-    Toast({
-      context: this,
-      selector: '#t-toast',
-      message: '点击加购',
-    });
+    Toast({context: this, selector: '#t-toast', message: '点击加购'});
   },
 
   gotoGoodsDetail(e) {
     const { index } = e.detail;
     const { spuId } = this.data.goodsList[index];
-    wx.navigateTo({
-      url: `/pages/goods/details/index?spuId=${spuId}`,
-    });
+    wx.navigateTo({url: `/pages/goods/details/index?spuId=${spuId}`});
   },
 
   handleFilterChange(e) {
     const { overall, sorts } = e.detail;
     const { total } = this;
-    const _filter = {
-      sorts,
-      overall,
-    };
-    this.setData({
-      filter: _filter,
-      sorts,
-      overall,
-    });
-
+    const _filter = {sorts, overall};
+    this.setData({filter: _filter,sorts,overall});
     this.pageNum = 1;
-    this.setData(
-      {
-        goodsList: [],
-        loadMoreStatus: 0,
-      },
-      () => {
+    this.setData({ goodsList: [],loadMoreStatus: 0}, () => {
         total && this.init(true);
-      },
-    );
+    });
   },
 
   showFilterPopup() {
-    this.setData({
-      show: true,
-    });
+    this.setData({show: true});
   },
 
   showFilterPopupClose() {
-    this.setData({
-      show: false,
-    });
+    this.setData({show: false });
   },
 
   onMinValAction(e) {
@@ -239,24 +171,11 @@ Page({
       message = '请输入正确范围';
     }
     if (message) {
-      Toast({
-        context: this,
-        selector: '#t-toast',
-        message,
-      });
+      Toast({context: this,selector: '#t-toast', message});
     }
     this.pageNum = 1;
-    this.setData(
-      {
-        show: false,
-        minVal: '',
-        goodsList: [],
-        loadMoreStatus: 0,
-        maxVal: '',
-      },
-      () => {
+    this.setData({ show: false, minVal: '',goodsList: [], loadMoreStatus: 0,maxVal: ''}, () => {
         this.init();
-      },
-    );
-  },
+    });
+  }
 });

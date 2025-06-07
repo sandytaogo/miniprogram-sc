@@ -7,6 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    isInit:false,
     createdId:'',
     receiveId:'',
     pullDownRefreshing: 0,
@@ -29,7 +30,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options : any) {
-    this.setData({ createdId : options.createdId, receiveId: options.receiveId, isHoldKeyboard: false});
+    this.setData({ createdId : options.createdId, receiveId: options.receiveId, isHoldKeyboard: false, isInit:false});
     //延迟初始键盘保持.
     setTimeout(()=> {
       if (this.data.isHoldKeyboard == false) {
@@ -37,20 +38,25 @@ Page({
       }
     }, 500);
     this.initEvent();
+    this.connectionWebSocket();
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-    this.fetchMessage();
+    
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    
+    if (this.data.isInit) {
+     this.onRetryEnvet();
+    } else {
+      this.fetchMessage();
+    }
   },
   /**
    * 初始化事件.
@@ -62,46 +68,79 @@ Page({
       this.gotoScrollBottom();
     });
   },
-
-  connection() {
+  /**
+   * web socket 链接.
+   */
+  connectionWebSocket() {
     const cache = env.getUserInfo();
+    let that = this;
     this.socketTask = wx.connectSocket({
-      url: 'ws://127.0.0.1/ws/stock/websocket',
+      url:  env.wsdomain + '/websocket',
+      header:{'Cookie' : cache ? cache.cookie : ''},
       timeout: 5000,
     });
     // 监听WebSocket连接打开事件
     this.socketTask.onOpen(function() {
-      console.log('WebSocket连接已打开！');
+     // console.log('WebSocket连接已打开！');
+     that.bingWebSocketHeartbeatPacket();
     });
     // 监听WebSocket接受到服务器的消息事件
     this.socketTask.onMessage(function(data: any) {
-      console.log('收到服务器内容：' + data.data);
+      //console.log('收到服务器内容：' + data.data);
+      if (data.data == 'PONG') {
+        if (env.isDebug) {console.debug('心跳包:' + data.data);}
+        return;
+      }
+      let dataParse = JSON.parse(data.data);
+      that.setData({messageList:that.data.messageList.concat(dataParse)});
+      that.gotoScrollBottom();
     });
     // 监听WebSocket错误事件
     this.socketTask.onError(function(error: any) {
       console.error('WebSocket错误', error);
+      that.webSocketRetry();
     });
   },
+  /**
+   * 通信心跳包.
+   */
+  bingWebSocketHeartbeatPacket() {
+    clearInterval(this.intervalId);
+    this.intervalId = setInterval(()=> {
+      if (this.socketTask && this.socketTask.readyState == this.socketTask.OPEN) {
+        this.socketTask.send({
+          data: 'PING',
+          fail(err: any) {
+            if (env.isDebug) { console.debug("PING fail:", err);}
+            this.webSocketRetry();
+          }
+        });
+      } else {
+        this.webSocketRetry();
+      }
+    }, 45000);
+  },
+  /**
+   * web socket 通信检查.
+   */
+  checkWebSocket() {
+    if (this.socketTask == null) {
+      this.connectionWebSocket();
+    } else if (this.socketTask.readyState != this.socketTask.OPEN) {
+      this.webSocketRetry();
+    }
+  },
+
   /**
    * web socket 重试.
    */
   webSocketRetry() {
     clearInterval(this.intervalId);
     this.intervalId = setInterval(()=> {
-      if (this.socketTask && this.socketTask.readyState == this.socketTask.OPEN) {
-        this.socketTask.send({
-          data: 'PING',
-          success (res: any) {
-          },
-          fail(err: any) {
-          }
-        });
-      } else if (this.socketTask && this.socketTask.readyState >= this.socketTask.CLOSING) {
-
-      } else {
-
+      if (this.socketTask == null || this.socketTask.readyState != this.socketTask.OPEN) {
+        this.connectionWebSocket();
       }
-    }, 5000);
+    }, 9000);
    },
    /**
     * 选择图片.
@@ -112,8 +151,10 @@ Page({
       count: 1,
       mediaType:['image', 'video'],
       success(res) {
-        console.log(res.tempFiles[0].tempFilePath)
-        console.log(res.tempFiles[0].size)
+        if (env.isDebug) {
+          console.log(res.tempFiles[0].tempFilePath)
+          console.log(res.tempFiles[0].size)
+        }
       }
     })
    },
@@ -130,7 +171,7 @@ Page({
       success: (res:any) => {
         this.data.page ++;
         let data = res.data;
-        this.setData({pullDownRefreshing:0, 
+        this.setData({pullDownRefreshing:0, isInit:true,
             listLoading: data.length == 20 ? 0 : 2, 
             messageList: data.concat(this.data.messageList)
         }, ()=> {
@@ -147,6 +188,44 @@ Page({
       }
     });
   },
+
+  /**
+   * 重试.
+   */
+  onRetryEnvet() {
+    service.request({
+      url: env.domain + '/stock/message/chats',
+      method:'GET',
+      encipherMode: 4,
+      // checkAuthgoto: false,
+      data: {page: '1', createdId: this.data.createdId},
+      header: {'X-Requested-With': 'XMLHttpRequest'},
+      success: (res:any) => {
+        let data = res.data;
+        let flag = true;
+        for (let i =0; i < data.length; i++) {
+          flag = true;
+          for (let j = 0; j < this.data.messageList.length; j++) {
+            if (data[i].id == this.data.messageList[j].id) {
+              flag = false;
+              break;
+            }
+          }
+          if (flag) {
+            break;
+          }
+        }
+        if (flag) {
+          this.setData({pullDownRefreshing:0, isInit:true, listLoading: data.length == 20 ? 0 : 2, messageList: data});
+        }
+        this.checkWebSocket();
+      },
+      fail:(err:any) => {
+        this.setData({ pullDownRefreshing:0, listLoading: err.errno == 401 ? 0 : 3 });
+      }
+    });
+  },
+
   /**
    * 计算滚动条应该在的位置.
    * @param data.
@@ -171,7 +250,7 @@ Page({
         wx.pageScrollTo({
           selector: "context-body",
           scrollTop: rect.height, // 设置为0表示滚动到顶部，如果要精确控制位置可以使用计算后的值
-          duration: 300, // 动画持续时间，单位ms
+          duration: 0, // 动画持续时间，单位ms
           complete(res: any ) {
             setTimeout(()=> {
               that.setData({scrollViewClass: 'scroll-view'});
@@ -183,11 +262,8 @@ Page({
     } catch (e) {
       console.error(e);
     }
-
     // 或者使用 scrollIntoView 滚动到特定元素
-    this.setData({
-      toView: 'msg_end_flag' // 设置要滚动到的元素的id
-    });
+    this.setData({toView: 'msg_end_flag' }); // 设置要滚动到的元素的id
   },
 
   /**
@@ -240,6 +316,7 @@ Page({
       wx.showToast({icon:'none', title:'发送内容不能为空'});
       return;
     }
+    let cache = env.getUserInfo();
     service.request({
       url: env.domain + '/stock/message/send',
       method:'POST',
@@ -315,6 +392,7 @@ Page({
   setTimeout(() => {
     this.data.isRefresh = true;
   }, 3000);
+  wx.navigateBack({ delta:1 });
  },
  /**
   * 刷新.

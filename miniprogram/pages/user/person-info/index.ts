@@ -7,7 +7,7 @@ import Toast from 'tdesign-miniprogram/toast/index';
 Page({
   data: {
     personInfo: {
-      avatarUrl: 'https://xinxinji.cn/images/miniapp/avatar/user-avatar2x.png',
+      avatarUrl: 'https://xinxinji.cn/images/avatar/user-avatar2x.png',
       nickName: '',
       gender: 0,
       phoneNumber: '',
@@ -60,11 +60,9 @@ Page({
   },
   onGenderConfirm(event: any) {
     const { value } = event.detail;
-    this.setData({typeVisible: false,'personInfo.gender': value},
-      () => {
-        Toast({context: this,selector: '#t-toast',message: '设置成功',theme: 'success'});
-      }
-    );
+    this.setData({typeVisible: false,'personInfo.gender': value}, () => {
+      Toast({context: this,selector: '#t-toast',message: '设置成功',theme: 'success'});
+    });
   },
   /**
    * 性别关闭窗口.
@@ -84,12 +82,18 @@ Page({
             if (size <= 1485760) {
               service.uploadFile({
                 url: env.domain + '/user/u/avatar',
-                name : 'media',
+                name : 'image',
                 encipherMode: 4,
                 filePath:  tempFilePath,
                 success:(res: any) => {
-                  if (res.data.code == 200) {
-                    this.setData({personInfo: res.data.data});
+                  let resData = res.data;
+                  if (resData.code == 200) {
+                    let user_data = env.getUserInfo();
+                    this.setData({personInfo: resData.data});
+                    if (user_data) {
+                      user_data.userInfo.avatarUrl = resData.data.avatarUrl;
+                      env.setUserInfo(user_data);
+                    }
                   }
                 },
                 fail: (err: any) => {

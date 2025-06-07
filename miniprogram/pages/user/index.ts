@@ -7,10 +7,10 @@ import env from '../../config/env'
 import service from '../../services/service'
 
 const unUserInfo = {
-  avatarUrl: env.cdn + '/images/miniapp/avatar/default_avatar.png',
+  avatarUrl: env.cdn + '/images/avatar/default_avatar.png',
   nickName: '未登录',
   phoneNumber: ''
-}; 
+};
 
 const menuData = [
   [
@@ -227,8 +227,6 @@ Page({
         let data = res.data;
         if (data.code == 200) {
           env.setUserInfo(null);
-          let app = getApp();
-          app.setData({userInfo: null});
           this.setUnauthor();
           this.closeLogoutPopup();
         }

@@ -24,7 +24,7 @@ Component({
     },
   },
   data: {
-    defaultAvatarUrl: env.domain + '/images/miniapp/avatar/user-avatar2x.png',
+    defaultAvatarUrl: env.domain + '/images/avatar/user-avatar2x.png',
     AuthStepType,
   },
   lifetimes: {

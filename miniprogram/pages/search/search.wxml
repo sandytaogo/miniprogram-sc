@@ -10,9 +10,9 @@
 
 <scroll-view class="container" style="height: 100%;" enable-flex>
   <view class="page-header">
-    <view class="search" bind:tap="navToSearchPage">
-        <image class="icon"></image>
-        <input class="custom-search" type="text" placeholder="{{searchPlaceholder}}"/>
+    <view class="search">
+        <image class="icon" bind:tap="navToSearchPage"></image>
+        <input class="custom-search" type="text" bindinput="onSearchInputEvent" placeholder="{{searchPlaceholder}}"/>
     </view>
   </view>
 

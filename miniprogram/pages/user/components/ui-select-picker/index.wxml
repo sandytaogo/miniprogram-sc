@@ -8,7 +8,7 @@
     <view wx:else class="city-picker-header">
       <view wx:if="{{title}}" class="title">{{title}}</view>
     </view>
-    <picker-view class="picker" indicator-class="picker-center-row" value="{{pickerValue}}" bind:change="onChange">
+    <picker-view class="picker" indicator-class="picker-center-row" immediate-change="true" value="{{pickerValue}}" bind:change="onChange">
       <picker-view-column class="picker-column">
         <view wx:for="{{ pickerOptions }}" wx:key="code">{{ item.name }}</view>
       </picker-view-column>

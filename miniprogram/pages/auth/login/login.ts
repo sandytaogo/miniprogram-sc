@@ -194,6 +194,7 @@ Page({
    * @param event 触发事件对象.
    */
   onLoginEvent(event:any) {
+    const app = getApp()
     if (this.data.account == '') {
       wx.showToast({icon:'none', title:'账号为空!'});
       return;
@@ -225,6 +226,9 @@ Page({
           if (data.code == 200) {
             wx.showToast({icon:'success', title: data.msg});
             this.data.hasUserInfo = true;
+            this.data.userSafeInfo.userInfo = data.data;
+            env.setUserInfo(this.data.userSafeInfo);
+            app.setData({'userInfo' : this.data.userSafeInfo.userInfo});
             // 返回上一页面
             this.onLoginCallback();
             wx.navigateBack({delta: 1});

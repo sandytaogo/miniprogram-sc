@@ -41,15 +41,11 @@ App<IAppOption>({
         checkAuthgoto: false,
         header: {'X-Requested-With': 'XMLHttpRequest'},
         success: (res:any) => {
-          wx.hideLoading();
           if (typeof res.data == 'number' && res.data > 0) {
             wx.setTabBarBadge({index: 2, text: `${res.data}`});
           } else {
             wx.removeTabBarBadge({index: 2 });
           }
-        },
-        fail:(err:any) => {
-          wx.hideLoading();
         }
       });
     }, 45000);
@@ -76,14 +72,14 @@ App<IAppOption>({
     }
 
     if (location == null || location.date == null || (Date.now() - location.date) / 1000 > 14400) {
-      wx.getLocation({
-        // type: 'wgs84',、
+      wx.getFuzzyLocation({
+        type: 'gcj02',
         success (res) {
           globalData.longitude = res.longitude
           globalData.latitude = res.latitude
-          globalData.speed = res.speed
-          globalData.accuracy = res.accuracy
-          wx.setStorage({key:'location', data:{date:Date.now(), longitude:res.longitude, latitude:res.latitude, speed:res.speed, accuracy:res.accuracy}})
+          // globalData.speed = res.speed
+          // globalData.accuracy = res.accuracy
+          wx.setStorage({key:'location', data:{date:Date.now(), longitude:res.longitude, latitude:res.latitude}})
         },
         fail:function(res) {
           console.error(res)

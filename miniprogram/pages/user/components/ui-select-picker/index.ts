@@ -2,10 +2,10 @@ Component({
   properties: {
     show: {
       type: Boolean,
-      observer(show) {
+      observer(show: any) {
         if (!show) return;
         this.updateDivisions();
-      },
+      }
     },
     title: {
       type: String,
@@ -17,7 +17,7 @@ Component({
       observer() {
         if (!this.data.show) return;
         this.updateDivisions();
-      },
+      }
     },
     pickerOptions: {
       type: Array,
@@ -25,12 +25,12 @@ Component({
       observer() {
         if (!this.data.show) return;
         this.updateDivisions();
-      },
+      }
     },
     headerVisible: {
       type: Boolean,
       value: true,
-    },
+    }
   },
   data: {
     pickerValue: [],
@@ -38,25 +38,21 @@ Component({
   methods: {
     updateDivisions() {
       const { pickerOptions, value } = this.data;
-      const index = (pickerOptions || []).findIndex(
-        (item) => item.code === value,
-      );
-
+      const index = (pickerOptions || []).findIndex((item: any) => item.code === value);
       setTimeout(() => {
         this.setData({ pickerValue: index >= 0 ? [index] : [0] });
       }, 0);
     },
 
-    getAreaByIndex(indexes) {
+    getAreaByIndex(indexes: any) {
       const { pickerOptions } = this.data;
       return pickerOptions[indexes.toString()];
     },
 
-    onChange(e) {
+    onChange(e: any) {
       const currentValue = e.detail.value;
       const target = this.getAreaByIndex(currentValue);
       if (target === null) return;
-
       this.setData({ pickerValue: currentValue });
       this.triggerEvent('change', { value: target.code, target: target });
     },
@@ -68,6 +64,6 @@ Component({
 
     onClose() {
       this.triggerEvent('close');
-    },
+    }
   },
 });

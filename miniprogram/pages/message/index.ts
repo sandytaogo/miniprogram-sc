@@ -21,15 +21,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad() {
-
+    this.setData({page: 0, isRefresh: false, messageList: []});
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-    this.setData({page: 0, isRefresh: false, messageList: []});
-    this.fetchMessage({page: this.data.page, isRefresh:this.data.isRefresh, listLoading: this.data.listLoading});
+
   },
 
   /**
@@ -39,22 +38,57 @@ Page({
     if(this.data.isBack == true) {
       return;
     }
-    let app = getApp();
-    if (app.globalData.userInfo) {
-      this.data.isRefresh = true;
-      if (this.data.listLoading != 1) {
-        this.fetchMessage({page: this.data.page, isRefresh:this.data.isRefresh, listLoading: this.data.listLoading});
-      }
+    if (this.data.page > 0) {
+      this.refreshMessage({page:this.data.page, isRefresh:this.data.isRefresh, listLoading:this.data.listLoading});
+    } else {
+      this.fetchMessage({page:this.data.page, isRefresh:this.data.isRefresh, listLoading:this.data.listLoading});
     }
   },
 
+  /**
+   * 查询消息列表.
+   * @param param 
+   */
   fetchMessage(param : any) {
-    if (param.isRefresh == false) {
-      this.setData({listLoading: 1});
-    }
-    let page = param.isRefresh ? param.page : param.page + 1;
-    page = param.listLoading == 2 ? page - 1 : page;
+    this.setData({listLoading: 1});
+    let page = param.page + 1;
     if (page < 1) {page = 1;}
+    service.request({
+      url: env.domain + '/stock/message/list',
+      method:'GET',
+      encipherMode: 4,
+      data: { page:page + '', t:Date.now() + '' },
+      header: {'X-Requested-With': 'XMLHttpRequest'},
+      success: (res:any) => {
+        if (typeof res.data == 'object') {
+          if (res.data.length > 0) {
+            this.data.page ++;
+          }
+          this.data.isRefresh = true;
+          let dataList = this.data.messageList.concat(res.data);
+          dataList.sort((a : any, b: any) => b.timestamp - a.timestamp);
+          this.setData({pullDownRefreshing:0, listLoading: res.data.length == 20 ? 0 : 2, 
+              messageList: dataList}, () => {
+            if (res.data.length > 0) {
+              this.fetchMessageCount();
+            } 
+          });
+        } else {
+          this.setData({ pullDownRefreshing:0, listLoading:0 });
+        }
+      },
+      fail:(err:any) => {
+        this.setData({ pullDownRefreshing:0, listLoading: err.errno == 401 ? 0 : 3 });
+      }
+    });
+  },
+
+  /**
+   * 刷新消息.
+   * @param params
+   */
+  refreshMessage(param : any) {
+    let page = param.page < 1 ? 1 : param.page;
     service.request({
       url: env.domain + '/stock/message/list',
       method:'GET',
@@ -63,39 +97,29 @@ Page({
       header: {'X-Requested-With': 'XMLHttpRequest'},
       success: (res:any) => {
         if (typeof res.data == 'object') {
-          if (param.isRefresh) {
-            let newData = [], isnew = false;
-            for (let i = 0; i < res.data.length; i++) {
-              isnew = true;
-              for (let j =0; j < this.data.messageList.length; j++) {
-                if (this.data.messageList[j].id == res.data[i].id) {
-                  this.data.messageList[j] = res.data[i];
-                  isnew = false;
-                  break;
-                }
-              }
-              //新数据加入新队列.
-              if (isnew) {
-                newData.push(res.data[i]);
+          let newData = [], isnew = false;
+          for (let i = 0; i < res.data.length; i++) {
+            isnew = true;
+            for (let j =0; j < this.data.messageList.length; j++) {
+              if (this.data.messageList[j].id == res.data[i].id) {
+                this.data.messageList[j] = res.data[i];
+                isnew = false;
+                break;
               }
             }
-            this.setData({isRefresh:false, pullDownRefreshing:0, messageList:newData.concat(this.data.messageList)});
-            this.fetchMessageCount();
-          } else {
-            this.data.page ++;
-            this.setData({pullDownRefreshing:0, isRefresh:false, listLoading: res.data.length == 20 ? 0 : 2, 
-                messageList:this.data.messageList.concat(res.data) }, () => {
-              if (res.data.length > 0) {
-                this.fetchMessageCount();
-              }
-            });
+            //新数据加入新队列.
+            if (isnew) {
+              newData.push(res.data[i]);
+            }
           }
-        } else {
-          this.setData({ isRefresh:false, pullDownRefreshing:0, listLoading:0 });
+          let dataList = newData.concat(this.data.messageList);
+          dataList.sort((a, b) => b.timestamp - a.timestamp);
+          this.setData({ pullDownRefreshing:0, messageList:dataList});
+          this.fetchMessageCount();
         }
       },
       fail:(err:any) => {
-        this.setData({ isRefresh:false, pullDownRefreshing:0, listLoading: err.errno == 401 ? 0 : 3 });
+        this.setData({ pullDownRefreshing:0, listLoading: err.errno == 401 ? 0 : 3 });
       }
     });
   },
@@ -133,12 +157,13 @@ Page({
   * 页面返回
   */
  onBack() {
-   this.setData({pullDownRefreshing:0, listLoading: 0, page: 0});
+   this.setData({pullDownRefreshing:0, listLoading: 0, page: 0, messageList:[]});
   this.data.isBack = true;
   setTimeout(() => {
     this.data.isBack = false;
   }, 3000);
  },
+
  /**
   * 重新加载.
   * @param param 
@@ -176,10 +201,8 @@ Page({
   * 刷新.
   */
   onRefresh() {
-    if (this.data.listLoading == 0) {
-      this.data.isRefresh = true;
-      this.fetchMessage({page: this.data.page, isRefresh:this.data.isRefresh, listLoading: this.data.listLoading});
-    }
+    this.data.isRefresh = true;
+    this.refreshMessage({page: this.data.page, isRefresh:this.data.isRefresh, listLoading: this.data.listLoading});
   },
 
   /**
@@ -194,10 +217,8 @@ Page({
  * @param event 
  */
   onCustomPullDownRefresh(event: any) {
-    if (this.data.listLoading != 1) {
-      this.setData({ pullDownRefreshing:0, page:0, listLoading:0, messageList:[] });
-      this.fetchMessage({page: this.data.page, isRefresh:this.data.isRefresh, listLoading: this.data.listLoading});
-    }
+    this.setData({ pullDownRefreshing:0, page:0, listLoading:0, messageList:[] });
+    this.fetchMessage({page: this.data.page, isRefresh:this.data.isRefresh, listLoading: this.data.listLoading});
   },
 
   /**

@@ -1,6 +1,8 @@
 import { config } from '../../config/env';
 
-/** 获取商品列表 */
+/** 
+ * 获取商品列表 
+ */
 function mockFetchGoodsList(pageIndex = 1, pageSize = 20) {
   const { delay } = require('../_utils/delay');
   const { getGoodsList } = require('../../model/goods');
@@ -14,11 +16,13 @@ function mockFetchGoodsList(pageIndex = 1, pageSize = 20) {
         originPrice: item.maxLinePrice,
         tags: item.spuTagList.map((tag) => tag.title),
       };
-    }),
+    })
   );
 }
 
-/** 获取商品列表 */
+/** 
+ *获取商品列表 
+ */
 export function fetchGoodsList(pageIndex = 1, pageSize = 20) {
   if (config.useMock) {
     return mockFetchGoodsList(pageIndex, pageSize);

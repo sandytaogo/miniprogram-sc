@@ -1,6 +1,6 @@
 .wr-coupon {
   display: flex;
-  background-image: url('https://xinxinji.cn/images/miniapp/coupon/coupon-bg-nocorners.png');
+  background-image: url('https://xinxinji.cn/miniapp/coupon/coupon-bg-nocorners.png');
   //background-color: #f3f3f3;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 .theme-weak.wr-coupon {
-  background-image: url('https://xinxinji.cn/images/miniapp/coupon/coupon-bg-grey2.png');
+  background-image: url('https://xinxinji.cn/miniapp/coupon/coupon-bg-grey2.png');
   //background-color: #fa4126;
 }
 
@@ -141,9 +141,9 @@
 }
 
 .wr-coupon__seal.seal-1 {
-  background-image: url('https://xinxinji.cn/images/miniapp/coupon/seal-used.png');
+  background-image: url('https://xinxinji.cn/miniapp/coupon/seal-used.png');
 }
 
 .wr-coupon__seal.seal-2 {
-  background-image: url('https://xinxinji.cn/images/miniapp/coupon/coupon-expired.png');
+  background-image: url('https://xinxinji.cn/miniapp/coupon/coupon-expired.png');
 }

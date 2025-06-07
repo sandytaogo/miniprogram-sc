@@ -39,7 +39,6 @@
         <text>{{item.name}}</text>
       </navigator>
     </view>
-
   </view>
 
   <view class="good-grid" wx:for="{{floorGoods}}" wx:key="good_grid_key">
@@ -51,9 +50,10 @@
     <view class="b">
       <block wx:for="{{item.goodsList}}" wx:for-index="iindex" wx:for-item="iitem" wx:key="goods_list_key">
         <navigator hover-class="none" url="../shop/shop?id={{iitem.id}}" class="item">
-          <image class="img" src="{{iitem.img}}" background-size="cover"></image>
+          <image class="img" src="{{iitem.img}}" background-size="cover" mode="aspectFill"></image>
           <view class="name">{{iitem.name}}</view>
-          <view wx:if="{{iitem.dist}}" class="distance"><label class="fa fa-map-marker" style="color: rgb(23, 211, 170);"></label>距离{{iitem.dist}}</view>
+          <view wx:if="{{iitem.dist}}" class="distance">
+            <label class="fa fa-map-marker" style="color: rgb(23, 211, 170);"></label>距离{{ iitem.dist / 1000 }}km</view>
           <view class="price">
             <price wx:if="{{iitem.prePrice}}" price="{{iitem.prePrice}}" wr-class="pay-money__price" decimalSmaller fill />
           </view>
