@@ -33,8 +33,7 @@
     "pages/order/pay-result/index",
     "pages/pay/prepay",
     "pages/message/index",
-    "pages/message/chat",
-    "pages/message/chat2"
+    "pages/message/chat"
   ],
   "window": {
     "navigationBarTitleText": "智慧社区",

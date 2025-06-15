@@ -200,7 +200,11 @@ Page({
   onGoodsCardTap(e) {
     const { index } = e.currentTarget.dataset;
     const goods = this.data.order.orderItemVOs[index];
-    wx.navigateTo({ url: `/pages/goods/details/index?spuId=${goods.spuId}` });
+    if (goods.spuId != goods.shopId) {
+      wx.navigateTo({ url: `/pages/goods/details/index?spuId=${goods.spuId}`});
+    } else {
+      wx.navigateTo({ url: `/pages/shop/shop?id=${goods.shopId}`});
+    }
   },
 
   onEditAddressTap() {

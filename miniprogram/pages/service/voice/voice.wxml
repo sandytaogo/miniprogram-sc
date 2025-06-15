@@ -7,13 +7,36 @@
     color-animation-duration="2000"
     color-animation-timing-func="easeIn"
   />
-<view popGestureDirection="multi" class="container">
-  <textarea placeholder="等待语音识别自动录入..." class="text" placeholder-class="hoder" model:value="{{content}}" maxlength="{{-1}}"></textarea>
-  <button class="btn" hover-class="press" bind:longpress="recordStart" bind:touchcancel="recordCancel" bind:touchend="recordStop"> <label class="fa fa-microphone"></label>按住说话</button>
+
+  <view class="chat-container">
+  <scroll-view id="sceollId" bindrefresherrefresh="handleScrollToupper" 	refresher-triggered="{{loading}}"	refresher-default-style="none" 	refresher-enabled  scroll-top="{{scrollTop}}" class="chat-list" hold-keyboard="{{true}}" scroll-y scroll-into-view="{{toBottom}}" scroll-with-animation="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <!-- 加载中提示 -->
+    <view class="loading" wx:if="{{loading}}">
+      <van-loading type="spinner" size="20">加载中...</van-loading>
+    </view>
+    <!-- 时间显示 -->
+    <view class="time-info" style="font-size: {{24 * fontSizeScale}}rpx">
+      <text>{{data}}</text>
+    </view>
+    <!-- 消息列表 -->
+    <view class="message-list">
+      <view class="message-item {{item.createdId != 0 ? 'mine' : ''}}" wx:for="{{messages}}" wx:key="index" id="item{{index}}">
+        <image class="avatar {{item.createdId != 0 ? 'mine-avatar' : 'other-avatar'}}" src="{{item.createdId != 0 ? mineAvatorSrc : himAvatorSrc}}" />
+        <view class="message-bubble {{item.createdId != 0 ? 'mine-bubble' : 'other-bubble'}}" style="font-size: {{32 * fontSizeScale}}rpx">
+          <text>{{item.text}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{keyboardHeight}}" style="height:{{keyboardHeight}}px"></view>
+  </scroll-view>
+ 
+  <!-- 输入区域 -->
+  <view class="input-area" style="bottom:{{keyboardHeight}}px">
+    <textarea class="message-input" style="font-size: {{32 * fontSizeScale}}rpx" value="{{inputMessage}}" maxlength="-1" placeholder="请输入消息" bindinput="onInput" bindfocus="onFocus" bindconfirm="sendMess" confirm-type="send" hold-keyboard="{{true}}" focus="{{keepFocus}}" adjust-position="{{false}}" cursor-spacing="20" fixed="{{true}}" show-confirm-bar="{{false}}" />
+    <view class="send-btn" bindtap="sendMess" wx:if="{{inputMessage}}" style="font-size: {{32 * fontSizeScale}}rpx">
+      发送
+    </view>
+  </view>
 </view>
 
-<audio poster="{{poster}}" name="{{name}}" author="{{author}}" src="{{src}}" id="myAudio" controls loop></audio>
-<button type="primary" bindtap="audioPlay">播放</button>
-<button type="primary" bindtap="audioPause">暂停</button>
-<button type="primary" bindtap="audio14">设置当前播放时间为14秒</button>
-<button type="primary" bindtap="audioStart">回到开头</button>
+

@@ -9,6 +9,9 @@
   />
 <!-- camera.wxml --> 
 <camera class="camera" wx:if="{{isAuth}}" device-position="{{backFront ? 'back' : 'front'}}" flash="off" frame-size="medium" binderror="error"></camera>
+<view class="camera-preview" wx:if="{{!isAuth}}">
+  <text class="camera-preview-text">等待授权...</text>
+</view>
 <button type="primary" bindtap="takePhoto">拍照</button>
 <view>预览</view>
 <image class="image-review" mode="widthFix" src="{{src}}"></image>

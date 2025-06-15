@@ -45,6 +45,20 @@ export function getSearchResult(params: any) {
       data: params,
       header: {'X-Requested-With': 'XMLHttpRequest'},
       success: (res:any) => {
+        if (res.data && res.data.data.length) {
+          res.data.data.forEach((item: any) => {
+            item.spuId = item.spuId;
+            item.thumb = item.primaryImage;
+            item.title = item.title;
+            item.price = item.minSalePrice;
+            item.originPrice = item.maxLinePrice;
+            if (item.spuTagList) {
+              item.tags = item.spuTagList.map((tag: any) => ({ title: tag.title }));
+            } else {
+              item.tags = [];
+            }
+          });
+        }
         resolve(res.data);
       },
       fail:(err:any) => {

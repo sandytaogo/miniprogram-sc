@@ -43,9 +43,10 @@
     </view>
     <view class="send-content">
       <textarea id="inputTextarea" 
-        adjust-position="false"
+        adjust-position="true"
         cursor-spacing="14"
         hold-keyboard="{{isHoldKeyboard}}" 
+        bind:tap="onTextTap"
         value="{{sandText}}" 
         class="send-input" 
         bindinput="inputChangeHander" 

@@ -83,8 +83,9 @@ Page({
       }
     });
   },
-  navToSearchPage:function(e:any) {
-    console.log(e)
+  navToSearchPage:function(event:any) {
+    event.detail;
+    // TO DO method.
   },
   onTabsClick:function(e:any) {
     if (e.target.dataset.index == this.data.currentTabIndex) {
@@ -161,6 +162,17 @@ Page({
    */
   onRetry:function(event: any) {
     this.loadData();
+  },
+  /**
+   *  通道服务事件.
+   */
+  onChannelsEvent:function(event: any) {
+    let { id } = event.currentTarget.dataset;
+    switch(id) {
+      case 1:  break;
+      default:
+        wx.showToast({icon:'none', title:'暂未开放请联系管理员'});
+    };
   },
 
   /**

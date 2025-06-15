@@ -36,7 +36,7 @@ Page({
 
   generalQueryData(reset = false) {
     const { filter, keywords, minVal, maxVal } = this.data;
-    const { pageNum, pageSize } = this;
+    const { page, pageSize } = this;
     const { sorts, overall } = filter;
     // 0 综合，1 价格
     const params = { sort: 0,  page: 1, pageSize: 30, regionId:this.data.regionId, keyword: keywords};
@@ -52,36 +52,32 @@ Page({
     params.minPrice = minVal ? minVal * 100 : 0;
     params.maxPrice = maxVal ? maxVal * 100 : undefined;
     if (reset) return params;
-    return { ...params,pageNum: pageNum + 1,pageSize };
+    return { ...params,page: page + 1,pageSize };
   },
 
   async init(reset = true) {
     const { loadMoreStatus, goodsList = [] } = this.data;
     const params = this.generalQueryData(reset);
-    if (loadMoreStatus !== 0) return;
-    this.setData({
-      loadMoreStatus: 1,
-      loading: true,
-    });
+    if (loadMoreStatus !== 0) 
+      return;
+    this.setData({loadMoreStatus: 1,loading: true});
     try {
       const result = await getSearchResult(params);
-      const code = 'Success';
-      const data = result;
-      if (code.toUpperCase() === 'SUCCESS') {
-        const { spuList, totalCount = 0 } = data;
-        if (totalCount === 0 && reset) {
-          this.total = totalCount;
+      if (result) {
+        const { data, total = 0 } = result;
+        if (total === 0 && reset) {
+          this.total = total;
           this.setData({ emptyInfo: { tip: '抱歉，未找到相关商品', },hasLoaded: true,loadMoreStatus: 0, loading: false, goodsList: []});
           return;
         }
-        const _goodsList = reset ? spuList : goodsList.concat(spuList);
-        _goodsList.forEach((v) => {
-          v.tags = v.spuTagList.map((u) => u.title);
-          v.hideKey = { desc: true };
-        });
-        const _loadMoreStatus = _goodsList.length === totalCount ? 2 : 0;
-        this.pageNum = params.pageNum || 1;
-        this.total = totalCount;
+        const _goodsList = goodsList.concat(data);
+        // _goodsList.forEach((v) => {
+        //   v.tags = v.spuTagList.map((u) => u.title);
+        //   v.hideKey = { desc: true };
+        // });
+        const _loadMoreStatus = _goodsList.length === total ? 2 : 0;
+        this.page = params.page || 1;
+        this.total = total;
         this.setData({goodsList: _goodsList,loadMoreStatus: _loadMoreStatus});
       } else {
         this.setData({loading: false });
@@ -95,6 +91,14 @@ Page({
 
   handleCartTap() {
     wx.switchTab({ url: '/pages/cart/index'});
+  },
+  /**
+   * 更新搜索框内容.
+   * @param {*} event 
+   */
+  onChangeSearchValue(event) {
+    const { value } = event.detail;
+    this.data.keywords = value;
   },
 
   handleSubmit() {
@@ -121,8 +125,12 @@ Page({
 
   gotoGoodsDetail(e) {
     const { index } = e.detail;
-    const { spuId } = this.data.goodsList[index];
-    wx.navigateTo({url: `/pages/goods/details/index?spuId=${spuId}`});
+    const { spuId, storeId } = this.data.goodsList[index];
+    if (spuId) {
+      wx.navigateTo({url: `/pages/goods/details/index?spuId=${spuId}`});
+    } else {
+      wx.navigateTo({url: `/pages/shop/shop?id=${storeId}`});
+    }
   },
 
   handleFilterChange(e) {
@@ -130,7 +138,7 @@ Page({
     const { total } = this;
     const _filter = {sorts, overall};
     this.setData({filter: _filter,sorts,overall});
-    this.pageNum = 1;
+    this.page = 1;
     this.setData({ goodsList: [],loadMoreStatus: 0}, () => {
         total && this.init(true);
     });
@@ -173,7 +181,7 @@ Page({
     if (message) {
       Toast({context: this,selector: '#t-toast', message});
     }
-    this.pageNum = 1;
+    this.page = 1;
     this.setData({ show: false, minVal: '',goodsList: [], loadMoreStatus: 0,maxVal: ''}, () => {
         this.init();
     });

@@ -22,7 +22,7 @@ Page({
     toView: '',
     isShowSendBtn : false,
     isHoldKeyboard: false,
-    emptyImg: 'https://xinxinji.cn/images/miniapp/empty-order-list.jpg',
+    emptyImg: 'https://xinxinji.cn/miniapp/empty-order-list.jpg',
   },
   intervalId: 0 as number,
   socketTask: null as any,
@@ -147,16 +147,21 @@ Page({
     * @param event 
     */
    bindChooseMedia(event: any) {
-    wx.chooseMedia({
-      count: 1,
-      mediaType:['image', 'video'],
+    this.setData({isHoldKeyboard: false});
+    wx.hideKeyboard({
       success(res) {
-        if (env.isDebug) {
-          console.log(res.tempFiles[0].tempFilePath)
-          console.log(res.tempFiles[0].size)
-        }
+        wx.chooseMedia({
+          count: 1,
+          mediaType:['image', 'video'],
+          success(res) {
+            if (env.isDebug) {
+              console.log(res.tempFiles[0].tempFilePath)
+              console.log(res.tempFiles[0].size)
+            }
+          }
+        });
       }
-    })
+    });
    },
   fetchMessage() {
     this.setData({listLoading: 1});
@@ -274,6 +279,13 @@ Page({
     if (this.data.listLoading == 0) {
       this.fetchMessage();
     }
+  },
+
+  /**
+   * 输入文本框事件.
+   */
+  onTextTap() {
+    this.setData({isHoldKeyboard: true});
   },
 
   /**
@@ -421,6 +433,8 @@ Page({
    */
   onUnload() {
     clearInterval(this.intervalId);
+    // 页面卸载时移除监听
+    wx.offKeyboardHeightChange();
     if (this.socketTask) {
       this.socketTask.close({code: 1000});
     }

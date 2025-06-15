@@ -14,7 +14,7 @@ Page({
     isBack: false,
     isBackend:false,
     isRefresh: false,
-    emptyImg: 'https://xinxinji.cn/images/miniapp/empty-order-list.jpg',
+    emptyImg: 'https://xinxinji.cn/miniapp/empty-order-list.jpg',
   },
 
   /**

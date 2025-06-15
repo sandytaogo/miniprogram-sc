@@ -1,5 +1,5 @@
 const userInfo = {
-  avatarUrl:'https://xinxinji.cn/images/miniapp/avatar/user-avatar2x.png',
+  avatarUrl:'https://xinxinji.cn/miniapp/avatar/user-avatar2x.png',
   nickName: 'TDesign 🌟',
   phoneNumber: '13438358888',
   gender: 2,

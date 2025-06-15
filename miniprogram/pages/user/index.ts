@@ -7,7 +7,7 @@ import env from '../../config/env'
 import service from '../../services/service'
 
 const unUserInfo = {
-  avatarUrl: env.cdn + '/images/avatar/default_avatar.png',
+  avatarUrl: env.cdn + '/images/avatar/default.png',
   nickName: '未登录',
   phoneNumber: ''
 };
@@ -97,7 +97,10 @@ Page({
           this.setUnauthor();
         }
       }, 
-      fail : (err: any)  => {
+      fail:(err: any)  => {
+        if (err) {
+
+        }
       }
     });
   },

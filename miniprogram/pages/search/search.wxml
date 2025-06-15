@@ -12,7 +12,11 @@
   <view class="page-header">
     <view class="search">
         <image class="icon" bind:tap="navToSearchPage"></image>
-        <input class="custom-search" type="text" bindinput="onSearchInputEvent" placeholder="{{searchPlaceholder}}"/>
+        <input class="custom-search" type="text" confirm-type="search" bindinput="onSearchInputEvent" placeholder="{{searchPlaceholder}}"
+          bind:confirm="handleSearchSubmit"
+          bind:submit="handleSearchSubmit"
+          focus="onSearchFocus"
+        />
     </view>
   </view>
 
@@ -36,7 +40,7 @@
       
       <view class="search-content">
         <view class="search-item" hover-class="hover-history-item" wx:for="{{popularWords}}"
-          bind:tap="handleHistoryTap" data-index="{{index}}" wx:key="*this">
+          bind:tap="handleHotTap" data-index="{{index}}" wx:key="*this">
           {{item}}
         </view>
       </view>

@@ -16,7 +16,7 @@
     <label data-index="0" class="header-item" bind:tap="onTabsClick">推荐</label>
     <label data-index="1" class="header-item" bind:tap="onTabsClick">关注</label>
     <label data-index="2" class="header-item" bind:tap="onTabsClick">附近服务</label>
-    <label data-index="3" class="header-item" bind:tap="onTabsClick">购物商城</label>
+    <label data-index="3" class="header-item" bind:tap="onTabsClick">自助送货</label>
     <view class="tabs-track" style="{{trackStyle}}"></view>
   </view>
 </view>
@@ -34,7 +34,8 @@
     </view>
 
     <view class="m-menu">
-      <navigator class="item" hover-class="none" url="{{item.url}}" wx:for="{{channels}}" wx:key="channel_key">
+      <navigator class="item" hover-class="none" wx:for="{{channels}}" url="{{item.url}}" data-id="{{item.id}}" wx:key="channel_key" 
+          bind:tap="onChannelsEvent">
         <image src="{{item.icon_url}}" background-size="cover"></image>
         <text>{{item.name}}</text>
       </navigator>

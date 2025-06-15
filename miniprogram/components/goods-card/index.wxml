@@ -16,19 +16,9 @@
 		</view>
 		<view class="goods-card__body">
 			<view class="goods-card__upper">
-				<view wx:if="{{ goods.title }}" class="goods-card__title">
-					{{ goods.title }}
-				</view>
+				<view wx:if="{{ goods.title }}" class="goods-card__title">{{ goods.title }}</view>
 				<view wx:if="{{ goods.tags && !!goods.tags.length }}" class="goods-card__tags">
-					<view
-					  wx:for="{{ goods.tags }}"
-					  wx:key="index"
-					  wx:for-item="tag"
-					  class="goods-card__tag"
-					  data-index="{{index}}"
-					>
-						{{tag}}
-					</view>
+					<view wx:for="{{ goods.tags }}" wx:key="index" wx:for-item="tag" class="goods-card__tag" data-index="{{index}}">{{tag}}</view>
 				</view>
 			</view>
 			<view class="goods-card__down">
